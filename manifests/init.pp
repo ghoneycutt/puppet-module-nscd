@@ -59,7 +59,7 @@ class nscd (
 
   # validate parameters
   validate_re($package_ensure, '^(present)|(installed)|(absent)$',
-    "nscd::package_ensure is invalid and does not match the regex.")
+    'nscd::package_ensure is invalid and does not match the regex.')
 
   validate_absolute_path($config_path)
 
@@ -67,7 +67,7 @@ class nscd (
     "nscd::config_mode is <${config_mode}>. Must be in four digit octal notation.")
 
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
-    "nscd::service_ensure is invalid and does not match the regex.")
+    'nscd::service_ensure is invalid and does not match the regex.')
 
   if type($service_enable) == 'String' {
     $service_enable_real = str2bool($service_enable)
