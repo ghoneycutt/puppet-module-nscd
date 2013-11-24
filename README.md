@@ -89,3 +89,9 @@ max_threads
 Setting for max-threads in nscd.conf. See nscd.conf(5). Must be an number expressed as an integer or a string.
 
 - *Default*: 32
+
+server_user
+-----------
+Setting for server-user in nscd.conf. See nscd.conf(5).
+
+- *Default*: 'nscd'

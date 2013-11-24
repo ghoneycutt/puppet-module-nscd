@@ -284,4 +284,10 @@ describe 'nscd' do
       }.to raise_error(Puppet::Error,/nscd::max_threads is <x>. Must be a number./)
     end
   end
+
+  describe 'with server_user param specified' do
+    let(:params) { { :server_user => 'root' } }
+
+    it { should contain_file('nscd_config').with_content(/^server-user root$/) }
+  end
 end
