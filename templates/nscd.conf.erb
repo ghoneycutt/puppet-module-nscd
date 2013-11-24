@@ -31,9 +31,9 @@
 # Currently supported cache names (services): passwd, group, hosts, services
 #
 
-logfile /var/log/nscd.log
-threads 4
-max-threads 32
+logfile <%= @logfile %>
+threads <%= @threads %>
+max-threads <%= @max_threads %>
 server-user nscd
 stat-user root
 debug-level 0
