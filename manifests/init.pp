@@ -78,8 +78,8 @@ class nscd (
     "nscd::max_threads is <${max_threads}>. Must be a number.")
   validate_re($debug_level, '^(\d)+$',
     "nscd::debug_level is <${debug_level}>. Must be a number.")
-  validate_re($reload_count, '^(\d)+$',
-    "nscd::reload_count is <${reload_count}>. Must be a number.")
+  validate_re($reload_count, '^(\d)+|(unlimited)$',
+    "nscd::reload_count is <${reload_count}>. Must be a number or 'unlimited'.")
   validate_re($paranoia, '^(yes)|(no)$',
     "nscd::paranoia is <${paranoia}>.  Must be either 'yes' or 'no'.")
   validate_re($restart_interval, '^(\d)+$',

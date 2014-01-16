@@ -95,3 +95,87 @@ server_user
 Setting for server-user in nscd.conf. See nscd.conf(5).
 
 - *Default*: 'nscd'
+
+stat_user
+---------
+Setting for stat-user in nscd.conf.  See nscd.conf(5).
+
+- *Default*: 'root'
+
+debug_level
+-----------
+Setting for debug-level in nscd.conf.  See nscd.conf(5). Must be a number.
+
+- *Default*: 0
+
+reload_count
+------------
+Settings for reload-count in nscd.conf.  See nscd.conf(5). Must be a number or 'unlimited'.
+
+- *Default*: 5
+
+paranoia
+--------
+Setting for paranoia in nscd.conf.  See nscd.conf(5). Must be 'yes' or 'no'.
+
+- *Default*: 'no'
+
+restart_interval
+----------------
+Setting for restart-interval in nscd.conf.  See nscd.conf(5). Must be a number.
+
+- *Default*: 3600
+
+<service>_enable_cach
+----------------------
+Settings for enable-cache <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+<service>_positive_time_to_live
+-------------------------------
+Settings for positive-time-to-live <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be a number in seconds.
+
+- *Default*: 600
+
+<service>_negative_time_to_live
+-------------------------------
+Settings for negative-time-to-live <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be a number in seconds.
+
+- *Default*: 20
+
+<service>_suggested_size
+------------------------
+Settings for suggested-size <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be a number.
+
+- *Default*: 211
+
+<service>_check_files
+---------------------
+Settings for check-files <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+<service>_persistent
+--------------------
+Settings for persistent <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+<service>_shared
+----------------
+Settings for shared <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+<service>_max_db_size
+---------------------
+Settings for max-db-size <service> in nscd.conf where <service> can be either passwd, group, hosts, services. Must be a number in bytes.
+
+- *Default*: 33554432
+
+<service>_auto_propagate
+------------------------
+Settings for auto-propagate <service> in nscd.conf where <service> can be either passwd or group. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
