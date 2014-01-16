@@ -31,54 +31,59 @@
 # Currently supported cache names (services): passwd, group, hosts, services
 #
 
-logfile <%= @logfile %>
-threads <%= @threads %>
-max-threads <%= @max_threads %>
-server-user <%= @server_user %>
-stat-user root
-debug-level 0
-reload-count 5
-paranoia no
-restart-interval 3600
+logfile           <%= @logfile %>
+threads           <%= @threads %>
+max-threads       <%= @max_threads %>
+<% if @enable_server_user_real == true %>
+server-user       <%= @server_user %>
+<% else %>
+# server-user     root
+<% end %>
+#
+stat-user         <%= @stat_user %>
+debug-level       <%= @debug_level %>
+reload-count      <%= @reload_count %>
+paranoia          <%= @paranoia %>
+restart-interval  <%= @restart_interval %>
 
 # passwd
-enable-cache passwd yes
-positive-time-to-live passwd 600
-negative-time-to-live passwd 20
-suggested-size passwd 211
-check-files passwd yes
-persistent passwd yes
-shared passwd yes
-max-db-size passwd 33554432
-auto-propagate passwd yes
+enable-cache          passwd <%= @passwd_enable_cache %>
+positive-time-to-live passwd <%= @passwd_positive_time_to_live %>
+negative-time-to-live passwd <%= @passwd_negative_time_to_live %>
+suggested-size        passwd <%= @passwd_suggested_size %>
+check-files           passwd <%= @passwd_check_files %>
+persistent            passwd <%= @passwd_persistent %>
+shared                passwd <%= @passwd_shared %>
+max-db-size           passwd <%= @passwd_max_db_size %>
+auto-propagate        passwd <%= @passwd_auto_propagate %>
 
 # group
-enable-cache group yes
-positive-time-to-live group 3600
-negative-time-to-live group 60
-suggested-size group 211
-check-files group yes
-persistent group yes
-shared group yes
-max-db-size group 33554432
-auto-propagate group yes
+enable-cache          group <%= @group_enable_cache %>
+positive-time-to-live group <%= @group_positive_time_to_live %>
+negative-time-to-live group <%= @group_negative_time_to_live %>
+suggested-size        group <%= @group_suggested_size %>
+check-files           group <%= @group_check_files %>
+persistent            group <%= @group_persistent %>
+shared                group <%= @group_shared %>
+max-db-size           group <%= @group_max_db_size %>
+auto-propagate        group <%= @group_auto_propagate %>
 
 # hosts
-enable-cache hosts yes
-positive-time-to-live hosts 3600
-negative-time-to-live hosts 20
-suggested-size hosts 211
-check-files hosts yes
-persistent hosts yes
-shared hosts yes
-max-db-size hosts 33554432
+enable-cache          hosts <%= @hosts_enable_cache %>
+positive-time-to-live hosts <%= @hosts_positive_time_to_live %>
+negative-time-to-live hosts <%= @hosts_negative_time_to_live %>
+suggested-size        hosts <%= @hosts_suggested_size %>
+check-files           hosts <%= @hosts_check_files %>
+persistent            hosts <%= @hosts_persistent %>
+shared                hosts <%= @hosts_shared %>
+max-db-size           hosts <%= @hosts_max_db_size %>
 
 # services
-enable-cache services yes
-positive-time-to-live services 28800
-negative-time-to-live services 20
-suggested-size services 211
-check-files services yes
-persistent services yes
-shared services yes
-max-db-size services 33554432
+enable-cache          services <%= @services_enable_cache %>
+positive-time-to-live services <%= @services_positive_time_to_live %>
+negative-time-to-live services <%= @services_negative_time_to_live %>
+suggested-size        services <%= @services_suggested_size %>
+check-files           services <%= @services_check_files %>
+persistent            services <%= @services_persistent %>
+shared                services <%= @services_shared %>
+max-db-size           services <%= @services_max_db_size %>

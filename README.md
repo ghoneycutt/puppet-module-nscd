@@ -3,15 +3,16 @@
 
 [![Build Status](https://travis-ci.org/ghoneycutt/puppet-module-nscd.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-nscd)
 
-Brief description here.
+Puppet module to manage nscd
 
 ===
 
 # Compatibility
 ---------------
-This module is built for use with Puppet v3 on the following OS families.
+This module is built for use with Puppet v3 on the following platforms.
 
 * EL 6
+* Suse 11
 
 ===
 
@@ -66,7 +67,7 @@ String for value of ensure attribute of nscd service. Valid values are 'present'
 
 - *Default*: 'running'
 
-service_ensure
+service_enable
 --------------
 Value of enable attribute of nscd service. This determines if the service will start at boot or not. Allows for boolean, 'true', or 'false'.
 
@@ -90,8 +91,98 @@ Setting for max-threads in nscd.conf. See nscd.conf(5). Must be an number expres
 
 - *Default*: 32
 
+enable\_server\_user
+------------------
+Set to false if the 'server\_user' should be commented out in the nscd.conf file.  This is required for SLES11SP3.
+
+- *Default*: true
+
 server_user
 -----------
 Setting for server-user in nscd.conf. See nscd.conf(5).
 
 - *Default*: 'nscd'
+
+stat_user
+---------
+Setting for stat-user in nscd.conf.  See nscd.conf(5).
+
+- *Default*: 'root'
+
+debug_level
+-----------
+Setting for debug-level in nscd.conf.  See nscd.conf(5). Must be a number.
+
+- *Default*: 0
+
+reload_count
+------------
+Settings for reload-count in nscd.conf.  See nscd.conf(5). Must be a number or 'unlimited'.
+
+- *Default*: 5
+
+paranoia
+--------
+Setting for paranoia in nscd.conf.  See nscd.conf(5). Must be 'yes' or 'no'.
+
+- *Default*: 'no'
+
+restart_interval
+----------------
+Setting for restart-interval in nscd.conf.  See nscd.conf(5). Must be a number.
+
+- *Default*: 3600
+
+\<service\>\_enable\_cache
+----------------------
+Settings for enable-cache \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'no' for passwd and group, 'yes' for hosts and servives.
+
+\<service\>\_positive\_time\_to\_live
+-------------------------------
+Settings for positive-time-to-live \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be a number in seconds.
+
+- *Default*: 600
+
+\<service\>\_negative\_time\_to\_live
+-------------------------------
+Settings for negative-time-to-live \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be a number in seconds.
+
+- *Default*: 20
+
+\<service\>\_suggested\_size
+------------------------
+Settings for suggested-size \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be a number.
+
+- *Default*: 211
+
+\<service\>\_check\_files
+---------------------
+Settings for check-files \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+\<service\>\_persistent
+--------------------
+Settings for persistent \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+\<service\>\_shared
+----------------
+Settings for shared \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+\<service\>\_max\_db\_size
+---------------------
+Settings for max-db-size \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be a number in bytes.
+
+- *Default*: 33554432
+
+\<service\>\_auto\_propagate
+------------------------
+Settings for auto-propagate \<service\> in nscd.conf where \<service\> can be either passwd or group. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
