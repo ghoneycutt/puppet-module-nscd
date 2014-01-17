@@ -90,6 +90,12 @@ Setting for max-threads in nscd.conf. See nscd.conf(5). Must be an number expres
 
 - *Default*: 32
 
+enable_server_user
+------------------
+Set to false if the 'server\_user' should be commented out in the nscd.conf file.  This is required for SLES11SP3.
+
+- *Default*: true
+
 server_user
 -----------
 Setting for server-user in nscd.conf. See nscd.conf(5).
@@ -130,7 +136,7 @@ Setting for restart-interval in nscd.conf.  See nscd.conf(5). Must be a number.
 ----------------------
 Settings for enable-cache \<service\> in nscd.conf where \<service\> can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
 
-- *Default*: 'yes'
+- *Default*: 'no' for passwd and group, 'yes' for hosts and servives.
 
 \<service\>\_positive\_time\_to\_live
 -------------------------------

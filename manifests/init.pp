@@ -9,6 +9,7 @@ class nscd (
   $config_owner                   = 'root',
   $config_group                   = 'root',
   $config_mode                    = '0644',
+  $enable_server_user             = true,
   $service_name                   = 'nscd',
   $service_ensure                 = 'running',
   $service_enable                 = true,
@@ -21,7 +22,7 @@ class nscd (
   $reload_count                   = 5,
   $paranoia                       = 'no',
   $restart_interval               = 3600,
-  $passwd_enable_cache            = 'yes',
+  $passwd_enable_cache            = 'no',
   $passwd_positive_time_to_live   = 600,
   $passwd_negative_time_to_live   = 20,
   $passwd_suggested_size          = 211,
@@ -30,7 +31,7 @@ class nscd (
   $passwd_shared                  = 'yes',
   $passwd_max_db_size             = 33554432,
   $passwd_auto_propagate          = 'yes',
-  $group_enable_cache             = 'yes',
+  $group_enable_cache             = 'no',
   $group_positive_time_to_live    = 600,
   $group_negative_time_to_live    = 20,
   $group_suggested_size           = 211,
@@ -63,6 +64,12 @@ class nscd (
   validate_absolute_path($config_path)
   validate_re($config_mode, '^(\d){4}$',
     "nscd::config_mode is <${config_mode}>. Must be in four digit octal notation.")
+  if type($enable_server_user) == 'String' {
+    $enable_server_user_real = str2bool($enable_server_user)
+  } else {
+    $enable_server_user_real = $enable_server_user
+  }
+  validate_bool($enable_server_user_real)
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
     'nscd::service_ensure is invalid and does not match the regex.')
   if type($service_enable) == 'String' {
