@@ -66,7 +66,7 @@ String for value of ensure attribute of nscd service. Valid values are 'present'
 
 - *Default*: 'running'
 
-service_ensure
+service_enable
 --------------
 Value of enable attribute of nscd service. This determines if the service will start at boot or not. Allows for boolean, 'true', or 'false'.
 
