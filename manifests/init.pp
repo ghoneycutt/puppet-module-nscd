@@ -100,8 +100,8 @@ class nscd (
     "nscd::passwd_shared is <${passwd_shared}>.  Must be either 'yes' or 'no'.")
   validate_re($passwd_max_db_size, '^(\d)+$',
     "nscd::passwd_max_db_size is <${passwd_max_db_size}>.  Must be a number in bytes.")
-  validate_re($passwd_auto_propagat, '^(yes)|(no)$',
-    "nscd::passwd_auto_propagat is <${passwd_auto_propagat}>.  Must be either 'yes' or 'no'.")
+  validate_re($passwd_auto_propagate, '^(yes)|(no)$',
+    "nscd::passwd_auto_propagate is <${passwd_auto_propagate}>.  Must be either 'yes' or 'no'.")
   validate_re($group_enable_cache, '^(yes)|(no)$',
     "nscd::group_enable_cache is <${group_enable_cache}>.  Must be either 'yes' or 'no'.")
   validate_re($group_positive_time_to_live, '^(\d)+$',
