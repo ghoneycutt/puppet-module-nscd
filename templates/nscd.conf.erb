@@ -34,12 +34,7 @@
 logfile           <%= @logfile %>
 threads           <%= @threads %>
 max-threads       <%= @max_threads %>
-<% if @enable_server_user_real == true %>
-server-user       <%= @server_user %>
-<% else %>
-# server-user     root
-<% end %>
-#
+<% if @server_user_real != nil -%>server-user       <%= @server_user_real %><% end %>
 stat-user         <%= @stat_user %>
 debug-level       <%= @debug_level %>
 reload-count      <%= @reload_count %>
