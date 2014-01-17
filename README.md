@@ -3,15 +3,16 @@
 
 [![Build Status](https://travis-ci.org/ghoneycutt/puppet-module-nscd.png?branch=master)](https://travis-ci.org/ghoneycutt/puppet-module-nscd)
 
-Brief description here.
+Puppet module to manage nscd
 
 ===
 
 # Compatibility
 ---------------
-This module is built for use with Puppet v3 on the following OS families.
+This module is built for use with Puppet v3 on the following platforms.
 
 * EL 6
+* Suse 11
 
 ===
 
