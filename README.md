@@ -91,7 +91,7 @@ Setting for max-threads in nscd.conf. See nscd.conf(5). Must be an number expres
 
 - *Default*: 32
 
-enable_server_user
+enable\_server\_user
 ------------------
 Set to false if the 'server\_user' should be commented out in the nscd.conf file.  This is required for SLES11SP3.
 
