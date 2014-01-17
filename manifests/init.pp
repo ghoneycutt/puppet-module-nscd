@@ -118,8 +118,8 @@ class nscd (
     "nscd::group_shared is <${group_shared}>.  Must be either 'yes' or 'no'.")
   validate_re($group_max_db_size, '^(\d)+$',
     "nscd::group_max_db_size is <${group_max_db_size}>.  Must be a number in bytes.")
-  validate_re($group_auto_propagat, '^(yes)|(no)$',
-    "nscd::group_auto_propagat is <${group_auto_propagat}>.  Must be either 'yes' or 'no'.")
+  validate_re($group_auto_propagate, '^(yes)|(no)$',
+    "nscd::group_auto_propagate is <${group_auto_propagate}>.  Must be either 'yes' or 'no'.")
   validate_re($hosts_enable_cache, '^(yes)|(no)$',
     "nscd::hosts_enable_cache is <${hosts_enable_cache}>.  Must be either 'yes' or 'no'.")
   validate_re($hosts_positive_time_to_live, '^(\d)+$',
