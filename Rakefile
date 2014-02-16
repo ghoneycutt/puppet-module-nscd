@@ -13,3 +13,9 @@ task :validate do
     sh "ruby -c #{spec_path}" unless spec_path =~ /spec\/fixtures/
   end
 end
+
+task :validate_readme do
+  Dir['manifests/**/*.pp'].each do |manifest|
+    sh "ext/check_readme.sh #{manifest} README.md"
+  end
+end
