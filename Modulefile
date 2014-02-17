@@ -1,0 +1,10 @@
+name 'ghoneycutt-nscd'
+version '1.0.0'
+source 'git://github.com/ghoneycutt/puppet-module-nscd.git'
+author 'ghoneycutt'
+license 'Apache License, Version 2.0'
+summary 'manage NSCD - name service cache daemon'
+description 'Manage every aspect of NSCD - name service cache daemon'
+project_page 'https://github.com/ghoneycutt/puppet-module-nscd'
+
+dependency 'puppetlabs/stdlib', '>= 3.2.0'
