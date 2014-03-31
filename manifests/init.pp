@@ -89,9 +89,21 @@ class nscd (
   case $::osfamily {
     'RedHat': {
       $default_server_user = 'nscd'
+      case $::lsbmajdistrelease {
+        '5': {
+          $nscd_template = 'nscd/nscd.conf.el5.erb'
+        }
+        '6': {
+          $nscd_template = 'nscd/nscd.conf.erb'
+        }
+        default: {
+          fail("NSCD is only supported on EL5 and EL6.  Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+        }
+      }
     }
     default: {
       $default_server_user = undef
+      $nscd_template       = 'nscd/nscd.conf.erb'
     }
   }
 
@@ -190,7 +202,7 @@ class nscd (
   file { 'nscd_config':
     ensure  => file,
     path    => $config_path,
-    content => template('nscd/nscd.conf.erb'),
+    content => template($nscd_template),
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
