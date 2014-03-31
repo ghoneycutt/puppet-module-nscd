@@ -202,7 +202,7 @@ class nscd (
   file { 'nscd_config':
     ensure  => file,
     path    => $config_path,
-    content => template('nscd/nscd.conf.erb'),
+    content => template($nscd_template),
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
