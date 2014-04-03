@@ -21,6 +21,10 @@ class nscd (
   $reload_count                   = '5',
   $paranoia                       = 'no',
   $restart_interval               = '3600',
+  $enable_db_passwd               = 'USE_DEFAULTS',
+  $enable_db_group                = 'USE_DEFAULTS',
+  $enable_db_hosts                = 'USE_DEFAULTS',
+  $enable_db_services             = 'USE_DEFAULTS',
   $passwd_enable_cache            = 'yes',
   $passwd_positive_time_to_live   = '600',
   $passwd_negative_time_to_live   = '20',
@@ -78,7 +82,6 @@ class nscd (
   } else {
     $service_enable_real = $service_enable
   }
-  validate_bool($service_enable_real)
 
   validate_absolute_path($logfile)
   validate_re($threads, '^(\d)+$',
@@ -91,19 +94,25 @@ class nscd (
       $default_server_user = 'nscd'
       case $::lsbmajdistrelease {
         '5': {
-          $nscd_template = 'nscd/nscd.conf.el5.erb'
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = false
         }
         '6': {
-          $nscd_template = 'nscd/nscd.conf.erb'
-        }
-        default: {
-          fail("NSCD is only supported on EL5 and EL6.  Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
-        }
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = true
+          }
       }
     }
     default: {
-      $default_server_user = undef
-      $nscd_template       = 'nscd/nscd.conf.erb'
+      $default_server_user         = undef
+      $enable_db_passwd_default    = true
+      $enable_db_group_default     = true
+      $enable_db_hosts_default     = true
+      $enable_db_services_default  = true
     }
   }
 
@@ -111,6 +120,42 @@ class nscd (
     $server_user_real = $default_server_user
   } else {
     $server_user_real = $server_user
+  }
+
+  if type($enable_db_passwd) == 'boolean' {
+    $enable_db_passwd_real = $enable_db_passwd
+  } else {
+    $enable_db_passwd_real = $enable_db_passwd ? {
+      'USE_DEFAULTS' => $enable_db_passwd_default,
+      default        => str2bool($enable_db_passwd)
+    }
+  }
+
+  if type($enable_db_group) == 'boolean' {
+    $enable_db_group_real = $enable_db_group
+  } else {
+    $enable_db_group_real = $enable_db_group ? {
+      'USE_DEFAULTS' => $enable_db_group_default,
+      default        => str2bool($enable_db_group)
+    }
+  }
+
+  if type($enable_db_hosts) == 'boolean' {
+    $enable_db_hosts_real = $enable_db_hosts
+  } else {
+    $enable_db_hosts_real = $enable_db_hosts ? {
+      'USE_DEFAULTS' => $enable_db_hosts_default,
+      default        => str2bool($enable_db_hosts)
+    }
+  }
+
+  if type($enable_db_services) == 'boolean' {
+    $enable_db_services_real = $enable_db_services
+  } else {
+    $enable_db_services_real = $enable_db_services ? {
+      'USE_DEFAULTS' => $enable_db_services_default,
+      default        => str2bool($enable_db_services)
+    }
   }
 
   validate_string($stat_user)
@@ -194,6 +239,10 @@ class nscd (
     "nscd::services_shared is <${services_shared}>. Must be either 'yes' or 'no'.")
   validate_re($services_max_db_size, '^(\d)+$',
     "nscd::services_max_db_size is <${services_max_db_size}>. Must be a number in bytes.")
+  validate_bool($enable_db_passwd_real)
+  validate_bool($enable_db_group_real)
+  validate_bool($enable_db_hosts_real)
+  validate_bool($enable_db_services_real)
 
   package { $package_name:
     ensure => $package_ensure,
@@ -202,7 +251,7 @@ class nscd (
   file { 'nscd_config':
     ensure  => file,
     path    => $config_path,
-    content => template($nscd_template),
+    content => template('nscd/nscd.conf.erb'),
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
