@@ -557,7 +557,7 @@ describe 'nscd' do
     end
   end
 
-  ['passwd','group','hosts','services'].each do |service|
+  ['passwd','group','hosts','services','netgroup'].each do |service|
     describe "with #{service}_enable_cache specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
