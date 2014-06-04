@@ -116,7 +116,14 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
-
+      it { should contain_file('nscd_config').with_content(/^enable-cache\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +netgroup\ +28800$/) }
+      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +netgroup\ +20$/) }
+      it { should contain_file('nscd_config').with_content(/^suggested-size\ +netgroup\ +211$/) }
+      it { should contain_file('nscd_config').with_content(/^check-files\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^persistent\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^shared\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^max-db-size\ +netgroup\ +33554432$/) }
       it {
         should contain_service('nscd_service').with({
           'ensure'    => 'running',
