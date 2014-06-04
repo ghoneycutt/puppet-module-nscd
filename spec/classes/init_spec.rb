@@ -116,7 +116,14 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
-
+      it { should contain_file('nscd_config').with_content(/^enable-cache\ +netgroup\ +(yes|no)$/) }
+      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +netgroup\ +28800$/) }
+      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +netgroup\ +20$/) }
+      it { should contain_file('nscd_config').with_content(/^suggested-size\ +netgroup\ +211$/) }
+      it { should contain_file('nscd_config').with_content(/^check-files\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^persistent\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^shared\ +netgroup\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^max-db-size\ +netgroup\ +33554432$/) }
       it {
         should contain_service('nscd_service').with({
           'ensure'    => 'running',
@@ -557,7 +564,7 @@ describe 'nscd' do
     end
   end
 
-  ['passwd','group','hosts','services'].each do |service|
+  ['passwd','group','hosts','services','netgroup'].each do |service|
     describe "with #{service}_enable_cache specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do

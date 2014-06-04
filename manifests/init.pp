@@ -55,6 +55,14 @@ class nscd (
   $services_persistent            = 'yes',
   $services_shared                = 'yes',
   $services_max_db_size           = '33554432',
+  $netgroup_enable_cache          = 'no',
+  $netgroup_positive_time_to_live = '28800',
+  $netgroup_negative_time_to_live = '20',
+  $netgroup_suggested_size        = '211',
+  $netgroup_check_files           = 'yes',
+  $netgroup_persistent            = 'yes',
+  $netgroup_shared                = 'yes',
+  $netgroup_max_db_size           = '33554432',
 ) {
 
   $package_name_type = type($package_name)
@@ -182,6 +190,23 @@ class nscd (
     "nscd::services_shared is <${services_shared}>. Must be either 'yes' or 'no'.")
   validate_re($services_max_db_size, '^(\d)+$',
     "nscd::services_max_db_size is <${services_max_db_size}>. Must be a number in bytes.")
+
+  validate_re($netgroup_enable_cache, '^(yes|no)$',
+    "nscd::netgroup_enable_cache is <${netgroup_enable_cache}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_positive_time_to_live, '^(\d)+$',
+    "nscd::netgroup_positive_time_to_live is <${netgroup_positive_time_to_live}>. Must be a number in seconds.")
+  validate_re($netgroup_negative_time_to_live, '^(\d)+$',
+    "nscd::netgroup_negative_time_to_live is <${netgroup_negative_time_to_live}>. Must be a number in seconds.")
+  validate_re($netgroup_suggested_size, '^(\d)+$',
+    "nscd::netgroup_suggested_size is <${netgroup_suggested_size}>. Must be a number.")
+  validate_re($netgroup_check_files, '^(yes|no)$',
+    "nscd::netgroup_check_files is <${netgroup_check_files}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_persistent, '^(yes|no)$',
+    "nscd::netgroup_persistent is <${netgroup_persistent}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_shared, '^(yes|no)$',
+    "nscd::netgroup_shared is <${netgroup_shared}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_max_db_size, '^(\d)+$',
+    "nscd::netgroup_max_db_size is <${netgroup_max_db_size}>. Must be a number in bytes.")
 
   package { $package_name:
     ensure => $package_ensure,
