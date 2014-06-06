@@ -25,6 +25,7 @@ class nscd (
   $enable_db_group                = 'USE_DEFAULTS',
   $enable_db_hosts                = 'USE_DEFAULTS',
   $enable_db_services             = 'USE_DEFAULTS',
+  $enable_opt_auto_propagate      = 'USE_DEFAULTS',
   $passwd_enable_cache            = 'yes',
   $passwd_positive_time_to_live   = '600',
   $passwd_negative_time_to_live   = '20',
@@ -82,6 +83,7 @@ class nscd (
   } else {
     $service_enable_real = $service_enable
   }
+  validate_bool($service_enable_real)
 
   validate_absolute_path($logfile)
   validate_re($threads, '^(\d)+$',
@@ -98,13 +100,40 @@ class nscd (
           $enable_db_group_default     = true
           $enable_db_hosts_default     = true
           $enable_db_services_default  = false
+          $enable_opt_auto_propagate_default  = true
         }
         '6': {
           $enable_db_passwd_default    = true
           $enable_db_group_default     = true
           $enable_db_hosts_default     = true
           $enable_db_services_default  = true
-          }
+          $enable_opt_auto_propagate_default  = true
+        }
+        default: {
+          fail("Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+        }
+      }
+    }
+    'Suse': {
+      $default_server_user = undef
+      case $::lsbmajdistrelease {
+        '10': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = false
+          $enable_opt_auto_propagate_default  = false
+        }
+        '11': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = true
+          $enable_opt_auto_propagate_default  = true
+        }
+        default: {
+          fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+        }
       }
     }
     default: {
@@ -113,6 +142,7 @@ class nscd (
       $enable_db_group_default     = true
       $enable_db_hosts_default     = true
       $enable_db_services_default  = true
+      $enable_opt_auto_propagate_default  = true
     }
   }
 
@@ -155,6 +185,15 @@ class nscd (
     $enable_db_services_real = $enable_db_services ? {
       'USE_DEFAULTS' => $enable_db_services_default,
       default        => str2bool($enable_db_services)
+    }
+  }
+
+  if type($enable_opt_auto_propagate) == 'boolean' {
+    $enable_opt_auto_propagate_real = $enable_db_services
+  } else {
+    $enable_opt_auto_propagate_real = $enable_opt_auto_propagate ? {
+      'USE_DEFAULTS' => $enable_opt_auto_propagate_default,
+      default        => str2bool($enable_opt_auto_propagate)
     }
   }
 
@@ -243,6 +282,7 @@ class nscd (
   validate_bool($enable_db_group_real)
   validate_bool($enable_db_hosts_real)
   validate_bool($enable_db_services_real)
+  validate_bool($enable_opt_auto_propagate_real)
 
   package { $package_name:
     ensure => $package_ensure,

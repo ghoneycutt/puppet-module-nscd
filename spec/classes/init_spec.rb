@@ -3,40 +3,52 @@ describe 'nscd' do
 
   platforms = {
     'debian6' =>
-      { :osfamily           => 'Debian',
-        :lsbmajdistrelease  => '6',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Debian',
+        :lsbmajdistrelease         => '6',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
     'el5' =>
-      { :osfamily           => 'RedHat',
-        :lsbmajdistrelease  => '5',
-        :package_name       => 'nscd',
-        :server_user        => 'nscd',
+      { :osfamily                  => 'RedHat',
+        :lsbmajdistrelease         => '5',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :enable_db_services        => false,
+        :enable_opt_auto_propagate => true,
       },
     'el6' =>
-      { :osfamily           => 'RedHat',
-        :lsbmajdistrelease  => '6',
-        :package_name       => 'nscd',
-        :server_user        => 'nscd',
+      { :osfamily                  => 'RedHat',
+        :lsbmajdistrelease         => '6',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
     'suse10' =>
-      { :osfamily           => 'Suse',
-        :lsbmajdistrelease  => '10',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Suse',
+        :lsbmajdistrelease         => '10',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => false,
+        :enable_opt_auto_propagate => false,
       },
     'suse11' =>
-      { :osfamily           => 'Suse',
-        :lsbmajdistrelease  => '11',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Suse',
+        :lsbmajdistrelease         => '11',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
     'ubuntu12' =>
-      { :osfamily           => 'Debian',
-        :lsbmajdistrelease  => '12',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Debian',
+        :lsbmajdistrelease         => '12',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
   }
 
@@ -90,7 +102,11 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+      if v[:enable_opt_auto_propagate] == true
+        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+      else
+        it { should_not contain_file('nscd_config').with_content(/^auto-propagate +passwd/) }
+      end
       it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +group\ +3600$/) }
       it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +group\ +60$/) }
@@ -99,7 +115,11 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+      if v[:enable_opt_auto_propagate] == true
+        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+      else
+        it { should_not contain_file('nscd_config').with_content(/^auto-propagate +group/) }
+      end
       it { should contain_file('nscd_config').with_content(/^enable-cache\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +hosts\ +3600$/) }
       it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +hosts\ +20$/) }
@@ -108,14 +128,25 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+      if v[:enable_db_services] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+      else
+        it { should_not contain_file('nscd_config').with_content(/^enable-cache\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^positive-time-to-live\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^negative-time-to-live\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^suggested-size\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^check-files\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^persistent\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^shared\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^max-db-size\ +services/) }
+      end
 
       it {
         should contain_service('nscd_service').with({
