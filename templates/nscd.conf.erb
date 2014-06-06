@@ -51,7 +51,9 @@ check-files           passwd <%= @passwd_check_files %>
 persistent            passwd <%= @passwd_persistent %>
 shared                passwd <%= @passwd_shared %>
 max-db-size           passwd <%= @passwd_max_db_size %>
+<%   if @enable_auto_propagate_real == true -%>
 auto-propagate        passwd <%= @passwd_auto_propagate %>
+<%   end -%>
 <% end -%>
 
 <% if @enable_db_group_real == true -%>
@@ -64,7 +66,9 @@ check-files           group <%= @group_check_files %>
 persistent            group <%= @group_persistent %>
 shared                group <%= @group_shared %>
 max-db-size           group <%= @group_max_db_size %>
+<%   if @enable_auto_propagate_real == true -%>
 auto-propagate        group <%= @group_auto_propagate %>
+<%   end -%>
 <% end -%>
 
 <% if @enable_db_hosts_real == true -%>
