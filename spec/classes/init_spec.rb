@@ -90,7 +90,11 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+      if v[:enable_opt_auto_propagate] != nil
+        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+      else
+        it { should_not contain_file('nscd_config').with_content(/^auto-propagate +passwd/) }
+      end
       it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +group\ +3600$/) }
       it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +group\ +60$/) }
@@ -99,7 +103,11 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
+      if v[:enable_opt_auto_propagate] != nil
       it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+      else
+        it { should_not contain_file('nscd_config').with_content(/^auto-propagate +group/) }
+      end
       it { should contain_file('nscd_config').with_content(/^enable-cache\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +hosts\ +3600$/) }
       it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +hosts\ +20$/) }
@@ -760,6 +768,38 @@ describe 'nscd' do
 
     # only the passwd and group services use auto-propogate
     if service == 'passwd' or service == 'group'
+      describe 'with enable_opt_auto_propagate parameter' do
+        context 'set to all possible valid values' do
+          [true, false, 'true', 'false'].each do |enable_value|
+            context "enable_opt_auto_propagate => #{enable_value}" do
+              let(:params) { { :enable_opt_auto_propagate => enable_value } }
+
+              it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{enable_value}$/) }
+            end
+          end
+        end
+
+        context 'set to invalid value' do
+          let(:params) { { :enable_opt_auto_propagate => 'invalid' } }
+
+          it 'should fail' do
+            expect {
+              should contain_class('nscd')
+            }.to raise_error(Puppet::Error)
+          end
+        end
+
+        context 'set to invalid type' do
+          let(:params) { { :enable_opt_auto_propagate => ['invalid','type'] } }
+
+          it 'should fail' do
+            expect {
+              should contain_class('nscd')
+            }.to raise_error(Puppet::Error)
+          end
+        end
+      end
+
       describe "with #{service}_auto_propagate specified" do
         ['yes','no'].each do |value|
           context "as valid value #{value}" do

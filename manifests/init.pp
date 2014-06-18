@@ -107,8 +107,9 @@ class nscd (
           $enable_db_hosts_default     = true
           $enable_db_services_default  = true
           $enable_opt_auto_propagate_default  = true
-          }
+        }
       }
+    }
     'Suse': {
       $default_server_user = 'nscd'
       case $::lsbmajdistrelease {
@@ -125,7 +126,7 @@ class nscd (
           $enable_db_hosts_default     = true
           $enable_db_services_default  = true
           $enable_opt_auto_propagate_default  = true
-          }
+        }
       }
     }
     default: {
