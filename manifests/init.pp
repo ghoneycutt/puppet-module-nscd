@@ -111,7 +111,7 @@ class nscd (
       }
     }
     'Suse': {
-      $default_server_user = 'nscd'
+      $default_server_user = undef
       case $::lsbmajdistrelease {
         '10': {
           $enable_db_passwd_default    = true

@@ -3,40 +3,52 @@ describe 'nscd' do
 
   platforms = {
     'debian6' =>
-      { :osfamily           => 'Debian',
-        :lsbmajdistrelease  => '6',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Debian',
+        :lsbmajdistrelease         => '6',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
     'el5' =>
-      { :osfamily           => 'RedHat',
-        :lsbmajdistrelease  => '5',
-        :package_name       => 'nscd',
-        :server_user        => 'nscd',
+      { :osfamily                  => 'RedHat',
+        :lsbmajdistrelease         => '5',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :enable_db_services        => false,
+        :enable_opt_auto_propagate => true,
       },
     'el6' =>
-      { :osfamily           => 'RedHat',
-        :lsbmajdistrelease  => '6',
-        :package_name       => 'nscd',
-        :server_user        => 'nscd',
+      { :osfamily                  => 'RedHat',
+        :lsbmajdistrelease         => '6',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
     'suse10' =>
-      { :osfamily           => 'Suse',
-        :lsbmajdistrelease  => '10',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Suse',
+        :lsbmajdistrelease         => '10',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => false,
+        :enable_opt_auto_propagate => false,
       },
     'suse11' =>
-      { :osfamily           => 'Suse',
-        :lsbmajdistrelease  => '11',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Suse',
+        :lsbmajdistrelease         => '11',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
     'ubuntu12' =>
-      { :osfamily           => 'Debian',
-        :lsbmajdistrelease  => '12',
-        :package_name       => 'nscd',
-        :server_user        => nil,
+      { :osfamily                  => 'Debian',
+        :lsbmajdistrelease         => '12',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
       },
   }
 
@@ -90,7 +102,7 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
-      if v[:enable_opt_auto_propagate] != nil
+      if v[:enable_opt_auto_propagate] == true
         it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
       else
         it { should_not contain_file('nscd_config').with_content(/^auto-propagate +passwd/) }
@@ -103,8 +115,8 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
-      if v[:enable_opt_auto_propagate] != nil
-      it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+      if v[:enable_opt_auto_propagate] == true
+        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
       else
         it { should_not contain_file('nscd_config').with_content(/^auto-propagate +group/) }
       end
@@ -116,14 +128,25 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+      if v[:enable_db_services] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+      else
+        it { should_not contain_file('nscd_config').with_content(/^enable-cache\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^positive-time-to-live\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^negative-time-to-live\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^suggested-size\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^check-files\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^persistent\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^shared\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^max-db-size\ +services/) }
+      end
 
       it {
         should contain_service('nscd_service').with({
@@ -326,15 +349,15 @@ describe 'nscd' do
       end
     end
 
-    context 'set to invalid type' do
-      let(:params) { { :service_enable => ['invalid','type'] } }
+    #context 'set to invalid type' do
+    #  let(:params) { { :service_enable => ['invalid','type'] } }
 
-      it 'should fail' do
-        expect {
-          should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
-      end
-    end
+    #  it 'should fail' do
+    #    expect {
+    #      should contain_class('nscd')
+    #    }.to raise_error(Puppet::Error)
+    #  end
+    #end
   end
 
   describe 'with logfile parameter specified' do
@@ -768,59 +791,29 @@ describe 'nscd' do
 
     # only the passwd and group services use auto-propogate
     if service == 'passwd' or service == 'group'
-      describe 'with enable_opt_auto_propagate parameter' do
-        context 'set to all possible valid values' do
-          [true, false, 'true', 'false'].each do |enable_value|
-            context "enable_opt_auto_propagate => #{enable_value}" do
-              let(:params) { { :enable_opt_auto_propagate => enable_value } }
+      #if v[:enable_opt_auto_propagate] == true
+        describe "with #{service}_auto_propagate specified" do
+          ['yes','no'].each do |value|
+            context "as valid value #{value}" do
+              let(:params) { { :"#{service}_auto_propagate" => value } }
 
-              it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{enable_value}$/) }
+              it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{value}$/) }
+            end
+          end
+
+          ['yess','nooo','-1',true].each do |value|
+            context "as invalid value #{value}" do
+              let(:params) { { :"#{service}_auto_propagate" => value } }
+
+              it 'should fail' do
+                expect {
+                  should contain_class('nscd')
+                }.to raise_error(Puppet::Error,/^nscd::#{service}_auto_propagate is <#{value}>. Must be either 'yes' or 'no'./)
+              end
             end
           end
         end
-
-        context 'set to invalid value' do
-          let(:params) { { :enable_opt_auto_propagate => 'invalid' } }
-
-          it 'should fail' do
-            expect {
-              should contain_class('nscd')
-            }.to raise_error(Puppet::Error)
-          end
-        end
-
-        context 'set to invalid type' do
-          let(:params) { { :enable_opt_auto_propagate => ['invalid','type'] } }
-
-          it 'should fail' do
-            expect {
-              should contain_class('nscd')
-            }.to raise_error(Puppet::Error)
-          end
-        end
-      end
-
-      describe "with #{service}_auto_propagate specified" do
-        ['yes','no'].each do |value|
-          context "as valid value #{value}" do
-            let(:params) { { :"#{service}_auto_propagate" => value } }
-
-            it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{value}$/) }
-          end
-        end
-
-        ['yess','nooo','-1',true].each do |value|
-          context "as invalid value #{value}" do
-            let(:params) { { :"#{service}_auto_propagate" => value } }
-
-            it 'should fail' do
-              expect {
-                should contain_class('nscd')
-              }.to raise_error(Puppet::Error,/^nscd::#{service}_auto_propagate is <#{value}>. Must be either 'yes' or 'no'./)
-            end
-          end
-        end
-      end
+      #end
     end
   end
 end
