@@ -83,6 +83,7 @@ class nscd (
   } else {
     $service_enable_real = $service_enable
   }
+  validate_bool($service_enable_real)
 
   validate_absolute_path($logfile)
   validate_re($threads, '^(\d)+$',
