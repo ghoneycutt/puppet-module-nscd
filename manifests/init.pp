@@ -282,10 +282,15 @@ class nscd (
     ensure => $package_ensure,
   }
 
+  $file_content = $::osfamily ? {
+    'Solaris' => 'nscd.conf-Solaris.erb',
+    default   => 'nscd.conf.erb',
+  }
+
   file { 'nscd_config':
     ensure  => file,
     path    => $config_path,
-    content => template('nscd/nscd.conf.erb'),
+    content => template("nscd/${file_content}"),
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
