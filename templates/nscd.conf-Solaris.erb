@@ -12,11 +12,41 @@
 #               exec_attr, group, hosts, ipnodes, netmasks
 #               networks, passwd, printers, prof_attr, project
 #               protocols, rpc, services, tnrhdb, tnrhtp, user_attr
-#
-#       logfile                 /var/adm/nscd.log
-#       enable-cache            hosts           no
 
-        debug-level             0
+#       logfile                 /var/adm/nscd.log
+        debug-level             <%= @debug_level %>
+
+<% if @enable_db_passwd_real == true -%>
+        enable-cache            passwd          <%= @passwd_enable_cache %>
+        positive-time-to-live   passwd          <%= @passwd_positive_time_to_live %>
+        negative-time-to-live   passwd          <%= @passwd_negative_time_to_live %>
+        keep-hot-count          passwd          20
+        check-files             passwd          <%= @passwd_check_files %>
+<% end -%>
+
+<% if @enable_db_group_real == true -%>
+        enable-cache            group           <%= @group_enable_cache %>
+        positive-time-to-live   group           <%= @group_positive_time_to_live %>
+        negative-time-to-live   group           <%= @group_negative_time_to_live %>
+        keep-hot-count          group           20
+        check-files             group           <%= @group_check_files %>
+<% end -%>
+
+<% if @enable_db_hosts_real == true -%>
+        enable-cache            hosts           <%= @hosts_enable_cache %>
+        positive-time-to-live   hosts           <%= @hosts_positive_time_to_live %>
+        negative-time-to-live   hosts           <%= @hosts_negative_time_to_live %>
+        keep-hot-count          hosts           20
+        check-files             hosts           <%= @hosts_check_files %>
+<% end -%>
+
+<% if @enable_db_services_real == true -%>
+        enable-cache            services        <%= @services_enable_cache %>
+        positive-time-to-live   services        <%= @services_positive_time_to_live %>
+        negative-time-to-live   services        <%= @services_negative_time_to_live %>
+        keep-hot-count          services        20
+        check-files             services        <%= @services_check_files %>
+<% end -%>
 
         positive-time-to-live   audit_user      3600
         negative-time-to-live   audit_user      5
@@ -43,16 +73,6 @@
         keep-hot-count          exec_attr       20
         check-files             exec_attr       yes
 
-        positive-time-to-live   group           3600
-        negative-time-to-live   group           5
-        keep-hot-count          group           20
-        check-files             group           yes
-
-        positive-time-to-live   hosts           3600
-        negative-time-to-live   hosts           5
-        keep-hot-count          hosts           20
-        check-files             hosts           yes
-
         positive-time-to-live   ipnodes         3600
         negative-time-to-live   ipnodes         5
         keep-hot-count          ipnodes         20
@@ -67,14 +87,6 @@
         negative-time-to-live   networks        5
         keep-hot-count          networks        20
         check-files             networks        yes
-
-# VAS: saved passwd line #      enable-cache            passwd          no
-
-        enable-cache            passwd          no
-        positive-time-to-live   passwd          600
-        negative-time-to-live   passwd          5
-        keep-hot-count          passwd          20
-        check-files             passwd          yes
 
         positive-time-to-live   printers        3600
         negative-time-to-live   printers        5
@@ -101,11 +113,6 @@
         keep-hot-count          rpc             20
         check-files             rpc             yes
 
-        positive-time-to-live   services        3600
-        negative-time-to-live   services        5
-        keep-hot-count          services        20
-        check-files             services        yes
-
         positive-time-to-live   tnrhdb          3600
         negative-time-to-live   tnrhdb          5
         keep-hot-count          tnrhdb          20
@@ -120,6 +127,3 @@
         negative-time-to-live   user_attr       5
         keep-hot-count          user_attr       20
         check-files             user_attr       yes
-
-# VAS: saved group line #
-        enable-cache            group           no
