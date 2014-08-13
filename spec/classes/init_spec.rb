@@ -130,6 +130,16 @@ describe 'nscd' do
         it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
       end
 
+      #By default everywhere would have enable_db_netgroup = false, so make sure the netgroup stuff is absent
+      it { should_not contain_file('nscd_config').with_content(/^enable-cache\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^positive-time-to-live\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^negative-time-to-live\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^suggested-size\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^check-files\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^persistent\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^shared\ +netgroup/) }
+      it { should_not contain_file('nscd_config').with_content(/^max-db-size\ +netgroup/) }
+
       it {
         should contain_service('nscd_service').with({
           'ensure'    => 'running',
@@ -593,11 +603,11 @@ describe 'nscd' do
     end
   end
 
-  ['passwd','group','hosts','services'].each do |service|
+  ['passwd','group','hosts','services','netgroup'].each do |service|
     describe "with #{service}_enable_cache specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_enable_cache" => value } }
+          let(:params) { {:"enable_db_#{service}" => true, :"#{service}_enable_cache" => value } }
 
           it { should contain_file('nscd_config').with_content(/^enable-cache\ +#{service}\ +#{value}$/) }
         end
@@ -605,7 +615,7 @@ describe 'nscd' do
 
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
-          let(:params) { { :"#{service}_enable_cache" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_enable_cache" => value } }
 
           it 'should fail' do
             expect {
@@ -618,13 +628,13 @@ describe 'nscd' do
 
     describe "with #{service}_positive_time_to_live specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_positive_time_to_live" => '31415' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_positive_time_to_live" => '31415' } }
 
         it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +#{service}\ +31415$/) }
       end
 
       context 'as an invalid value' do
-        let(:params) { { :"#{service}_positive_time_to_live" => 'x' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_positive_time_to_live" => 'x' } }
 
         it 'should fail' do
           expect {
@@ -634,7 +644,7 @@ describe 'nscd' do
       end
 
       context 'as an invalid type' do
-        let(:params) { { :"#{service}_positive_time_to_live" => true } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_positive_time_to_live" => true } }
 
         it 'should fail' do
           expect {
@@ -646,13 +656,13 @@ describe 'nscd' do
 
     describe "with #{service}_negative_time_to_live specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_negative_time_to_live" => '23' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_negative_time_to_live" => '23' } }
 
         it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +#{service}\ +23$/) }
       end
 
       context 'as an invalid value' do
-        let(:params) { { :"#{service}_negative_time_to_live" => 'x' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_negative_time_to_live" => 'x' } }
 
         it 'should fail' do
           expect {
@@ -662,7 +672,7 @@ describe 'nscd' do
       end
 
       context 'as an invalid type' do
-        let(:params) { { :"#{service}_negative_time_to_live" => true } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_negative_time_to_live" => true } }
 
         it 'should fail' do
           expect {
@@ -674,13 +684,13 @@ describe 'nscd' do
 
     describe "with #{service}_suggested_size specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_suggested_size" => '411' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_suggested_size" => '411' } }
 
         it { should contain_file('nscd_config').with_content(/^suggested-size\ +#{service}\ +411$/) }
       end
 
       context 'as an invalid value' do
-        let(:params) { { :"#{service}_suggested_size" => 'x' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_suggested_size" => 'x' } }
 
         it 'should fail' do
           expect {
@@ -690,7 +700,7 @@ describe 'nscd' do
       end
 
       context 'as an invalid type' do
-        let(:params) { { :"#{service}_suggested_size" => true } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_suggested_size" => true } }
 
         it 'should fail' do
           expect {
@@ -703,7 +713,7 @@ describe 'nscd' do
     describe "with #{service}_check_files specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_check_files" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_check_files" => value } }
 
           it { should contain_file('nscd_config').with_content(/^check-files\ +#{service}\ +#{value}$/) }
         end
@@ -711,7 +721,7 @@ describe 'nscd' do
 
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
-          let(:params) { { :"#{service}_check_files" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_check_files" => value } }
 
           it 'should fail' do
             expect {
@@ -725,7 +735,7 @@ describe 'nscd' do
     describe "with #{service}_persistent specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_persistent" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_persistent" => value } }
 
           it { should contain_file('nscd_config').with_content(/^persistent\ +#{service}\ +#{value}$/) }
         end
@@ -733,7 +743,7 @@ describe 'nscd' do
 
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
-          let(:params) { { :"#{service}_persistent" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_persistent" => value } }
 
           it 'should fail' do
             expect {
@@ -747,7 +757,7 @@ describe 'nscd' do
     describe "with #{service}_shared specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_shared" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_shared" => value } }
 
           it { should contain_file('nscd_config').with_content(/^shared\ +#{service}\ +#{value}$/) }
         end
@@ -755,7 +765,7 @@ describe 'nscd' do
 
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
-          let(:params) { { :"#{service}_shared" => value } }
+          let(:params) { { :"enable_db_#{service}" => true, :"#{service}_shared" => value } }
 
           it 'should fail' do
             expect {
@@ -768,13 +778,13 @@ describe 'nscd' do
 
     describe "with #{service}_max_db_size specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_max_db_size" => '1000000' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_max_db_size" => '1000000' } }
 
         it { should contain_file('nscd_config').with_content(/^max-db-size\ +#{service}\ +1000000$/) }
       end
 
       context 'as an invalid value' do
-        let(:params) { { :"#{service}_max_db_size" => 'x' } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_max_db_size" => 'x' } }
 
         it 'should fail' do
           expect {
@@ -784,7 +794,7 @@ describe 'nscd' do
       end
 
       context 'as an invalid type' do
-        let(:params) { { :"#{service}_max_db_size" => true } }
+        let(:params) { { :"enable_db_#{service}" => true, :"#{service}_max_db_size" => true } }
 
         it 'should fail' do
           expect {
@@ -799,7 +809,7 @@ describe 'nscd' do
       describe "with #{service}_auto_propagate specified" do
         ['yes','no'].each do |value|
           context "as valid value #{value}" do
-            let(:params) { { :"#{service}_auto_propagate" => value } }
+            let(:params) { { :"enable_db_#{service}" => true, :"#{service}_auto_propagate" => value } }
 
             it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{value}$/) }
           end
@@ -807,7 +817,7 @@ describe 'nscd' do
 
         ['yess','nooo','-1',true].each do |value|
           context "as invalid value #{value}" do
-            let(:params) { { :"#{service}_auto_propagate" => value } }
+            let(:params) { { :"enable_db_#{service}" => true, :"#{service}_auto_propagate" => value } }
 
             it 'should fail' do
               expect {
