@@ -79,10 +79,11 @@ class nscd (
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
     'nscd::service_ensure is invalid and does not match the regex.')
 
-  if type($service_enable) == 'String' {
-    $service_enable_real = str2bool($service_enable)
-  } else {
-    $service_enable_real = $service_enable
+  $service_enable_type = type($service_enable)
+  case $service_enable_type {
+    'String':  { $service_enable_real = str2bool($service_enable) }
+    'boolean': { $service_enable_real = $service_enable }
+    default: { fail("nscd::service_enable must be a string or a boolean. Detected type is <${service_enable_type}>.") }
   }
 
   validate_absolute_path($logfile)
@@ -101,12 +102,12 @@ class nscd (
           $enable_db_hosts_default     = true
           $enable_db_services_default  = false
         }
-        '6': {
+        default: {
           $enable_db_passwd_default    = true
           $enable_db_group_default     = true
           $enable_db_hosts_default     = true
           $enable_db_services_default  = true
-          }
+        }
       }
     }
     default: {

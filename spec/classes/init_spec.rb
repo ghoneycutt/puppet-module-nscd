@@ -108,14 +108,27 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
       it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+      
+      #RedHat 5 should not contain the service delcaration
+      if k.eql?('el5') 
+        it { should_not contain_file('nscd_config').with_content(/^enable-cache\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^positive-time-to-live\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^negative-time-to-live\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^suggested-size\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^check-files\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^persistent\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^shared\ +services/) }
+        it { should_not contain_file('nscd_config').with_content(/^max-db-size\ +services/) }
+      else
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+      end
 
       it {
         should contain_service('nscd_service').with({
