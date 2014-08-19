@@ -9,6 +9,7 @@ class nscd (
   $config_owner                   = 'root',
   $config_group                   = 'root',
   $config_mode                    = '0644',
+  $config_template                = 'nscd/nscd.conf.erb',
   $service_name                   = 'nscd',
   $service_ensure                 = 'running',
   $service_enable                 = true,
@@ -21,6 +22,11 @@ class nscd (
   $reload_count                   = '5',
   $paranoia                       = 'no',
   $restart_interval               = '3600',
+  $enable_db_passwd               = 'USE_DEFAULTS',
+  $enable_db_group                = 'USE_DEFAULTS',
+  $enable_db_hosts                = 'USE_DEFAULTS',
+  $enable_db_services             = 'USE_DEFAULTS',
+  $enable_db_netgroup             = 'USE_DEFAULTS',
   $passwd_enable_cache            = 'yes',
   $passwd_positive_time_to_live   = '600',
   $passwd_negative_time_to_live   = '20',
@@ -55,6 +61,14 @@ class nscd (
   $services_persistent            = 'yes',
   $services_shared                = 'yes',
   $services_max_db_size           = '33554432',
+  $netgroup_enable_cache          = 'no',
+  $netgroup_positive_time_to_live = '28800',
+  $netgroup_negative_time_to_live = '20',
+  $netgroup_suggested_size        = '211',
+  $netgroup_check_files           = 'yes',
+  $netgroup_persistent            = 'yes',
+  $netgroup_shared                = 'yes',
+  $netgroup_max_db_size           = '33554432',
 ) {
 
   $package_name_type = type($package_name)
@@ -69,16 +83,17 @@ class nscd (
   validate_string($config_group)
   validate_re($config_mode, '^(\d){4}$',
     "nscd::config_mode is <${config_mode}>. Must be in four digit octal notation.")
+  validate_string($config_template)
   validate_string($service_name)
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
     'nscd::service_ensure is invalid and does not match the regex.')
 
-  if type($service_enable) == 'String' {
-    $service_enable_real = str2bool($service_enable)
-  } else {
-    $service_enable_real = $service_enable
+  $service_enable_type = type($service_enable)
+  case $service_enable_type {
+    'String':  { $service_enable_real = str2bool($service_enable) }
+    'boolean': { $service_enable_real = $service_enable }
+    default: { fail("nscd::service_enable must be a string or a boolean. Detected type is <${service_enable_type}>.") }
   }
-  validate_bool($service_enable_real)
 
   validate_absolute_path($logfile)
   validate_re($threads, '^(\d)+$',
@@ -89,9 +104,30 @@ class nscd (
   case $::osfamily {
     'RedHat': {
       $default_server_user = 'nscd'
+      case $::lsbmajdistrelease {
+        '5': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = false
+          $enable_db_netgroup_default  = false
+        }
+        default: {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = true
+          $enable_db_netgroup_default  = false
+        }
+      }
     }
     default: {
-      $default_server_user = undef
+      $default_server_user         = undef
+      $enable_db_passwd_default    = true
+      $enable_db_group_default     = true
+      $enable_db_hosts_default     = true
+      $enable_db_services_default  = true
+      $enable_db_netgroup_default  = false
     }
   }
 
@@ -99,6 +135,51 @@ class nscd (
     $server_user_real = $default_server_user
   } else {
     $server_user_real = $server_user
+  }
+
+  if type($enable_db_passwd) == 'boolean' {
+    $enable_db_passwd_real = $enable_db_passwd
+  } else {
+    $enable_db_passwd_real = $enable_db_passwd ? {
+      'USE_DEFAULTS' => $enable_db_passwd_default,
+      default        => str2bool($enable_db_passwd)
+    }
+  }
+
+  if type($enable_db_group) == 'boolean' {
+    $enable_db_group_real = $enable_db_group
+  } else {
+    $enable_db_group_real = $enable_db_group ? {
+      'USE_DEFAULTS' => $enable_db_group_default,
+      default        => str2bool($enable_db_group)
+    }
+  }
+
+  if type($enable_db_hosts) == 'boolean' {
+    $enable_db_hosts_real = $enable_db_hosts
+  } else {
+    $enable_db_hosts_real = $enable_db_hosts ? {
+      'USE_DEFAULTS' => $enable_db_hosts_default,
+      default        => str2bool($enable_db_hosts)
+    }
+  }
+
+  if type($enable_db_services) == 'boolean' {
+    $enable_db_services_real = $enable_db_services
+  } else {
+    $enable_db_services_real = $enable_db_services ? {
+      'USE_DEFAULTS' => $enable_db_services_default,
+      default        => str2bool($enable_db_services)
+    }
+  }
+
+  if type($enable_db_netgroup) == 'boolean' {
+    $enable_db_netgroup_real = $enable_db_netgroup
+  } else {
+    $enable_db_netgroup_real = $enable_db_netgroup ? {
+      'USE_DEFAULTS' => $enable_db_netgroup_default,
+      default        => str2bool($enable_db_netgroup)
+    }
   }
 
   validate_string($stat_user)
@@ -182,6 +263,27 @@ class nscd (
     "nscd::services_shared is <${services_shared}>. Must be either 'yes' or 'no'.")
   validate_re($services_max_db_size, '^(\d)+$',
     "nscd::services_max_db_size is <${services_max_db_size}>. Must be a number in bytes.")
+  validate_bool($enable_db_passwd_real)
+  validate_bool($enable_db_group_real)
+  validate_bool($enable_db_hosts_real)
+  validate_bool($enable_db_services_real)
+
+  validate_re($netgroup_enable_cache, '^(yes|no)$',
+    "nscd::netgroup_enable_cache is <${netgroup_enable_cache}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_positive_time_to_live, '^(\d)+$',
+    "nscd::netgroup_positive_time_to_live is <${netgroup_positive_time_to_live}>. Must be a number in seconds.")
+  validate_re($netgroup_negative_time_to_live, '^(\d)+$',
+    "nscd::netgroup_negative_time_to_live is <${netgroup_negative_time_to_live}>. Must be a number in seconds.")
+  validate_re($netgroup_suggested_size, '^(\d)+$',
+    "nscd::netgroup_suggested_size is <${netgroup_suggested_size}>. Must be a number.")
+  validate_re($netgroup_check_files, '^(yes|no)$',
+    "nscd::netgroup_check_files is <${netgroup_check_files}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_persistent, '^(yes|no)$',
+    "nscd::netgroup_persistent is <${netgroup_persistent}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_shared, '^(yes|no)$',
+    "nscd::netgroup_shared is <${netgroup_shared}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_max_db_size, '^(\d)+$',
+    "nscd::netgroup_max_db_size is <${netgroup_max_db_size}>. Must be a number in bytes.")
 
   package { $package_name:
     ensure => $package_ensure,
@@ -190,7 +292,7 @@ class nscd (
   file { 'nscd_config':
     ensure  => file,
     path    => $config_path,
-    content => template('nscd/nscd.conf.erb'),
+    content => template($config_template),
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
