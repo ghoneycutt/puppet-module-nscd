@@ -16,6 +16,7 @@ task :validate do
   end
 end
 
+desc 'Validate that README.md documents all parameters for each class'
 task :validate_readme do
   Dir['manifests/**/*.pp'].each do |manifest|
     sh "ext/check_readme.sh #{manifest} README.md"
