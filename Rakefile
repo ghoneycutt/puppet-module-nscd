@@ -1,10 +1,10 @@
-require 'rubygems'
 require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-lint/tasks/puppet-lint'
 PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_autoloader_layout')
 PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 
-desc "Run puppet in noop mode and check for syntax errors."
+desc 'Run puppet in noop mode and check for syntax errors.'
 task :validate do
   Dir['manifests/**/*.pp'].each do |manifest|
     sh "puppet parser validate --noop #{manifest}"
@@ -17,6 +17,7 @@ task :validate do
   end
 end
 
+desc 'Validate that README.md documents all parameters for each class'
 task :validate_readme do
   Dir['manifests/**/*.pp'].each do |manifest|
     sh "ext/check_readme.sh #{manifest} README.md"
