@@ -150,6 +150,36 @@ Setting for restart-interval in nscd.conf.  See nscd.conf(5). Must be a number.
 ## Per service nscd.conf settings
 ---
 
+enable_db_passwd
+----------------------
+Settings for enable_db_passwd in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'USE_DEFAULTS'
+
+enable_db_group
+----------------------
+Settings for enable_db_group in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'USE_DEFAULTS'
+
+enable_db_hosts
+----------------------
+Settings for enable_db_hosts in nscd.conf. See nscd.conf(5). Must be 'yes' or 'no'.
+
+- *Default*: 'USE_DEFAULTS'
+
+enable_db_services
+----------------------
+Settings for enable_db_services in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'USE_DEFAULTS'
+
+enable_opt_auto_propagate
+----------------------
+Settings for enable_opt_auto_propagate in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'USE_DEFAULTS'
+
 passwd_enable_cache
 ----------------------
 Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
