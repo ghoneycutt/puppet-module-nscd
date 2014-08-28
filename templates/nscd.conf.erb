@@ -41,6 +41,7 @@ reload-count      <%= @reload_count %>
 paranoia          <%= @paranoia %>
 restart-interval  <%= @restart_interval %>
 
+<% if @enable_db_passwd_real == true -%>
 # passwd
 enable-cache          passwd <%= @passwd_enable_cache %>
 positive-time-to-live passwd <%= @passwd_positive_time_to_live %>
@@ -51,7 +52,9 @@ persistent            passwd <%= @passwd_persistent %>
 shared                passwd <%= @passwd_shared %>
 max-db-size           passwd <%= @passwd_max_db_size %>
 auto-propagate        passwd <%= @passwd_auto_propagate %>
+<% end -%>
 
+<% if @enable_db_group_real == true -%>
 # group
 enable-cache          group <%= @group_enable_cache %>
 positive-time-to-live group <%= @group_positive_time_to_live %>
@@ -62,7 +65,9 @@ persistent            group <%= @group_persistent %>
 shared                group <%= @group_shared %>
 max-db-size           group <%= @group_max_db_size %>
 auto-propagate        group <%= @group_auto_propagate %>
+<% end -%>
 
+<% if @enable_db_hosts_real == true -%>
 # hosts
 enable-cache          hosts <%= @hosts_enable_cache %>
 positive-time-to-live hosts <%= @hosts_positive_time_to_live %>
@@ -72,7 +77,9 @@ check-files           hosts <%= @hosts_check_files %>
 persistent            hosts <%= @hosts_persistent %>
 shared                hosts <%= @hosts_shared %>
 max-db-size           hosts <%= @hosts_max_db_size %>
+<% end -%>
 
+<% if @enable_db_services_real == true -%>
 # services
 enable-cache          services <%= @services_enable_cache %>
 positive-time-to-live services <%= @services_positive_time_to_live %>
@@ -82,3 +89,4 @@ check-files           services <%= @services_check_files %>
 persistent            services <%= @services_persistent %>
 shared                services <%= @services_shared %>
 max-db-size           services <%= @services_max_db_size %>
+<% end -%>
