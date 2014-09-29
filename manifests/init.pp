@@ -109,6 +109,9 @@ class nscd (
           $enable_db_services_default  = true
           $enable_opt_auto_propagate_default  = true
         }
+        default: {
+          fail("Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+        }
       }
     }
     'Suse': {
@@ -127,6 +130,9 @@ class nscd (
           $enable_db_hosts_default     = true
           $enable_db_services_default  = true
           $enable_opt_auto_propagate_default  = true
+        }
+        default: {
+          fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
         }
       }
     }
