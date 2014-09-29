@@ -136,13 +136,16 @@ class nscd (
         }
       }
     }
-    default: {
+    'Debian': {
       $default_server_user         = undef
       $enable_db_passwd_default    = true
       $enable_db_group_default     = true
       $enable_db_hosts_default     = true
       $enable_db_services_default  = true
       $enable_opt_auto_propagate_default  = true
+    }
+    default: {
+      fail("nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <${::osfamily}>.")
     }
   }
 
@@ -189,7 +192,7 @@ class nscd (
   }
 
   if type($enable_opt_auto_propagate) == 'boolean' {
-    $enable_opt_auto_propagate_real = $enable_db_services
+    $enable_opt_auto_propagate_real = $enable_opt_auto_propagate
   } else {
     $enable_opt_auto_propagate_real = $enable_opt_auto_propagate ? {
       'USE_DEFAULTS' => $enable_opt_auto_propagate_default,
