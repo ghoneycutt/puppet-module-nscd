@@ -21,6 +21,11 @@ class nscd (
   $reload_count                   = '5',
   $paranoia                       = 'no',
   $restart_interval               = '3600',
+  $enable_db_passwd               = 'USE_DEFAULTS',
+  $enable_db_group                = 'USE_DEFAULTS',
+  $enable_db_hosts                = 'USE_DEFAULTS',
+  $enable_db_services             = 'USE_DEFAULTS',
+  $enable_opt_auto_propagate      = 'USE_DEFAULTS',
   $passwd_enable_cache            = 'yes',
   $passwd_positive_time_to_live   = '600',
   $passwd_negative_time_to_live   = '20',
@@ -89,9 +94,58 @@ class nscd (
   case $::osfamily {
     'RedHat': {
       $default_server_user = 'nscd'
+      case $::lsbmajdistrelease {
+        '5': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = false
+          $enable_opt_auto_propagate_default  = true
+        }
+        '6': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = true
+          $enable_opt_auto_propagate_default  = true
+        }
+        default: {
+          fail("Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+        }
+      }
+    }
+    'Suse': {
+      $default_server_user = undef
+      case $::lsbmajdistrelease {
+        '10': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = false
+          $enable_opt_auto_propagate_default  = false
+        }
+        '11': {
+          $enable_db_passwd_default    = true
+          $enable_db_group_default     = true
+          $enable_db_hosts_default     = true
+          $enable_db_services_default  = true
+          $enable_opt_auto_propagate_default  = true
+        }
+        default: {
+          fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+        }
+      }
+    }
+    'Debian': {
+      $default_server_user         = undef
+      $enable_db_passwd_default    = true
+      $enable_db_group_default     = true
+      $enable_db_hosts_default     = true
+      $enable_db_services_default  = true
+      $enable_opt_auto_propagate_default  = true
     }
     default: {
-      $default_server_user = undef
+      fail("nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <${::osfamily}>.")
     }
   }
 
@@ -99,6 +153,51 @@ class nscd (
     $server_user_real = $default_server_user
   } else {
     $server_user_real = $server_user
+  }
+
+  if type($enable_db_passwd) == 'boolean' {
+    $enable_db_passwd_real = $enable_db_passwd
+  } else {
+    $enable_db_passwd_real = $enable_db_passwd ? {
+      'USE_DEFAULTS' => $enable_db_passwd_default,
+      default        => str2bool($enable_db_passwd)
+    }
+  }
+
+  if type($enable_db_group) == 'boolean' {
+    $enable_db_group_real = $enable_db_group
+  } else {
+    $enable_db_group_real = $enable_db_group ? {
+      'USE_DEFAULTS' => $enable_db_group_default,
+      default        => str2bool($enable_db_group)
+    }
+  }
+
+  if type($enable_db_hosts) == 'boolean' {
+    $enable_db_hosts_real = $enable_db_hosts
+  } else {
+    $enable_db_hosts_real = $enable_db_hosts ? {
+      'USE_DEFAULTS' => $enable_db_hosts_default,
+      default        => str2bool($enable_db_hosts)
+    }
+  }
+
+  if type($enable_db_services) == 'boolean' {
+    $enable_db_services_real = $enable_db_services
+  } else {
+    $enable_db_services_real = $enable_db_services ? {
+      'USE_DEFAULTS' => $enable_db_services_default,
+      default        => str2bool($enable_db_services)
+    }
+  }
+
+  if type($enable_opt_auto_propagate) == 'boolean' {
+    $enable_opt_auto_propagate_real = $enable_opt_auto_propagate
+  } else {
+    $enable_opt_auto_propagate_real = $enable_opt_auto_propagate ? {
+      'USE_DEFAULTS' => $enable_opt_auto_propagate_default,
+      default        => str2bool($enable_opt_auto_propagate)
+    }
   }
 
   validate_string($stat_user)
@@ -182,6 +281,11 @@ class nscd (
     "nscd::services_shared is <${services_shared}>. Must be either 'yes' or 'no'.")
   validate_re($services_max_db_size, '^(\d)+$',
     "nscd::services_max_db_size is <${services_max_db_size}>. Must be a number in bytes.")
+  validate_bool($enable_db_passwd_real)
+  validate_bool($enable_db_group_real)
+  validate_bool($enable_db_hosts_real)
+  validate_bool($enable_db_services_real)
+  validate_bool($enable_opt_auto_propagate_real)
 
   package { $package_name:
     ensure => $package_ensure,
