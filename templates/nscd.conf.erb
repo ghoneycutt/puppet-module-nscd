@@ -31,7 +31,7 @@
 # Currently supported cache names (services): passwd, group, hosts, services
 #
 
-logfile           <%= @logfile %>
+logfile           <%= @logfile_real %>
 threads           <%= @threads %>
 max-threads       <%= @max_threads %>
 <% if @server_user_real != nil -%>server-user       <%= @server_user_real %><% end %>

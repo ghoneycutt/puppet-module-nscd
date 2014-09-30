@@ -4,60 +4,108 @@ describe 'nscd' do
   platforms = {
     'debian6' =>
       { :osfamily                  => 'Debian',
-        :lsbmajdistrelease         => '6',
+        :release                   => '6',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
         :enable_db_services        => true,
         :enable_opt_auto_propagate => true,
       },
     'el5' =>
       { :osfamily                  => 'RedHat',
-        :lsbmajdistrelease         => '5',
+        :release                   => '5',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
         :enable_db_services        => false,
         :enable_opt_auto_propagate => true,
       },
     'el6' =>
       { :osfamily                  => 'RedHat',
-        :lsbmajdistrelease         => '6',
+        :release                   => '6',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
         :enable_db_services        => true,
         :enable_opt_auto_propagate => true,
       },
     'suse10' =>
       { :osfamily                  => 'Suse',
-        :lsbmajdistrelease         => '10',
+        :release                   => '10',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
         :enable_db_services        => false,
         :enable_opt_auto_propagate => false,
       },
     'suse11' =>
       { :osfamily                  => 'Suse',
-        :lsbmajdistrelease         => '11',
+        :release                   => '11',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
         :enable_db_services        => true,
         :enable_opt_auto_propagate => true,
       },
     'ubuntu12' =>
       { :osfamily                  => 'Debian',
-        :lsbmajdistrelease         => '12',
+        :release                   => '12',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
+      },
+    'solaris10' =>
+      { :osfamily                  => 'Solaris',
+        :release                   => '10',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_services        => true,
+        :enable_opt_auto_propagate => true,
+      },
+    'solaris11' =>
+      { :osfamily                  => 'Solaris',
+        :release                   => '11',
+        :package_name              => 'nscd',
+        :server_user               => nil,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
         :enable_db_services        => true,
         :enable_opt_auto_propagate => true,
       },
   }
 
   platforms.sort.each do |k,v|
-    describe "on #{v[:osfamily]} #{v[:lsbmajdistrelease]} with default values for all parameters" do
-      let(:facts) do
-        { :lsbmajdistrelease => v[:lsbmajdistrelease],
-          :osfamily          => v[:osfamily],
-        }
+    describe "on #{v[:osfamily]} #{v[:release]} with default values for all parameters" do
+      if v[:osfamily] == 'Solaris'
+        let(:facts) do
+          { :kernelrelease => v[:release],
+            :osfamily      => v[:osfamily],
+          }
+        end
+      else
+        let(:facts) do
+          { :lsbmajdistrelease => v[:release],
+            :osfamily          => v[:osfamily],
+          }
+        end
       end
 
       it { should compile.with_all_deps }
@@ -81,71 +129,140 @@ describe 'nscd' do
         })
       }
 
-      it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/log\/nscd.log$/) }
-      it { should contain_file('nscd_config').with_content(/^threads\ +5$/) }
-      it { should contain_file('nscd_config').with_content(/^max-threads\ +32$/) }
-      if v[:server_user] != nil
-        it { should contain_file('nscd_config').with_content(/^server-user\ +#{v[:server_user]}$/) }
-      else
-        it { should_not contain_file('nscd_config').with_content(/^server-user/) }
-      end
-      it { should contain_file('nscd_config').with_content(/^stat-user\ +root$/) }
       it { should contain_file('nscd_config').with_content(/^debug-level\ +0$/) }
-      it { should contain_file('nscd_config').with_content(/^reload-count\ +5$/) }
-      it { should contain_file('nscd_config').with_content(/^paranoia\ +no$/) }
-      it { should contain_file('nscd_config').with_content(/^restart-interval\ +3600$/) }
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +passwd\ +600$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +passwd\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +passwd\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
-      if v[:enable_opt_auto_propagate] == true
-        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+      if v[:osfamily] == 'Solaris'
+        it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/adm\/nscd.log$/) }
       else
-        it { should_not contain_file('nscd_config').with_content(/^auto-propagate +passwd/) }
+        it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/log\/nscd.log$/) }
+        it { should contain_file('nscd_config').with_content(/^threads\ +5$/) }
+        it { should contain_file('nscd_config').with_content(/^max-threads\ +32$/) }
+        if v[:server_user] != nil
+          it { should contain_file('nscd_config').with_content(/^server-user\ +#{v[:server_user]}$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^\s*server-user/) }
+        end
+        it { should contain_file('nscd_config').with_content(/^stat-user\ +root$/) }
+        it { should contain_file('nscd_config').with_content(/^reload-count\ +5$/) }
+        it { should contain_file('nscd_config').with_content(/^paranoia\ +no$/) }
+        it { should contain_file('nscd_config').with_content(/^restart-interval\ +3600$/) }
       end
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +group\ +3600$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +group\ +60$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +group\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
-      if v[:enable_opt_auto_propagate] == true
-        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+      if v[:enable_db_passwd] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +passwd\ +600$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +passwd\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +passwd\ +yes$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +passwd\ +20$/) }
+        else
+          it { should contain_file('nscd_config').with_content(/^suggested-size\ +passwd\ +211$/) }
+          it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
+          if v[:enable_opt_auto_propagate] == true
+            it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+          else
+            it { should contain_file('nscd_config').without_content(/^\s*auto-propagate +passwd/) }
+          end
+        end
       else
-        it { should_not contain_file('nscd_config').with_content(/^auto-propagate +group/) }
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +passwd\ +yes$/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +passwd\ +600$/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +passwd\ +20$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +passwd\ +20$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^suggested-size\ +passwd\ +211$/) }
+          it { should contain_file('nscd_config').without_content(/^check-files\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^persistent\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^shared\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^max-db-size\ +passwd\ +33554432$/) }
+        end
       end
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +hosts\ +3600$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +hosts\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +hosts\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
+      if v[:enable_db_group] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +group\ +3600$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +group\ +60$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +group\ +yes$/) }
+       if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +group\ +20$/) }
+        else
+          it { should contain_file('nscd_config').with_content(/^suggested-size\ +group\ +211$/) }
+          it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
+          if v[:enable_opt_auto_propagate] == true
+            it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+          else
+            it { should contain_file('nscd_config').without_content(/^\s*auto-propagate +group/) }
+          end
+        end
+      else
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +group\ +yes$/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +group\ +3600$/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +group\ +60$/) }
+        it { should contain_file('nscd_config').without_content(/^check-files\ +group\ +yes$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +group\ +20$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^suggested-size\ +group\ +211$/) }
+          it { should contain_file('nscd_config').without_content(/^persistent\ +group\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^shared\ +group\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^max-db-size\ +group\ +33554432$/) }
+        end
+      end
+      if v[:enable_db_hosts] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +hosts\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +hosts\ +3600$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +hosts\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +hosts\ +yes$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +hosts\ +20$/) }
+        else
+          it { should contain_file('nscd_config').with_content(/^suggested-size\ +hosts\ +211$/) }
+          it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
+        end
+      else
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +hosts\ +yes$/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +hosts\ +3600$/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +hosts\ +20$/) }
+        it { should contain_file('nscd_config').without_content(/^check-files\ +hosts\ +yes$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +hosts\ +20$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^suggested-size\ +hosts\ +211$/) }
+          it { should contain_file('nscd_config').without_content(/^persistent\ +hosts\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^shared\ +hosts\ +yes$/) }
+          it { should contain_file('nscd_config').without_content(/^max-db-size\ +hosts\ +33554432$/) }
+        end
+      end
       if v[:enable_db_services] == true
         it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
         it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
         it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
-        it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
         it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +services\ +20$/) }
+        else
+          it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
+          it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+        end
       else
-        it { should_not contain_file('nscd_config').with_content(/^enable-cache\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^positive-time-to-live\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^negative-time-to-live\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^suggested-size\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^check-files\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^persistent\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^shared\ +services/) }
-        it { should_not contain_file('nscd_config').with_content(/^max-db-size\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^\s*enable-cache\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^\s*positive-time-to-live\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^\s*negative-time-to-live\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^\s*check-files\ +services/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +services\ +20$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^\s*suggested-size\ +services/) }
+          it { should contain_file('nscd_config').without_content(/^\s*persistent\ +services/) }
+          it { should contain_file('nscd_config').without_content(/^\s*shared\ +services/) }
+          it { should contain_file('nscd_config').without_content(/^\s*max-db-size\ +services/) }
+        end
       end
 
       it {
@@ -159,15 +276,57 @@ describe 'nscd' do
     end
   end
 
+  describe 'on unsupported' do
+    context 'osfamily' do
+      let(:facts) { { :osfamily => 'unsupported' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error,/^nscd supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <unsupported>./)
+      end
+    end
+
+    context 'versions of EL' do
+      let :facts do
+        { :osfamily          => 'RedHat',
+          :lsbmajdistrelease => '4',
+        }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error,/^Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <4>./)
+        end
+      end
+    end
+
+    context 'versions of Suse' do
+      let :facts do
+        { :osfamily          => 'Suse',
+          :lsbmajdistrelease => '4',
+        }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error,/^Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <4>./)
+        end
+      end
+    end
+  end
+
   describe 'with package_name parameter specified' do
     context 'as a string' do
       let(:params) { { :package_name => 'mynscd' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_package('mynscd').with({'ensure' => 'present' }) }
     end
 
     context 'as an array' do
       let(:params) { { :package_name => ['nscd','foo'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_package('nscd').with({'ensure' => 'present' }) }
       it { should contain_package('foo').with({'ensure' => 'present' }) }
@@ -175,6 +334,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { :package_name => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -189,6 +349,7 @@ describe 'nscd' do
       %w{present installed absent}.each do |ensure_value|
         context "package_ensure => #{ensure_value}" do
           let(:params) { { :package_ensure => ensure_value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_package('nscd').with({ 'ensure' => "#{ensure_value}" }) }
         end
@@ -197,6 +358,7 @@ describe 'nscd' do
 
     context 'set to invalid value' do
       let(:params) { { :package_ensure => 'invalid' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -209,12 +371,14 @@ describe 'nscd' do
   describe 'with config_path parameter specified' do
     context 'as a valid path' do
       let(:params) { { :config_path => '/usr/local/etc/nscd.conf' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with({ 'path' => '/usr/local/etc/nscd.conf' }) }
     end
 
     context 'as an invalid value' do
       let(:params) { { :config_path => 'invalid/path' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -227,12 +391,14 @@ describe 'nscd' do
   describe 'with config_owner parameter specified' do
     context 'as a valid string' do
       let(:params) { { :config_owner => 'root' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with({ 'owner' => 'root' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { :config_owner => ['invalid','root'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -245,12 +411,14 @@ describe 'nscd' do
   describe 'with config_group parameter specified' do
     context 'as a valid string' do
       let(:params) { { :config_group => 'root' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with({ 'group' => 'root' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { :config_group => ['invalid','root'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -263,12 +431,14 @@ describe 'nscd' do
   describe 'with config_mode parameter specified' do
     context 'with valid value' do
       let(:params) { { :config_mode => '0644' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with({ 'mode' => '0644' }) }
     end
 
     context 'with invalid value' do
       let(:params) { { :config_mode => '644' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -279,6 +449,7 @@ describe 'nscd' do
 
     context 'with invalid type' do
       let(:params) { { :config_mode => ['0','644'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -291,12 +462,14 @@ describe 'nscd' do
   describe 'with service_name parameter specified' do
     context 'as a valid string' do
       let(:params) { { :service_name => 'mynscd' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_service('nscd_service').with({ 'name' => 'mynscd' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { :config_mode => ['not','a','string'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -311,6 +484,7 @@ describe 'nscd' do
       %w{present running absent stopped}.each do |ensure_value|
         context "service_ensure => #{ensure_value}" do
           let(:params) { { :service_ensure => ensure_value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_service('nscd_service').with({ 'ensure' => "#{ensure_value}" }) }
         end
@@ -319,6 +493,7 @@ describe 'nscd' do
 
     context 'set to invalid value' do
       let(:params) { { :service_ensure => 'invalid' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -333,6 +508,7 @@ describe 'nscd' do
       [true, false, 'true', 'false'].each do |enable_value|
         context "service_enable => #{enable_value}" do
           let(:params) { { :service_enable => enable_value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_service('nscd_service').with({ 'enable' => enable_value }) }
         end
@@ -341,6 +517,7 @@ describe 'nscd' do
 
     context 'set to invalid value' do
       let(:params) { { :service_enable => 'invalid' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -349,36 +526,9 @@ describe 'nscd' do
       end
     end
 
-    #context 'set to invalid type' do
-    #  let(:params) { { :service_enable => ['invalid','type'] } }
-
-    #  it 'should fail' do
-    #    expect {
-    #      should contain_class('nscd')
-    #    }.to raise_error(Puppet::Error)
-    #  end
-    #end
-  end
-
-  describe 'with logfile parameter specified' do
-    context 'with a valid path' do
-      let(:params) { { :logfile => '/path/to/nscd.log' } }
-
-      it { should contain_file('nscd_config').with_content(/^logfile\ +\/path\/to\/nscd.log$/) }
-    end
-
-    context 'as an invalid path' do
-      let(:params) { { :logfile => 'invalid/path' } }
-
-      it 'should fail' do
-        expect {
-          should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { :logfile => true } }
+    context 'set to invalid type' do
+      let(:params) { { :service_enable => ['invalid','type'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -387,16 +537,95 @@ describe 'nscd' do
       end
     end
   end
+
+  ['passwd','group','hosts','services'].each do |service|
+    describe "with enable_db_#{service}" do
+      [true,'true',false,'false'].each do |value|
+        context "set to valid value #{value}" do
+          let(:params) { { :"enable_db_#{service}" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
+
+          it { should contain_class('nscd') }
+        end
+      end
+
+      context 'set to an invalid type (non-boolean or string convertible to boolean)' do
+        let(:params) { { :"enable_db_#{service}" => ['invalid','type'] } }
+        let(:facts) { { :osfamily => 'Debian' } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error)
+        end
+      end
+    end
+  end
+
+  describe 'with enable_opt_auto_propagate' do
+    [true,'true',false,'false'].each do |value|
+      context "set to valid value #{value}" do
+        let(:params) { { :enable_opt_auto_propagate => value } }
+        let(:facts) { { :osfamily => 'Debian' } }
+
+        it { should contain_class('nscd') }
+      end
+    end
+
+    context 'set to an invalid type (non-boolean or string convertible to boolean)' do
+      let(:params) { { :enable_opt_auto_propagate => ['invalid','type'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  #describe 'with logfile parameter specified' do
+  #  context 'with a valid path' do
+  #    let(:params) { { :logfile => '/path/to/nscd.log' } }
+  #    let(:facts) { { :osfamily => 'Debian' } }
+
+  #    it { should contain_file('nscd_config').with_content(/^logfile\ +\/path\/to\/nscd.log$/) }
+  #  end
+
+  #  context 'as an invalid path' do
+  #    let(:params) { { :logfile => 'invalid/path' } }
+  #    let(:facts) { { :osfamily => 'Debian' } }
+
+  #    it 'should fail' do
+  #      expect {
+  #        should contain_class('nscd')
+  #      }.to raise_error(Puppet::Error)
+  #    end
+  #  end
+
+  #  context 'as an invalid type' do
+  #    let(:params) { { :logfile => true } }
+  #    let(:facts) { { :osfamily => 'Debian' } }
+
+  #    it 'should fail' do
+  #      expect {
+  #        should contain_class('nscd')
+  #      }.to raise_error(Puppet::Error)
+  #    end
+  #  end
+  #end
 
   describe 'with threads parameter specified' do
     context 'as a valid number' do
       let(:params) { { :threads => '23' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^threads\ +23$/) }
     end
 
     context 'as an invalid value' do
       let(:params) { { :threads => 'x' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -407,6 +636,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { :threads => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -419,12 +649,14 @@ describe 'nscd' do
   describe 'with max_threads parameter specified' do
     context 'as a valid number' do
       let(:params) { { :max_threads => '42' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^max-threads\ +42$/) }
     end
 
     context 'as an invalid value' do
       let(:params) { { :max_threads => 'x' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -435,6 +667,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { :max_threads => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -447,24 +680,29 @@ describe 'nscd' do
   describe 'with server_user parameter' do
     context 'specified as a valid string' do
       let(:params) { { :server_user => 'root' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^server-user\ +root$/) }
     end
 
     context 'not specified' do
-      it { should_not contain_file('nscd_config').with_content(/^server-user/) }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_file('nscd_config').without_content(/^\s*server-user/) }
     end
   end
 
   describe 'with stat_user parameter' do
     context 'specified as a valid string' do
       let(:params) { { :stat_user => 'lmcdtre' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^stat-user\ +lmcdtre$/) }
     end
 
     context 'as an invalid type' do
       let(:params) { { :stat_user => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -477,12 +715,14 @@ describe 'nscd' do
   describe 'with debug_level parameter specified' do
     context 'as a valid number' do
       let(:params) { { :debug_level => '5' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^debug-level\ +5$/) }
     end
 
     context 'as an invalid value' do
       let(:params) { { :debug_level => 'x' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -493,6 +733,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { :debug_level => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -505,12 +746,15 @@ describe 'nscd' do
   describe 'with reload_count parameter specified' do
     context 'as a valid number' do
       let(:params) { { :reload_count => '5' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^reload-count\ +5$/) }
+      let(:facts) { { :osfamily => 'Debian' } }
     end
 
     context 'as \'unlimited\'' do
       let(:params) { { :reload_count => 'unlimited' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^reload-count\ +unlimited$/) }
     end
@@ -518,6 +762,7 @@ describe 'nscd' do
     ['unlimitedd','invalid','-1'].each do |value|
       context "as invalid value #{value}" do
         let(:params) { { :reload_count => value } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -529,6 +774,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { :reload_count => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -542,6 +788,7 @@ describe 'nscd' do
     ['yes','no'].each do |value|
       context "as valid value #{value}" do
         let(:params) { { :paranoia => value } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^paranoia\ +#{value}$/) }
       end
@@ -550,6 +797,7 @@ describe 'nscd' do
     ['yess','nooo','-1',true].each do |value|
       context "as invalid value #{value}" do
         let(:params) { { :paranoia => value } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -563,12 +811,14 @@ describe 'nscd' do
   describe 'with restart_interval parameter specified' do
     context 'as a valid number' do
       let(:params) { { :restart_interval => '31415' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_file('nscd_config').with_content(/^restart-interval\ +31415$/) }
     end
 
     context 'as an invalid value' do
       let(:params) { { :restart_interval => 'x' } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -579,6 +829,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { :restart_interval => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
@@ -593,6 +844,7 @@ describe 'nscd' do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_enable_cache" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^enable-cache\ +#{service}\ +#{value}$/) }
         end
@@ -601,6 +853,7 @@ describe 'nscd' do
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_enable_cache" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
             expect {
@@ -614,12 +867,14 @@ describe 'nscd' do
     describe "with #{service}_positive_time_to_live specified" do
       context 'as a valid number' do
         let(:params) { { :"#{service}_positive_time_to_live" => '31415' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +#{service}\ +31415$/) }
       end
 
       context 'as an invalid value' do
         let(:params) { { :"#{service}_positive_time_to_live" => 'x' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -630,6 +885,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { :"#{service}_positive_time_to_live" => true } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -642,12 +898,14 @@ describe 'nscd' do
     describe "with #{service}_negative_time_to_live specified" do
       context 'as a valid number' do
         let(:params) { { :"#{service}_negative_time_to_live" => '23' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +#{service}\ +23$/) }
       end
 
       context 'as an invalid value' do
         let(:params) { { :"#{service}_negative_time_to_live" => 'x' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -658,6 +916,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { :"#{service}_negative_time_to_live" => true } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -670,12 +929,14 @@ describe 'nscd' do
     describe "with #{service}_suggested_size specified" do
       context 'as a valid number' do
         let(:params) { { :"#{service}_suggested_size" => '411' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^suggested-size\ +#{service}\ +411$/) }
       end
 
       context 'as an invalid value' do
         let(:params) { { :"#{service}_suggested_size" => 'x' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -686,6 +947,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { :"#{service}_suggested_size" => true } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -699,6 +961,7 @@ describe 'nscd' do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_check_files" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^check-files\ +#{service}\ +#{value}$/) }
         end
@@ -707,6 +970,7 @@ describe 'nscd' do
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_check_files" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
             expect {
@@ -721,6 +985,7 @@ describe 'nscd' do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_persistent" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^persistent\ +#{service}\ +#{value}$/) }
         end
@@ -729,6 +994,7 @@ describe 'nscd' do
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_persistent" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
             expect {
@@ -743,6 +1009,7 @@ describe 'nscd' do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_shared" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^shared\ +#{service}\ +#{value}$/) }
         end
@@ -751,6 +1018,7 @@ describe 'nscd' do
       ['yess','nooo','-1',true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_shared" => value } }
+          let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
             expect {
@@ -764,12 +1032,14 @@ describe 'nscd' do
     describe "with #{service}_max_db_size specified" do
       context 'as a valid number' do
         let(:params) { { :"#{service}_max_db_size" => '1000000' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^max-db-size\ +#{service}\ +1000000$/) }
       end
 
       context 'as an invalid value' do
         let(:params) { { :"#{service}_max_db_size" => 'x' } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -780,6 +1050,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { :"#{service}_max_db_size" => true } }
+        let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
           expect {
@@ -791,29 +1062,29 @@ describe 'nscd' do
 
     # only the passwd and group services use auto-propogate
     if service == 'passwd' or service == 'group'
-      #if v[:enable_opt_auto_propagate] == true
-        describe "with #{service}_auto_propagate specified" do
-          ['yes','no'].each do |value|
-            context "as valid value #{value}" do
-              let(:params) { { :"#{service}_auto_propagate" => value } }
+      describe "with #{service}_auto_propagate specified" do
+        ['yes','no'].each do |value|
+          context "as valid value #{value}" do
+            let(:params) { { :"#{service}_auto_propagate" => value } }
+            let(:facts) { { :osfamily => 'Debian' } }
 
-              it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{value}$/) }
-            end
+            it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{value}$/) }
           end
+        end
 
-          ['yess','nooo','-1',true].each do |value|
-            context "as invalid value #{value}" do
-              let(:params) { { :"#{service}_auto_propagate" => value } }
+        ['yess','nooo','-1',true].each do |value|
+          context "as invalid value #{value}" do
+            let(:params) { { :"#{service}_auto_propagate" => value } }
+            let(:facts) { { :osfamily => 'Debian' } }
 
-              it 'should fail' do
-                expect {
-                  should contain_class('nscd')
-                }.to raise_error(Puppet::Error,/^nscd::#{service}_auto_propagate is <#{value}>. Must be either 'yes' or 'no'./)
-              end
+            it 'should fail' do
+              expect {
+                should contain_class('nscd')
+              }.to raise_error(Puppet::Error,/^nscd::#{service}_auto_propagate is <#{value}>. Must be either 'yes' or 'no'./)
             end
           end
         end
-      #end
+      end
     end
   end
 end
