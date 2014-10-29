@@ -244,13 +244,13 @@ group_positive_time_to_live
 -------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services. Must be a number in seconds.
 
-- *Default*: '600'
+- *Default*: '3600'
 
 group_negative_time_to_live
 -------------------------------
 Settings for negative-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services. Must be a number in seconds.
 
-- *Default*: 20
+- *Default*: '60'
 
 group_suggested_size
 ------------------------
@@ -292,13 +292,13 @@ hosts_enable_cache
 ----------------------
 Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
 
-- *Default*: 'no'
+- *Default*: 'yes'
 
 hosts_positive_time_to_live
 -------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services. Must be a number in seconds.
 
-- *Default*: '600'
+- *Default*: '3600'
 
 hosts_negative_time_to_live
 -------------------------------
@@ -340,13 +340,13 @@ services_enable_cache
 ----------------------
 Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
 
-- *Default*: 'no'
+- *Default*: 'yes'
 
 services_positive_time_to_live
 -------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services. Must be a number in seconds.
 
-- *Default*: '600'
+- *Default*: '28800'
 
 services_negative_time_to_live
 -------------------------------
