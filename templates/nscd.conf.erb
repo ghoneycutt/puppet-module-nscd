@@ -43,7 +43,7 @@ restart-interval  <%= @restart_interval %>
 
 <% if @enable_db_passwd_real == true -%>
 # passwd
-enable-cache          passwd <%= @passwd_enable_cache %>
+enable-cache          passwd <%= @passwd_enable_cache_real %>
 positive-time-to-live passwd <%= @passwd_positive_time_to_live %>
 negative-time-to-live passwd <%= @passwd_negative_time_to_live %>
 suggested-size        passwd <%= @passwd_suggested_size %>
@@ -58,7 +58,7 @@ auto-propagate        passwd <%= @passwd_auto_propagate %>
 
 <% if @enable_db_group_real == true -%>
 # group
-enable-cache          group <%= @group_enable_cache %>
+enable-cache          group <%= @group_enable_cache_real %>
 positive-time-to-live group <%= @group_positive_time_to_live %>
 negative-time-to-live group <%= @group_negative_time_to_live %>
 suggested-size        group <%= @group_suggested_size %>

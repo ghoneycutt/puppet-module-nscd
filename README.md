@@ -180,11 +180,19 @@ Settings for enable_opt_auto_propagate in nscd.conf. Allows for boolean, 'true',
 
 - *Default*: 'USE_DEFAULTS'
 
+ensure_vas
+----------
+Should VAS (Quest Authentication Services) be used? Valid values are 'absent' and 'present'.
+Using 'present' will deactivate caching for passwd and group as recommended by Dell.
+
+- *Default*: 'absent'
+
 passwd_enable_cache
 ----------------------
-Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes', 'no' or 'USE_DEFAULTS'.
+'USE_DEFAULTS' will activate caching if VAS is not used (see ensure_vas).
 
-- *Default*: 'no'
+- *Default*: 'USE_DEFAULTS'
 
 passwd_positive_time_to_live
 -------------------------------
@@ -236,9 +244,10 @@ Settings for auto-propagate service in nscd.conf where service can be either pas
 
 group_enable_cache
 ----------------------
-Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes' or 'no'.
+Settings for enable-cache service in nscd.conf where service can be either passwd, group, hosts, services. Must be 'yes', 'no' or 'USE_DEFAULTS'.
+'USE_DEFAULTS' will activate caching if VAS is not used (see ensure_vas).
 
-- *Default*: 'no'
+- *Default*: 'USE_DEFAULTS'
 
 group_positive_time_to_live
 -------------------------------
