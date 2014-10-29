@@ -26,7 +26,8 @@ class nscd (
   $enable_db_hosts                = 'USE_DEFAULTS',
   $enable_db_services             = 'USE_DEFAULTS',
   $enable_opt_auto_propagate      = 'USE_DEFAULTS',
-  $passwd_enable_cache            = 'yes',
+  $ensure_vas                     = 'absent',
+  $passwd_enable_cache            = 'USE_DEFAULTS',
   $passwd_positive_time_to_live   = '600',
   $passwd_negative_time_to_live   = '20',
   $passwd_suggested_size          = '211',
@@ -35,7 +36,7 @@ class nscd (
   $passwd_shared                  = 'yes',
   $passwd_max_db_size             = '33554432',
   $passwd_auto_propagate          = 'yes',
-  $group_enable_cache             = 'yes',
+  $group_enable_cache             = 'USE_DEFAULTS',
   $group_positive_time_to_live    = '3600',
   $group_negative_time_to_live    = '60',
   $group_suggested_size           = '211',
@@ -149,6 +150,30 @@ class nscd (
     }
   }
 
+  case $ensure_vas {
+    'absent': {
+      $passwd_enable_cache_default = 'yes'
+      $group_enable_cache_default  = 'yes'
+    }
+    'present': {
+      $passwd_enable_cache_default = 'no'
+      $group_enable_cache_default  = 'no'
+    }
+    default: {
+      fail("nscd::ensure_vas is <${ensure_vas}>. Must be either 'absent' or 'present'.")
+    }
+  }
+
+  $passwd_enable_cache_real = $passwd_enable_cache ? {
+    'USE_DEFAULTS' => $passwd_enable_cache_default,
+    default        => $passwd_enable_cache
+  }
+
+  $group_enable_cache_real = $group_enable_cache ? {
+    'USE_DEFAULTS' => $group_enable_cache_default,
+    default        => $group_enable_cache
+  }
+
   if $server_user == 'USE_DEFAULTS' {
     $server_user_real = $default_server_user
   } else {
@@ -210,8 +235,8 @@ class nscd (
   validate_re($restart_interval, '^(\d)+$',
     "nscd::restart_interval is <${restart_interval}>. Must be a number in seconds.")
 
-  validate_re($passwd_enable_cache, '^(yes|no)$',
-    "nscd::passwd_enable_cache is <${passwd_enable_cache}>. Must be either 'yes' or 'no'.")
+  validate_re($passwd_enable_cache_real, '^(yes|no)$',
+    "nscd::passwd_enable_cache is <${passwd_enable_cache}>. Must be either 'yes', 'no' or 'USE_DEFAULTS'.")
   validate_re($passwd_positive_time_to_live, '^(\d)+$',
     "nscd::passwd_positive_time_to_live is <${passwd_positive_time_to_live}>. Must be a number in seconds.")
   validate_re($passwd_negative_time_to_live, '^(\d)+$',
@@ -229,8 +254,8 @@ class nscd (
   validate_re($passwd_auto_propagate, '^(yes|no)$',
     "nscd::passwd_auto_propagate is <${passwd_auto_propagate}>. Must be either 'yes' or 'no'.")
 
-  validate_re($group_enable_cache, '^(yes|no)$',
-    "nscd::group_enable_cache is <${group_enable_cache}>. Must be either 'yes' or 'no'.")
+  validate_re($group_enable_cache_real, '^(yes|no)$',
+    "nscd::group_enable_cache is <${group_enable_cache}>. Must be either 'yes', 'no' or 'USE_DEFAULTS'.")
   validate_re($group_positive_time_to_live, '^(\d)+$',
     "nscd::group_positive_time_to_live is <${group_positive_time_to_live}>. Must be a number in seconds.")
   validate_re($group_negative_time_to_live, '^(\d)+$',

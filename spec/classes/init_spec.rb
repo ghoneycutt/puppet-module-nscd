@@ -719,6 +719,37 @@ describe 'nscd' do
     end
   end
 
+  describe 'with ensure_vas parameter specified' do
+    context "as valid value absent" do
+      let(:params) { { :ensure_vas => 'absent' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +yes$/) }
+      it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
+    end
+
+    context "as valid value present" do
+      let(:params) { { :ensure_vas => 'present' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +no$/) }
+      it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +no$/) }
+    end
+
+    ['invalid','yes','no','-1',true].each do |value|
+      context "as invalid value #{value}" do
+        let(:params) { { :ensure_vas => value } }
+        let(:facts) { { :osfamily => 'Debian' } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error,/^nscd::ensure_vas is <#{value}>. Must be either 'absent' or 'present'./)
+        end
+      end
+    end
+  end
+
   ['passwd','group','hosts','services'].each do |service|
     describe "with #{service}_enable_cache specified" do
       ['yes','no'].each do |value|
@@ -735,10 +766,18 @@ describe 'nscd' do
           let(:params) { { :"#{service}_enable_cache" => value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
-          it 'should fail' do
-            expect {
-              should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/^nscd::#{service}_enable_cache is <#{value}>. Must be either 'yes' or 'no'./)
+          if service =~ /passwd|group/
+            it 'should fail' do
+              expect {
+                should contain_class('nscd')
+              }.to raise_error(Puppet::Error,/^nscd::#{service}_enable_cache is <#{value}>. Must be either 'yes', 'no' or 'USE_DEFAULTS'./)
+            end
+          else
+            it 'should fail' do
+              expect {
+                should contain_class('nscd')
+              }.to raise_error(Puppet::Error,/^nscd::#{service}_enable_cache is <#{value}>. Must be either 'yes' or 'no'./)
+            end
           end
         end
       end
