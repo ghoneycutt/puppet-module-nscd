@@ -25,6 +25,7 @@ This module is built for use with Puppet v3 on the following platforms and suppo
 * Suse 11
 * Ubuntu 12.04 LTS
 * Solaris 10
+* Solaris 11
 
 ===
 
@@ -515,7 +516,7 @@ audit_user_positive_time_to_live
 ---------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 audit_user_negative_time_to_live
 ---------------------------------
@@ -575,7 +576,7 @@ auth_attr_positive_time_to_live
 --------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 auth_attr_negative_time_to_live
 --------------------------------
@@ -635,7 +636,7 @@ bootparams_positive_time_to_live
 ---------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 bootparams_negative_time_to_live
 ---------------------------------
@@ -695,7 +696,7 @@ ethers_positive_time_to_live
 -----------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 ethers_negative_time_to_live
 -----------------------------
@@ -755,7 +756,7 @@ exec_attr_positive_time_to_live
 --------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 exec_attr_negative_time_to_live
 --------------------------------
@@ -815,7 +816,7 @@ ipnodes_positive_time_to_live
 ------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 ipnodes_negative_time_to_live
 ------------------------------
@@ -875,7 +876,7 @@ netmasks_positive_time_to_live
 -------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 netmasks_negative_time_to_live
 -------------------------------
@@ -935,7 +936,7 @@ networks_positive_time_to_live
 -------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 networks_negative_time_to_live
 -------------------------------
@@ -995,7 +996,7 @@ printers_positive_time_to_live
 -------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 printers_negative_time_to_live
 -------------------------------
@@ -1055,7 +1056,7 @@ prof_attr_positive_time_to_live
 --------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 prof_attr_negative_time_to_live
 --------------------------------
@@ -1115,7 +1116,7 @@ project_positive_time_to_live
 ------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 project_negative_time_to_live
 ------------------------------
@@ -1175,7 +1176,7 @@ protocols_positive_time_to_live
 --------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 protocols_negative_time_to_live
 --------------------------------
@@ -1235,7 +1236,7 @@ rpc_positive_time_to_live
 --------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 rpc_negative_time_to_live
 --------------------------
@@ -1295,7 +1296,7 @@ tnrhdb_positive_time_to_live
 -----------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 tnrhdb_negative_time_to_live
 -----------------------------
@@ -1355,7 +1356,7 @@ tnrhtp_positive_time_to_live
 -----------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 tnrhtp_negative_time_to_live
 -----------------------------
@@ -1415,7 +1416,7 @@ user_attr_positive_time_to_live
 --------------------------------
 Settings for positive-time-to-live service in nscd.conf where service can be either passwd, group, hosts, services, audit_user, auth_attr, bootparams, ethers, exec_attr, ipnodes, netmasks, networks, printers, prof_attr, project, protocols, rpc, tnrhdb, tnrhtp, user_attr. Must be a number in seconds.
 
-- *Default*: 600
+- *Default*: 3600
 
 user_attr_negative_time_to_live
 --------------------------------
