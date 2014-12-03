@@ -21,6 +21,7 @@ This module is built for use with Puppet v3 on the following platforms and suppo
 * Debian 6
 * EL 5
 * EL 6
+* EL 7
 * Suse 10
 * Suse 11
 * Ubuntu 12.04 LTS
@@ -173,6 +174,12 @@ enable_db_services
 Settings for enable_db_services in nscd.conf. Allows for boolean, 'true', or 'false'.
 
 - *Default*: 'USE_DEFAULTS'
+
+enable_db_netgroup
+----------------------
+Switch to show netgroup section in nscd.conf. Allows for boolean, 'true', or 'false'.
+
+- *Default*: 'USE_DEFAULTS', based on OS platform
 
 enable_opt_auto_propagate
 ----------------------
@@ -381,5 +388,53 @@ Settings for shared service in nscd.conf where service can be either passwd, gro
 services_max_db_size
 ---------------------
 Settings for max-db-size service in nscd.conf where service can be either passwd, group, hosts, services. Must be a number in bytes.
+
+- *Default*: 33554432
+
+netgroup_enable_cache
+---------------------
+Settings for enable-cache netgroup in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+netgroup_positive_time_to_live
+------------------------------
+Settings for positive-time-to-live netgroup in nscd.conf. Must be a number in seconds.
+
+- *Default*: '28800'
+
+netgroup_negative_time_to_live
+------------------------------
+Settings for negative-time-to-live netgroup in nscd.conf. Must be a number in seconds.
+
+- *Default*: 20
+
+netgroup_suggested_size
+-----------------------
+Settings for suggested-size netgroup in nscd.conf. Must be a number.
+
+- *Default*: 211
+
+netgroup_check_files
+--------------------
+Settings for check-files netgroup in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+netgroup_persistent
+-------------------
+Settings for persistent netgroup in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+netgroup_shared
+---------------
+Settings for shared netgroup in nscd.conf. Must be 'yes' or 'no'.
+
+- *Default*: 'yes'
+
+netgroup_max_db_size
+--------------------
+Settings for max-db-size netgroup in nscd.conf. Must be a number in bytes.
 
 - *Default*: 33554432
