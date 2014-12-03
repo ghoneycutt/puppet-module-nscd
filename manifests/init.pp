@@ -25,6 +25,7 @@ class nscd (
   $enable_db_group                = 'USE_DEFAULTS',
   $enable_db_hosts                = 'USE_DEFAULTS',
   $enable_db_services             = 'USE_DEFAULTS',
+  $enable_db_netgroup             = 'USE_DEFAULTS',
   $enable_opt_auto_propagate      = 'USE_DEFAULTS',
   $passwd_enable_cache            = 'yes',
   $passwd_positive_time_to_live   = '600',
@@ -60,6 +61,14 @@ class nscd (
   $services_persistent            = 'yes',
   $services_shared                = 'yes',
   $services_max_db_size           = '33554432',
+  $netgroup_enable_cache          = 'yes',
+  $netgroup_positive_time_to_live = '28800',
+  $netgroup_negative_time_to_live = '20',
+  $netgroup_suggested_size        = '211',
+  $netgroup_check_files           = 'yes',
+  $netgroup_persistent            = 'yes',
+  $netgroup_shared                = 'yes',
+  $netgroup_max_db_size           = '33554432',
 ) {
 
   $package_name_type = type($package_name)
@@ -96,21 +105,31 @@ class nscd (
       $default_server_user = 'nscd'
       case $::lsbmajdistrelease {
         '5': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = false
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = false
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
         }
         '6': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = true
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
+        }
+        '7': {
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = true
+          $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+          fail("Nscd is only supported on EL 5, 6 and 7. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
         }
       }
     }
@@ -118,18 +137,20 @@ class nscd (
       $default_server_user = undef
       case $::lsbmajdistrelease {
         '10': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = false
-          $enable_opt_auto_propagate_default  = false
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = false
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = false
         }
         '11': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = true
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
         }
         default: {
           fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
@@ -137,12 +158,13 @@ class nscd (
       }
     }
     'Debian': {
-      $default_server_user         = undef
-      $enable_db_passwd_default    = true
-      $enable_db_group_default     = true
-      $enable_db_hosts_default     = true
-      $enable_db_services_default  = true
-      $enable_opt_auto_propagate_default  = true
+      $default_server_user               = undef
+      $enable_db_passwd_default          = true
+      $enable_db_group_default           = true
+      $enable_db_hosts_default           = true
+      $enable_db_services_default        = true
+      $enable_db_netgroup_default        = false
+      $enable_opt_auto_propagate_default = true
     }
     default: {
       fail("nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <${::osfamily}>.")
@@ -188,6 +210,15 @@ class nscd (
     $enable_db_services_real = $enable_db_services ? {
       'USE_DEFAULTS' => $enable_db_services_default,
       default        => str2bool($enable_db_services)
+    }
+  }
+
+  if type($enable_db_netgroup) == 'boolean' {
+    $enable_db_netgroup_real = $enable_db_netgroup
+  } else {
+    $enable_db_netgroup_real = $enable_db_netgroup ? {
+      'USE_DEFAULTS' => $enable_db_netgroup_default,
+      default        => str2bool($enable_db_netgroup)
     }
   }
 
@@ -281,10 +312,29 @@ class nscd (
     "nscd::services_shared is <${services_shared}>. Must be either 'yes' or 'no'.")
   validate_re($services_max_db_size, '^(\d)+$',
     "nscd::services_max_db_size is <${services_max_db_size}>. Must be a number in bytes.")
+
+  validate_re($netgroup_enable_cache, '^(yes|no)$',
+    "nscd::netgroup_enable_cache is <${netgroup_enable_cache}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_positive_time_to_live, '^(\d)+$',
+    "nscd::netgroup_positive_time_to_live is <${netgroup_positive_time_to_live}>. Must be a number in seconds.")
+  validate_re($netgroup_negative_time_to_live, '^(\d)+$',
+    "nscd::netgroup_negative_time_to_live is <${netgroup_negative_time_to_live}>. Must be a number in seconds.")
+  validate_re($netgroup_suggested_size, '^(\d)+$',
+    "nscd::netgroup_suggested_size is <${netgroup_suggested_size}>. Must be a number.")
+  validate_re($netgroup_check_files, '^(yes|no)$',
+    "nscd::netgroup_check_files is <${netgroup_check_files}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_persistent, '^(yes|no)$',
+    "nscd::netgroup_persistent is <${netgroup_persistent}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_shared, '^(yes|no)$',
+    "nscd::netgroup_shared is <${netgroup_shared}>. Must be either 'yes' or 'no'.")
+  validate_re($netgroup_max_db_size, '^(\d)+$',
+    "nscd::netgroup_max_db_size is <${netgroup_max_db_size}>. Must be a number in bytes.")
+
   validate_bool($enable_db_passwd_real)
   validate_bool($enable_db_group_real)
   validate_bool($enable_db_hosts_real)
   validate_bool($enable_db_services_real)
+  validate_bool($enable_db_netgroup_real)
   validate_bool($enable_opt_auto_propagate_real)
 
   package { $package_name:
