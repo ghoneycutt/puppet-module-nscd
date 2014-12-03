@@ -105,28 +105,28 @@ class nscd (
       $default_server_user = 'nscd'
       case $::lsbmajdistrelease {
         '5': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = false
-          $enable_db_netgroup_default  = false
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = false
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
         }
         '6': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = true
-          $enable_db_netgroup_default  = false
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
         }
         '7': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = true
-          $enable_db_netgroup_default  = true
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = true
+          $enable_opt_auto_propagate_default = true
         }
         default: {
           fail("Nscd is only supported on EL 5, 6 and 7. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
@@ -137,20 +137,20 @@ class nscd (
       $default_server_user = undef
       case $::lsbmajdistrelease {
         '10': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = false
-          $enable_db_netgroup_default  = false
-          $enable_opt_auto_propagate_default  = false
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = false
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = false
         }
         '11': {
-          $enable_db_passwd_default    = true
-          $enable_db_group_default     = true
-          $enable_db_hosts_default     = true
-          $enable_db_services_default  = true
-          $enable_db_netgroup_default  = false
-          $enable_opt_auto_propagate_default  = true
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
         }
         default: {
           fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
@@ -158,13 +158,13 @@ class nscd (
       }
     }
     'Debian': {
-      $default_server_user         = undef
-      $enable_db_passwd_default    = true
-      $enable_db_group_default     = true
-      $enable_db_hosts_default     = true
-      $enable_db_services_default  = true
-      $enable_db_netgroup_default  = false
-      $enable_opt_auto_propagate_default  = true
+      $default_server_user               = undef
+      $enable_db_passwd_default          = true
+      $enable_db_group_default           = true
+      $enable_db_hosts_default           = true
+      $enable_db_services_default        = true
+      $enable_db_netgroup_default        = false
+      $enable_opt_auto_propagate_default = true
     }
     default: {
       fail("nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <${::osfamily}>.")
