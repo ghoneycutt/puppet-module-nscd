@@ -8,6 +8,7 @@ describe 'nscd' do
         :package_name              => 'nscd',
         :server_user               => nil,
         :enable_db_services        => true,
+        :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
       },
     'el5' =>
@@ -16,6 +17,7 @@ describe 'nscd' do
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :enable_db_services        => false,
+        :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
       },
     'el6' =>
@@ -24,6 +26,16 @@ describe 'nscd' do
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :enable_db_services        => true,
+        :enable_db_netgroup        => false,
+        :enable_opt_auto_propagate => true,
+      },
+    'el7' =>
+      { :osfamily                  => 'RedHat',
+        :lsbmajdistrelease         => '7',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :enable_db_services        => true,
+        :enable_db_netgroup        => true,
         :enable_opt_auto_propagate => true,
       },
     'suse10' =>
@@ -32,6 +44,7 @@ describe 'nscd' do
         :package_name              => 'nscd',
         :server_user               => nil,
         :enable_db_services        => false,
+        :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => false,
       },
     'suse11' =>
@@ -40,6 +53,7 @@ describe 'nscd' do
         :package_name              => 'nscd',
         :server_user               => nil,
         :enable_db_services        => true,
+        :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
       },
     'ubuntu12' =>
@@ -48,6 +62,7 @@ describe 'nscd' do
         :package_name              => 'nscd',
         :server_user               => nil,
         :enable_db_services        => true,
+        :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
       },
   }
@@ -143,6 +158,25 @@ describe 'nscd' do
         it { should contain_file('nscd_config').without_content(/^\s*persistent\ +services/) }
         it { should contain_file('nscd_config').without_content(/^\s*shared\ +services/) }
         it { should contain_file('nscd_config').without_content(/^\s*max-db-size\ +services/) }
+      end
+      if v[:enable_db_netgroup] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +netgroup\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +netgroup\ +28800$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +netgroup\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +netgroup\ +211$/) }
+        it { should contain_file('nscd_config').with_content(/^check-files\ +netgroup\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^persistent\ +netgroup\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^shared\ +netgroup\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^max-db-size\ +netgroup\ +33554432$/) }
+      else
+        it { should contain_file('nscd_config').without_content(/^\s*enable-cache\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*positive-time-to-live\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*negative-time-to-live\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*suggested-size\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*check-files\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*persistent\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*shared\ +netgroup/) }
+        it { should contain_file('nscd_config').without_content(/^\s*max-db-size\ +netgroup/) }
       end
 
       it {
@@ -418,7 +452,7 @@ describe 'nscd' do
     end
   end
 
-  ['passwd','group','hosts','services'].each do |service|
+  ['passwd','group','hosts','services','netgroup'].each do |service|
     describe "with enable_db_#{service}" do
       [true,'true',false,'false'].each do |value|
         context "set to valid value #{value}" do
@@ -719,11 +753,15 @@ describe 'nscd' do
     end
   end
 
-  ['passwd','group','hosts','services'].each do |service|
+  ['passwd','group','hosts','services','netgroup'].each do |service|
     describe "with #{service}_enable_cache specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_enable_cache" => value } }
+          let :params do
+            { :"enable_db_#{service}"    => true,
+              :"#{service}_enable_cache" => value,
+            }
+          end
           let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^enable-cache\ +#{service}\ +#{value}$/) }
@@ -746,7 +784,11 @@ describe 'nscd' do
 
     describe "with #{service}_positive_time_to_live specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_positive_time_to_live" => '31415' } }
+        let :params do
+          { :"enable_db_#{service}"             => true,
+            :"#{service}_positive_time_to_live" => '31415',
+          }
+        end
         let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +#{service}\ +31415$/) }
@@ -777,7 +819,11 @@ describe 'nscd' do
 
     describe "with #{service}_negative_time_to_live specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_negative_time_to_live" => '23' } }
+        let :params do
+          { :"enable_db_#{service}"             => true,
+            :"#{service}_negative_time_to_live" => '23',
+          }
+        end
         let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +#{service}\ +23$/) }
@@ -808,7 +854,11 @@ describe 'nscd' do
 
     describe "with #{service}_suggested_size specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_suggested_size" => '411' } }
+        let :params do
+          { :"enable_db_#{service}"      => true,
+            :"#{service}_suggested_size" => '411',
+          }
+        end
         let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^suggested-size\ +#{service}\ +411$/) }
@@ -840,7 +890,11 @@ describe 'nscd' do
     describe "with #{service}_check_files specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_check_files" => value } }
+          let :params do
+            { :"enable_db_#{service}"   => true,
+              :"#{service}_check_files" => value,
+            }
+          end
           let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^check-files\ +#{service}\ +#{value}$/) }
@@ -864,7 +918,11 @@ describe 'nscd' do
     describe "with #{service}_persistent specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_persistent" => value } }
+          let :params do
+            { :"enable_db_#{service}"  => true,
+              :"#{service}_persistent" => value,
+            }
+          end
           let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^persistent\ +#{service}\ +#{value}$/) }
@@ -888,7 +946,11 @@ describe 'nscd' do
     describe "with #{service}_shared specified" do
       ['yes','no'].each do |value|
         context "as valid value #{value}" do
-          let(:params) { { :"#{service}_shared" => value } }
+          let :params do
+            { :"enable_db_#{service}" => true,
+              :"#{service}_shared"    => value,
+            }
+          end
           let(:facts) { { :osfamily => 'Debian' } }
 
           it { should contain_file('nscd_config').with_content(/^shared\ +#{service}\ +#{value}$/) }
@@ -911,7 +973,11 @@ describe 'nscd' do
 
     describe "with #{service}_max_db_size specified" do
       context 'as a valid number' do
-        let(:params) { { :"#{service}_max_db_size" => '1000000' } }
+        let :params do
+          { :"enable_db_#{service}"   => true,
+            :"#{service}_max_db_size" => '1000000',
+          }
+        end
         let(:facts) { { :osfamily => 'Debian' } }
 
         it { should contain_file('nscd_config').with_content(/^max-db-size\ +#{service}\ +1000000$/) }
@@ -945,7 +1011,11 @@ describe 'nscd' do
       describe "with #{service}_auto_propagate specified" do
         ['yes','no'].each do |value|
           context "as valid value #{value}" do
-            let(:params) { { :"#{service}_auto_propagate" => value } }
+            let :params do
+              { :"enable_db_#{service}"      => true,
+                :"#{service}_auto_propagate" => value,
+              }
+            end
             let(:facts) { { :osfamily => 'Debian' } }
 
             it { should contain_file('nscd_config').with_content(/^auto-propagate\ +#{service}\ +#{value}$/) }
