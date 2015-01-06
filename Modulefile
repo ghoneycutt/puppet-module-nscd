@@ -1,5 +1,5 @@
 name 'ghoneycutt-nscd'
-version '1.1.1'
+version '1.2.0'
 source 'git://github.com/ghoneycutt/puppet-module-nscd.git'
 author 'ghoneycutt'
 license 'Apache-2.0'
