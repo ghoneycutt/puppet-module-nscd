@@ -26,6 +26,18 @@ This module is built for use with Puppet v3 on the following platforms and suppo
 * Suse 11
 * Ubuntu 12.04 LTS
 
+
+# Compatibility with Dell Authentication Services
+-------------------------------------------------
+When using nscd in combination with Dell Authentication Services (QAS/VAS) [1] it is recommended to turn off caching of passwd and groups.
+
+<pre>
+nscd::passwd_enable_cache: 'no'
+nscd::group_enable_cache:  'no'
+</pre>
+
+[1] http://software.dell.com/products/authentication-services/
+
 ===
 
 # Parameters
