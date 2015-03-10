@@ -71,9 +71,8 @@ class nscd (
   $netgroup_max_db_size           = '33554432',
 ) {
 
-  $package_name_type = type($package_name)
-  if $package_name_type != 'string' and $package_name_type != 'array' {
-    fail("nscd::package_name must be a string or an array. Detected type is <${package_name_type}>.")
+  if !is_string($package_name) and !is_array($package_name) {
+    fail("nscd::package_name must be a string or an array.")
   }
 
   validate_re($package_ensure, '^(present)|(installed)|(absent)$',
@@ -87,7 +86,7 @@ class nscd (
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
     'nscd::service_ensure is invalid and does not match the regex.')
 
-  if type($service_enable) == 'String' {
+  if is_string($service_enable) {
     $service_enable_real = str2bool($service_enable)
   } else {
     $service_enable_real = $service_enable
@@ -177,7 +176,7 @@ class nscd (
     $server_user_real = $server_user
   }
 
-  if type($enable_db_passwd) == 'boolean' {
+  if is_bool($enable_db_passwd) {
     $enable_db_passwd_real = $enable_db_passwd
   } else {
     $enable_db_passwd_real = $enable_db_passwd ? {
@@ -186,7 +185,7 @@ class nscd (
     }
   }
 
-  if type($enable_db_group) == 'boolean' {
+  if is_bool($enable_db_group) {
     $enable_db_group_real = $enable_db_group
   } else {
     $enable_db_group_real = $enable_db_group ? {
@@ -195,7 +194,7 @@ class nscd (
     }
   }
 
-  if type($enable_db_hosts) == 'boolean' {
+  if is_bool($enable_db_hosts) {
     $enable_db_hosts_real = $enable_db_hosts
   } else {
     $enable_db_hosts_real = $enable_db_hosts ? {
@@ -204,7 +203,7 @@ class nscd (
     }
   }
 
-  if type($enable_db_services) == 'boolean' {
+  if is_bool($enable_db_services) {
     $enable_db_services_real = $enable_db_services
   } else {
     $enable_db_services_real = $enable_db_services ? {
@@ -213,7 +212,7 @@ class nscd (
     }
   }
 
-  if type($enable_db_netgroup) == 'boolean' {
+  if is_bool($enable_db_netgroup) {
     $enable_db_netgroup_real = $enable_db_netgroup
   } else {
     $enable_db_netgroup_real = $enable_db_netgroup ? {
@@ -222,7 +221,7 @@ class nscd (
     }
   }
 
-  if type($enable_opt_auto_propagate) == 'boolean' {
+  if is_bool($enable_opt_auto_propagate) {
     $enable_opt_auto_propagate_real = $enable_opt_auto_propagate
   } else {
     $enable_opt_auto_propagate_real = $enable_opt_auto_propagate ? {
