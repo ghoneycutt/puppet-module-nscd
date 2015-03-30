@@ -7,4 +7,4 @@ summary 'manage NSCD - name service cache daemon'
 description 'Manage every aspect of NSCD - name service cache daemon'
 project_page 'https://github.com/ghoneycutt/puppet-module-nscd'
 
-dependency 'puppetlabs/stdlib', '>= 3.2.0'
+dependency 'puppetlabs/stdlib', '>= 4.2.0'
