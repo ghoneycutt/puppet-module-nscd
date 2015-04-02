@@ -253,7 +253,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::package_name must be a string or an array. Detected type is <boolean>./)
+        }.to raise_error(Puppet::Error,/^nscd::package_name must be a string or an array./)
       end
     end
   end
