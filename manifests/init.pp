@@ -72,7 +72,7 @@ class nscd (
 ) {
 
   if !is_string($package_name) and !is_array($package_name) {
-    fail("nscd::package_name must be a string or an array.")
+    fail('nscd::package_name must be a string or an array.')
   }
 
   validate_re($package_ensure, '^(present)|(installed)|(absent)$',

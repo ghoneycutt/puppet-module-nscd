@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-nscd",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "ghoneycutt",
   "summary": "manage NSCD - name service cache daemon",
   "license": "Apache-2.0",
@@ -11,11 +11,11 @@
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": "3.2.x"
+      "version_requirement": ">= 3.2.0 < 4.0.0"
     },
     {
       "name": "puppet",
-      "version_requirement": "3.x"
+      "version_requirement": ">= 3.0.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -71,6 +71,6 @@
     }
   ],
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0 < 5.0.0"}
   ]
 }

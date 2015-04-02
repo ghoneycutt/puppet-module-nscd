@@ -16,7 +16,7 @@ disable the cache on a per service basis.
 
 # Compatibility
 ---------------
-This module is built for use with Puppet v3 on the following platforms and supports Ruby versions 1.8.7, 1.9.3, and 2.0.0.
+This module is built for use with Puppet v3 on the following platforms and supports Ruby versions 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
 
 * Debian 6
 * EL 5
