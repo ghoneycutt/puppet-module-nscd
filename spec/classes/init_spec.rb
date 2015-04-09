@@ -7,6 +7,7 @@ describe 'nscd' do
         :lsbmajdistrelease         => '6',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
@@ -16,6 +17,7 @@ describe 'nscd' do
         :lsbmajdistrelease         => '5',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
+        :service_provider          => nil,
         :enable_db_services        => false,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
@@ -25,6 +27,7 @@ describe 'nscd' do
         :lsbmajdistrelease         => '6',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
+        :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
@@ -34,6 +37,7 @@ describe 'nscd' do
         :lsbmajdistrelease         => '7',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
+        :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
         :enable_opt_auto_propagate => true,
@@ -43,6 +47,7 @@ describe 'nscd' do
         :lsbmajdistrelease         => '10',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :service_provider          => nil,
         :enable_db_services        => false,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => false,
@@ -52,8 +57,19 @@ describe 'nscd' do
         :lsbmajdistrelease         => '11',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
+        :enable_opt_auto_propagate => true,
+      },
+    'suse13' =>
+      { :osfamily                  => 'Suse',
+        :lsbmajdistrelease         => '13',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :service_provider          => 'systemd',
+        :enable_db_services        => true,
+        :enable_db_netgroup        => true,
         :enable_opt_auto_propagate => true,
       },
     'ubuntu12' =>
@@ -61,6 +77,7 @@ describe 'nscd' do
         :lsbmajdistrelease         => '12',
         :package_name              => 'nscd',
         :server_user               => nil,
+        :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
@@ -179,14 +196,27 @@ describe 'nscd' do
         it { should contain_file('nscd_config').without_content(/^\s*max-db-size\ +netgroup/) }
       end
 
-      it {
-        should contain_service('nscd_service').with({
-          'ensure'    => 'running',
-          'name'      => 'nscd',
-          'enable'    => 'true',
-          'subscribe' => 'File[nscd_config]',
-        })
-      }
+      if v[:service_provider] != nil
+        it {
+          should contain_service('nscd_service').with({
+            'ensure'    => 'running',
+            'name'      => 'nscd',
+            'enable'    => 'true',
+            'provider'  => v[:service_provider],
+            'subscribe' => 'File[nscd_config]',
+          })
+        }
+      else
+        it {
+          should contain_service('nscd_service').with({
+            'ensure'    => 'running',
+            'name'      => 'nscd',
+            'enable'    => 'true',
+            'provider'  => nil,
+            'subscribe' => 'File[nscd_config]',
+          })
+        }
+      end
     end
   end
 
@@ -442,6 +472,26 @@ describe 'nscd' do
 
     context 'set to invalid type' do
       let(:params) { { :service_enable => ['invalid','type'] } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error)
+      end
+    end
+  end
+
+  describe 'with service_provider parameter specified' do
+    context 'as a valid string' do
+      let(:params) { { :service_provider => 'myprovider' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_service('nscd_service').with({ 'provider' => 'myprovider' }) }
+    end
+
+    context 'as an invalid type' do
+      let(:params) { { :service_provider => ['not','a','string'] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do

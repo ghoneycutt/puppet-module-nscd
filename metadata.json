@@ -64,6 +64,12 @@
       "operatingsystem": "SLED"
     },
     {
+      "operatingsystem": "OpenSuSE",
+      "operatingsystemrelease": [
+        "13.1"
+      ]
+    },
+    {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "12.04"

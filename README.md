@@ -24,6 +24,7 @@ This module is built for use with Puppet v3 on the following platforms and suppo
 * EL 7
 * Suse 10
 * Suse 11
+* OpenSuse 13.1
 * Ubuntu 12.04 LTS
 
 
@@ -100,6 +101,13 @@ service_enable
 Value of enable attribute of nscd service. This determines if the service will start at boot or not. Allows for boolean, 'true', or 'false'.
 
 - *Default*: true
+
+service_provider
+----------------
+String for value of the provider attribute of nscd service. If there is more than one service provider for your
+OS/Distribution, this allows to override the default.
+
+- *Default': OS/Distribution dependent, for most, 'undef', taking the default service provider.
 
 ## Global nscd.conf settings
 ---
