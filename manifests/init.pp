@@ -12,6 +12,7 @@ class nscd (
   $service_name                   = 'nscd',
   $service_ensure                 = 'running',
   $service_enable                 = true,
+  $service_provider               = 'USE_DEFAULTS',
   $logfile                        = '/var/log/nscd.log',
   $threads                        = '5',
   $max_threads                    = '32',
@@ -104,6 +105,7 @@ class nscd (
       $default_server_user = 'nscd'
       case $::lsbmajdistrelease {
         '5': {
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -112,6 +114,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         '6': {
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -120,6 +123,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         '7': {
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -133,9 +137,10 @@ class nscd (
       }
     }
     'Suse': {
-      $default_server_user = undef
       case $::lsbmajdistrelease {
         '10': {
+          $default_server_user               = undef
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -144,11 +149,23 @@ class nscd (
           $enable_opt_auto_propagate_default = false
         }
         '11': {
+          $default_server_user               = undef
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
           $enable_db_services_default        = true
           $enable_db_netgroup_default        = false
+          $enable_opt_auto_propagate_default = true
+        }
+        '13': {
+          $default_server_user               = 'nscd'
+          $default_service_provider          = 'systemd'
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = true
           $enable_opt_auto_propagate_default = true
         }
         default: {
@@ -158,6 +175,7 @@ class nscd (
     }
     'Debian': {
       $default_server_user               = undef
+      $default_service_provider          = undef
       $enable_db_passwd_default          = true
       $enable_db_group_default           = true
       $enable_db_hosts_default           = true
@@ -174,6 +192,15 @@ class nscd (
     $server_user_real = $default_server_user
   } else {
     $server_user_real = $server_user
+  }
+
+  if $service_provider == 'USE_DEFAULTS' {
+    $service_provider_real = $default_service_provider
+  } else {
+    if $service_provider != undef {
+      validate_string($service_provider)
+    }
+    $service_provider_real = $service_provider
   }
 
   if is_bool($enable_db_passwd) {
@@ -354,6 +381,7 @@ class nscd (
     ensure    => $service_ensure,
     name      => $service_name,
     enable    => $service_enable_real,
+    provider  => $service_provider_real,
     subscribe => File['nscd_config'],
   }
 }
