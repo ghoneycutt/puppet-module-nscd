@@ -497,7 +497,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error, /asdf/)
+        }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
   end
