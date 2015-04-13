@@ -104,10 +104,9 @@ Value of enable attribute of nscd service. This determines if the service will s
 
 service_provider
 ----------------
-String for value of the provider attribute of nscd service. If there is more than one service provider for your
-OS/Distribution, this allows to override the default.
+String for value of the provider attribute of nscd service. Specifying here will allow you to change the platform's default.
 
-- *Default': OS/Distribution dependent, for most, 'undef', taking the default service provider.
+- *Default*: 'USE_DEFAULTS'
 
 ## Global nscd.conf settings
 ---
