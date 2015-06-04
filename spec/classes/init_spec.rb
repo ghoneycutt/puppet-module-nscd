@@ -62,6 +62,16 @@ describe 'nscd' do
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
       },
+    'suse12' =>
+      { :osfamily                  => 'Suse',
+        :lsbmajdistrelease         => '12',
+        :package_name              => 'nscd',
+        :server_user               => 'nscd',
+        :service_provider          => 'systemd',
+        :enable_db_services        => true,
+        :enable_db_netgroup        => true,
+        :enable_opt_auto_propagate => true,
+      },
     'suse13' =>
       { :osfamily                  => 'Suse',
         :lsbmajdistrelease         => '13',
@@ -254,7 +264,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <4>./)
+          }.to raise_error(Puppet::Error,/^Nscd is only supported on Suse 10, 11, 12 and 13. Your lsbmajdistrelease is identified as <4>./)
         end
       end
     end
