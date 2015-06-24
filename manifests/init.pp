@@ -158,7 +158,7 @@ class nscd (
           $enable_db_netgroup_default        = false
           $enable_opt_auto_propagate_default = true
         }
-        '13': {
+        '12','13': {
           $default_server_user               = 'nscd'
           $default_service_provider          = 'systemd'
           $enable_db_passwd_default          = true
@@ -169,7 +169,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+          fail("Nscd is only supported on Suse 10, 11, 12 and 13. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
         }
       }
     }
