@@ -237,7 +237,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <unsupported>./)
+        }.to raise_error(Puppet::Error,/nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <unsupported>\./)
       end
     end
 
@@ -250,7 +250,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <4>./)
+          }.to raise_error(Puppet::Error,/Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <4>\./)
         end
       end
     end
@@ -264,7 +264,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^Nscd is only supported on Suse 10, 11, 12 and 13. Your lsbmajdistrelease is identified as <4>./)
+          }.to raise_error(Puppet::Error,/Nscd is only supported on Suse 10, 11, 12 and 13. Your lsbmajdistrelease is identified as <4>\./)
         end
       end
     end
@@ -293,7 +293,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::package_name must be a string or an array./)
+        }.to raise_error(Puppet::Error,/nscd::package_name must be a string or an array\./)
       end
     end
   end
@@ -317,7 +317,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::package_ensure is invalid and does not match the regex./)
+        }.to raise_error(Puppet::Error,/nscd::package_ensure is invalid and does not match the regex\./)
       end
     end
   end
@@ -337,7 +337,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
       end
     end
   end
@@ -357,7 +357,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/\["invalid", "root"\] is not a string/)
       end
     end
   end
@@ -377,7 +377,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/\["invalid", "root"\] is not a string/)
       end
     end
   end
@@ -397,18 +397,18 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::config_mode is <644>. Must be in four digit octal notation./)
+        }.to raise_error(Puppet::Error,/nscd::config_mode is <644>. Must be in four digit octal notation\./)
       end
     end
 
     context 'with invalid type' do
-      let(:params) { { :config_mode => ['0','644'] } }
+      let(:params) { { :config_mode => true } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::config_mode is <true>\. Must be in four digit octal notation/)
       end
     end
   end
@@ -422,13 +422,13 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :config_mode => ['not','a','string'] } }
+      let(:params) { { :config_mode => true } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::config_mode is <true>\. Must be in four digit octal notation/)
       end
     end
   end
@@ -452,7 +452,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::service_ensure is invalid and does not match the regex./)
+        }.to raise_error(Puppet::Error,/nscd::service_ensure is invalid and does not match the regex\./)
       end
     end
   end
@@ -476,7 +476,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
       end
     end
 
@@ -487,7 +487,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a boolean/)
       end
     end
   end
@@ -530,7 +530,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          }.to raise_error(Puppet::Error,/Requires either string to work with/)
         end
       end
     end
@@ -553,7 +553,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/Requires either string to work with/)
       end
     end
   end
@@ -573,7 +573,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
       end
     end
 
@@ -584,7 +584,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/true is not an absolute path/)
       end
     end
   end
@@ -604,7 +604,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::threads is <x>. Must be a number./)
+        }.to raise_error(Puppet::Error,/nscd::threads is <x>\. Must be a number\./)
       end
     end
 
@@ -615,7 +615,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::threads is <true>\. Must be a number/)
       end
     end
   end
@@ -635,7 +635,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::max_threads is <x>. Must be a number./)
+        }.to raise_error(Puppet::Error,/nscd::max_threads is <x>\. Must be a number\./)
       end
     end
 
@@ -646,7 +646,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::max_threads is <true>. Must be a number/)
       end
     end
   end
@@ -681,7 +681,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/true is not a string\.  It looks to be a TrueClass/)
       end
     end
   end
@@ -701,7 +701,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::debug_level is <x>. Must be a number./)
+        }.to raise_error(Puppet::Error,/nscd::debug_level is <x>\. Must be a number\./)
       end
     end
 
@@ -712,7 +712,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::debug_level is <true>\. Must be a number/)
       end
     end
   end
@@ -741,7 +741,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^nscd::reload_count is <#{value}>. Must be a number or 'unlimited'./)
+          }.to raise_error(Puppet::Error,/nscd::reload_count is <#{value}>\. Must be a number or 'unlimited'\./)
         end
       end
     end
@@ -753,7 +753,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::reload_count is <true>\. Must be a number or 'unlimited'/)
       end
     end
   end
@@ -776,7 +776,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^nscd::paranoia is <#{value}>. Must be either 'yes' or 'no'./)
+          }.to raise_error(Puppet::Error,/nscd::paranoia is <#{value}>\. Must be either 'yes' or 'no'\./)
         end
       end
     end
@@ -797,7 +797,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/^nscd::restart_interval is <x>. Must be a number in seconds./)
+        }.to raise_error(Puppet::Error,/nscd::restart_interval is <x>\. Must be a number in seconds\./)
       end
     end
 
@@ -808,7 +808,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error)
+        }.to raise_error(Puppet::Error,/nscd::restart_interval is <true>\. Must be a number in seconds\./)
       end
     end
   end
@@ -836,7 +836,7 @@ describe 'nscd' do
           it 'should fail' do
             expect {
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/^nscd::#{service}_enable_cache is <#{value}>. Must be either 'yes' or 'no'./)
+            }.to raise_error(Puppet::Error,/nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -861,7 +861,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^nscd::#{service}_positive_time_to_live is <x>. Must be a number in seconds./)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_positive_time_to_live is <x>\. Must be a number in seconds\./)
         end
       end
 
@@ -872,7 +872,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_positive_time_to_live is <true>\. Must be a number in seconds\./)
         end
       end
     end
@@ -896,7 +896,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^nscd::#{service}_negative_time_to_live is <x>. Must be a number in seconds./)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_negative_time_to_live is <x>\. Must be a number in seconds\./)
         end
       end
 
@@ -907,7 +907,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_negative_time_to_live is <true>\. Must be a number in seconds\./)
         end
       end
     end
@@ -931,7 +931,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^nscd::#{service}_suggested_size is <x>. Must be a number./)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_suggested_size is <x>\. Must be a number\./)
         end
       end
 
@@ -942,7 +942,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_suggested_size is <true>\. Must be a number\./)
         end
       end
     end
@@ -969,7 +969,7 @@ describe 'nscd' do
           it 'should fail' do
             expect {
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/^nscd::#{service}_check_files is <#{value}>. Must be either 'yes' or 'no'./)
+            }.to raise_error(Puppet::Error,/nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -997,7 +997,7 @@ describe 'nscd' do
           it 'should fail' do
             expect {
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/^nscd::#{service}_persistent is <#{value}>. Must be either 'yes' or 'no'./)
+            }.to raise_error(Puppet::Error,/nscd::#{service}_persistent is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -1025,7 +1025,7 @@ describe 'nscd' do
           it 'should fail' do
             expect {
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/^nscd::#{service}_shared is <#{value}>. Must be either 'yes' or 'no'./)
+            }.to raise_error(Puppet::Error,/nscd::#{service}_shared is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -1050,7 +1050,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/^nscd::#{service}_max_db_size is <x>. Must be a number./)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_max_db_size is <x>\. Must be a number in bytes\./)
         end
       end
 
@@ -1061,7 +1061,7 @@ describe 'nscd' do
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          }.to raise_error(Puppet::Error,/nscd::#{service}_max_db_size is <true>\. Must be a number in bytes\./)
         end
       end
     end
@@ -1090,7 +1090,7 @@ describe 'nscd' do
             it 'should fail' do
               expect {
                 should contain_class('nscd')
-              }.to raise_error(Puppet::Error,/^nscd::#{service}_auto_propagate is <#{value}>. Must be either 'yes' or 'no'./)
+              }.to raise_error(Puppet::Error,/nscd::#{service}_auto_propagate is <#{value}>\. Must be either 'yes' or 'no'\./)
             end
           end
         end
