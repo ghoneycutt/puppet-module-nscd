@@ -4,7 +4,7 @@ describe 'nscd' do
   platforms = {
     'debian6' =>
       { :osfamily                  => 'Debian',
-        :operatingsystemmajrelease         => '6',
+        :operatingsystemmajrelease => '6',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -14,7 +14,7 @@ describe 'nscd' do
       },
     'el5' =>
       { :osfamily                  => 'RedHat',
-        :operatingsystemmajrelease         => '5',
+        :operatingsystemmajrelease => '5',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => nil,
@@ -24,7 +24,7 @@ describe 'nscd' do
       },
     'el6' =>
       { :osfamily                  => 'RedHat',
-        :operatingsystemmajrelease         => '6',
+        :operatingsystemmajrelease => '6',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => nil,
@@ -34,7 +34,7 @@ describe 'nscd' do
       },
     'el7' =>
       { :osfamily                  => 'RedHat',
-        :operatingsystemmajrelease         => '7',
+        :operatingsystemmajrelease => '7',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => nil,
@@ -44,7 +44,7 @@ describe 'nscd' do
       },
     'suse10' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease         => '10',
+        :operatingsystemmajrelease => '10',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -54,7 +54,7 @@ describe 'nscd' do
       },
     'suse11' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease         => '11',
+        :operatingsystemmajrelease => '11',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -64,7 +64,7 @@ describe 'nscd' do
       },
     'suse12' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease         => '12',
+        :operatingsystemmajrelease => '12',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => 'systemd',
@@ -74,7 +74,7 @@ describe 'nscd' do
       },
     'suse13' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease         => '13',
+        :operatingsystemmajrelease => '13',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => 'systemd',
@@ -84,7 +84,7 @@ describe 'nscd' do
       },
     'ubuntu12' =>
       { :osfamily                  => 'Debian',
-        :operatingsystemmajrelease         => '12',
+        :operatingsystemmajrelease => '12',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -243,7 +243,7 @@ describe 'nscd' do
 
     context 'versions of EL' do
       let :facts do
-        { :osfamily          => 'RedHat',
+        { :osfamily                  => 'RedHat',
           :operatingsystemmajrelease => '4',
         }
 
@@ -257,7 +257,7 @@ describe 'nscd' do
 
     context 'versions of Suse' do
       let :facts do
-        { :osfamily          => 'Suse',
+        { :osfamily                  => 'Suse',
           :operatingsystemmajrelease => '4',
         }
 
