@@ -4,7 +4,7 @@ describe 'nscd' do
   platforms = {
     'debian6' =>
       { :osfamily                  => 'Debian',
-        :lsbmajdistrelease         => '6',
+        :operatingsystemmajrelease => '6',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -14,7 +14,7 @@ describe 'nscd' do
       },
     'el5' =>
       { :osfamily                  => 'RedHat',
-        :lsbmajdistrelease         => '5',
+        :operatingsystemmajrelease => '5',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => nil,
@@ -24,7 +24,7 @@ describe 'nscd' do
       },
     'el6' =>
       { :osfamily                  => 'RedHat',
-        :lsbmajdistrelease         => '6',
+        :operatingsystemmajrelease => '6',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => nil,
@@ -34,7 +34,7 @@ describe 'nscd' do
       },
     'el7' =>
       { :osfamily                  => 'RedHat',
-        :lsbmajdistrelease         => '7',
+        :operatingsystemmajrelease => '7',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => nil,
@@ -44,7 +44,7 @@ describe 'nscd' do
       },
     'suse10' =>
       { :osfamily                  => 'Suse',
-        :lsbmajdistrelease         => '10',
+        :operatingsystemmajrelease => '10',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -54,7 +54,7 @@ describe 'nscd' do
       },
     'suse11' =>
       { :osfamily                  => 'Suse',
-        :lsbmajdistrelease         => '11',
+        :operatingsystemmajrelease => '11',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -64,7 +64,7 @@ describe 'nscd' do
       },
     'suse12' =>
       { :osfamily                  => 'Suse',
-        :lsbmajdistrelease         => '12',
+        :operatingsystemmajrelease => '12',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => 'systemd',
@@ -74,7 +74,7 @@ describe 'nscd' do
       },
     'suse13' =>
       { :osfamily                  => 'Suse',
-        :lsbmajdistrelease         => '13',
+        :operatingsystemmajrelease => '13',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => 'systemd',
@@ -84,7 +84,7 @@ describe 'nscd' do
       },
     'ubuntu12' =>
       { :osfamily                  => 'Debian',
-        :lsbmajdistrelease         => '12',
+        :operatingsystemmajrelease => '12',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -95,9 +95,9 @@ describe 'nscd' do
   }
 
   platforms.sort.each do |k,v|
-    describe "on #{v[:osfamily]} #{v[:lsbmajdistrelease]} with default values for all parameters" do
+    describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]} with default values for all parameters" do
       let(:facts) do
-        { :lsbmajdistrelease => v[:lsbmajdistrelease],
+        { :operatingsystemmajrelease => v[:operatingsystemmajrelease],
           :osfamily          => v[:osfamily],
         }
       end
@@ -243,28 +243,28 @@ describe 'nscd' do
 
     context 'versions of EL' do
       let :facts do
-        { :osfamily          => 'RedHat',
-          :lsbmajdistrelease => '4',
+        { :osfamily                  => 'RedHat',
+          :operatingsystemmajrelease => '4',
         }
 
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/Nscd is only supported on EL 5 and 6. Your lsbmajdistrelease is identified as <4>\./)
+          }.to raise_error(Puppet::Error,/Nscd is only supported on EL 5 and 6. Your operatingsystemmajrelease is identified as <4>\./)
         end
       end
     end
 
     context 'versions of Suse' do
       let :facts do
-        { :osfamily          => 'Suse',
-          :lsbmajdistrelease => '4',
+        { :osfamily                  => 'Suse',
+          :operatingsystemmajrelease => '4',
         }
 
         it 'should fail' do
           expect {
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/Nscd is only supported on Suse 10, 11, 12 and 13. Your lsbmajdistrelease is identified as <4>\./)
+          }.to raise_error(Puppet::Error,/Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemmajrelease is identified as <4>\./)
         end
       end
     end
