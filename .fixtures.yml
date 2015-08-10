@@ -5,3 +5,4 @@ fixtures:
       ref: '4.6.0'
   symlinks:
     nscd: "#{source_dir}"
+    external: "#{source_dir}/spec/external-resources/external"

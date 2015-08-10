@@ -270,6 +270,29 @@ describe 'nscd' do
     end
   end
 
+  describe 'with config_template parameter specified' do
+    context 'as a valid path' do
+      let(:params) { { :config_template => 'external/nscd.conf.erb' } }
+      it { should contain_file('nscd_config').with_content(/External NSCD conf template/) }
+    end
+    context 'as an invalid path' do
+      let(:params) { { :config_template => 'fake/nscd.conf.erb' } }
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error, /Could not find template/)
+      end
+    end
+    context 'as an invalid type' do
+      let(:params) { { :config_template => ['one','two'] } }
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error, /is not a string.  It looks to be a Array/)
+      end
+    end
+  end
+
   describe 'with package_name parameter specified' do
     context 'as a string' do
       let(:params) { { :package_name => 'mynscd' } }

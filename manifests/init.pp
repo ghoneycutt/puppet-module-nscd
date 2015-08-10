@@ -9,6 +9,7 @@ class nscd (
   $config_owner                   = 'root',
   $config_group                   = 'root',
   $config_mode                    = '0644',
+  $config_template                = 'nscd/nscd.conf.erb',
   $service_name                   = 'nscd',
   $service_ensure                 = 'running',
   $service_enable                 = true,
@@ -83,6 +84,7 @@ class nscd (
   validate_string($config_group)
   validate_re($config_mode, '^(\d){4}$',
     "nscd::config_mode is <${config_mode}>. Must be in four digit octal notation.")
+  validate_string($config_template)
   validate_string($service_name)
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
     'nscd::service_ensure is invalid and does not match the regex.')
@@ -370,7 +372,7 @@ class nscd (
   file { 'nscd_config':
     ensure  => file,
     path    => $config_path,
-    content => template('nscd/nscd.conf.erb'),
+    content => template($config_template),
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
