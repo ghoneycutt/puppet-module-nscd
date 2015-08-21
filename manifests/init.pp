@@ -12,6 +12,7 @@ class nscd (
   $service_name                     = 'nscd',
   $service_ensure                   = 'running',
   $service_enable                   = true,
+  $service_provider                 = 'USE_DEFAULTS',
   $logfile                          = 'USE_DEFAULTS',
   $threads                          = '5',
   $max_threads                      = '32',
@@ -251,7 +252,7 @@ class nscd (
   $user_attr_auto_propagate         = 'yes',
 ) {
 
-  unless is_string($package_name) or is_array($package_name) {
+  if !is_string($package_name) and !is_array($package_name) {
     fail('nscd::package_name must be a string or an array.')
   }
 
@@ -282,8 +283,9 @@ class nscd (
     'RedHat': {
       $default_logfile     = '/var/log/nscd.log'
       $default_server_user = 'nscd'
-      case $::lsbmajdistrelease {
+      case $::operatingsystemmajrelease {
         '5': {
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -308,6 +310,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         '6': {
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -332,6 +335,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         '7': {
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -356,15 +360,16 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on EL 5, 6 and 7. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+          fail("Nscd is only supported on EL 5, 6 and 7. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
         }
       }
     }
     'Suse': {
       $default_logfile     = '/var/log/nscd.log'
-      $default_server_user = undef
-      case $::lsbmajdistrelease {
+      case $::operatingsystemmajrelease {
         '10': {
+          $default_server_user               = undef
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -389,6 +394,8 @@ class nscd (
           $enable_opt_auto_propagate_default = false
         }
         '11': {
+          $default_server_user               = undef
+          $default_service_provider          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -412,14 +419,41 @@ class nscd (
           $enable_db_user_attr_default       = false
           $enable_opt_auto_propagate_default = true
         }
+        '12','13': {
+          $default_server_user               = 'nscd'
+          $default_service_provider          = 'systemd'
+          $enable_db_passwd_default          = true
+          $enable_db_group_default           = true
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = true
+          $enable_db_netgroup_default        = true
+          $enable_db_audit_user_default      = false
+          $enable_db_auth_attr_default       = false
+          $enable_db_bootparams_default      = false
+          $enable_db_ethers_default          = false
+          $enable_db_exec_attr_default       = false
+          $enable_db_ipnodes_default         = false
+          $enable_db_netmasks_default        = false
+          $enable_db_networks_default        = false
+          $enable_db_printers_default        = false
+          $enable_db_prof_attr_default       = false
+          $enable_db_project_default         = false
+          $enable_db_protocols_default       = false
+          $enable_db_rpc_default             = false
+          $enable_db_tnrhdb_default          = false
+          $enable_db_tnrhtp_default          = false
+          $enable_db_user_attr_default       = false
+          $enable_opt_auto_propagate_default = true
+        }
         default: {
-          fail("Nscd is only supported on Suse 10 and 11. Your lsbmajdistrelease is identified as <${::lsbmajdistrelease}>.")
+          fail("Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
         }
       }
     }
     'Debian': {
       $default_logfile                   = '/var/log/nscd.log'
       $default_server_user               = undef
+      $default_service_provider          = undef
       $enable_db_passwd_default          = true
       $enable_db_group_default           = true
       $enable_db_hosts_default           = true
@@ -477,7 +511,7 @@ class nscd (
       }
     }
     default: {
-      fail("Nscd supports osfamilies RedHat, Suse, Debian and Solaris. Detected osfamily is <${::osfamily}>.")
+      fail("Nscd supports osfamilies Debian, RedHat, Suse and Solaris. Detected osfamily is <${::osfamily}>.")
     }
   }
 
@@ -492,6 +526,15 @@ class nscd (
     $server_user_real = $default_server_user
   } else {
     $server_user_real = $server_user
+  }
+
+  if $service_provider == 'USE_DEFAULTS' {
+    $service_provider_real = $default_service_provider
+  } else {
+    if $service_provider != undef {
+      validate_string($service_provider)
+    }
+    $service_provider_real = $service_provider
   }
 
   if is_bool($enable_db_passwd) {
@@ -1104,6 +1147,7 @@ class nscd (
     ensure    => $service_ensure,
     name      => $service_name,
     enable    => $service_enable_real,
+    provider  => $service_provider_real,
     subscribe => File['nscd_config'],
   }
 }

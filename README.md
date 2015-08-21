@@ -16,7 +16,9 @@ disable the cache on a per service basis.
 
 # Compatibility
 ---------------
-This module is built for use with Puppet v3 on the following platforms and supports Ruby versions 1.8.7, 1.9.3, and 2.0.0.
+This module is built for use with Puppet v3 (with and without the future
+parser) and Puppet v4 on the following platforms and supports Ruby versions
+1.8.7, 1.9.3, 2.0.0 and 2.1.0.
 
 * Debian 6
 * EL 5
@@ -24,6 +26,8 @@ This module is built for use with Puppet v3 on the following platforms and suppo
 * EL 7
 * Suse 10
 * Suse 11
+* Suse 12
+* OpenSuse 13.1
 * Ubuntu 12.04 LTS
 * Solaris 10
 
@@ -101,6 +105,12 @@ service_enable
 Value of enable attribute of nscd service. This determines if the service will start at boot or not. Allows for boolean, 'true', or 'false'.
 
 - *Default*: true
+
+service_provider
+----------------
+String for value of the provider attribute of nscd service. Specifying here will allow you to change the platform's default.
+
+- *Default*: 'USE_DEFAULTS'
 
 ## Global nscd.conf settings
 ---
