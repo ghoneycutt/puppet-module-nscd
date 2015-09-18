@@ -44,7 +44,7 @@ describe 'nscd' do
       },
     'suse10' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease => '10',
+        :operatingsystemrelease    => '10.1',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -54,7 +54,7 @@ describe 'nscd' do
       },
     'suse11' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease => '11',
+        :operatingsystemrelease    => '11.2',
         :package_name              => 'nscd',
         :server_user               => nil,
         :service_provider          => nil,
@@ -64,7 +64,7 @@ describe 'nscd' do
       },
     'suse12' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease => '12',
+        :operatingsystemrelease    => '12.3',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => 'systemd',
@@ -74,7 +74,7 @@ describe 'nscd' do
       },
     'suse13' =>
       { :osfamily                  => 'Suse',
-        :operatingsystemmajrelease => '13',
+        :operatingsystemrelease    => '13.0',
         :package_name              => 'nscd',
         :server_user               => 'nscd',
         :service_provider          => 'systemd',
@@ -95,10 +95,11 @@ describe 'nscd' do
   }
 
   platforms.sort.each do |k,v|
-    describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]} with default values for all parameters" do
+    describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]} with default values for all parameters" do
       let(:facts) do
         { :operatingsystemmajrelease => v[:operatingsystemmajrelease],
-          :osfamily          => v[:osfamily],
+          :operatingsystemrelease    => v[:operatingsystemrelease],
+          :osfamily                  => v[:osfamily],
         }
       end
 
