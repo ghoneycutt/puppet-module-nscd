@@ -5,8 +5,11 @@ describe 'nscd' do
     'debian6' =>
       { :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '6',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
@@ -34,8 +37,11 @@ describe 'nscd' do
     'el5' =>
       { :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '5',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => false,
         :enable_db_netgroup        => false,
@@ -63,8 +69,11 @@ describe 'nscd' do
     'el6' =>
       { :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '6',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
@@ -92,8 +101,11 @@ describe 'nscd' do
     'el7' =>
       { :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '7',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
@@ -121,8 +133,11 @@ describe 'nscd' do
     'suse10' =>
       { :osfamily                  => 'Suse',
         :operatingsystemmajrelease => '10',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => false,
         :enable_db_netgroup        => false,
@@ -150,8 +165,11 @@ describe 'nscd' do
     'suse11' =>
       { :osfamily                  => 'Suse',
         :operatingsystemmajrelease => '11',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
@@ -179,8 +197,11 @@ describe 'nscd' do
     'suse12' =>
       { :osfamily                  => 'Suse',
         :operatingsystemmajrelease => '12',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => 'systemd',
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
@@ -208,8 +229,11 @@ describe 'nscd' do
     'suse13' =>
       { :osfamily                  => 'Suse',
         :operatingsystemmajrelease => '13',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => 'systemd',
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
@@ -237,8 +261,11 @@ describe 'nscd' do
     'ubuntu12' =>
       { :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '12',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
@@ -266,8 +293,11 @@ describe 'nscd' do
     'solaris10' =>
       { :osfamily                  => 'Solaris',
         :kernelrelease             => '5.10',
-        :package_name              => 'nscd',
+        :package_adminfile         => nil,
+        :package_name              => 'SUNWcsu',
+        :package_source            => '/var/spool/pkg',
         :server_user               => nil,
+        :service_name              => 'name-service-cache',
         :enable_db_passwd          => true,
         :enable_db_group           => true,
         :enable_db_hosts           => true,
@@ -327,7 +357,9 @@ describe 'nscd' do
 
       it {
         should contain_package(v[:package_name]).with({
-          'ensure' => 'present',
+          'ensure'    => 'present',
+          'source'    => v[:package_source],
+          'adminfile' => v[:package_adminfile],
         })
       }
 
@@ -518,7 +550,7 @@ describe 'nscd' do
         it {
           should contain_service('nscd_service').with({
             'ensure'    => 'running',
-            'name'      => 'nscd',
+            'name'      => v[:service_name],
             'enable'    => 'true',
             'provider'  => v[:service_provider],
             'subscribe' => 'File[nscd_config]',
@@ -528,7 +560,7 @@ describe 'nscd' do
         it {
           should contain_service('nscd_service').with({
             'ensure'    => 'running',
-            'name'      => 'nscd',
+            'name'      => v[:service_name],
             'enable'    => 'true',
             'provider'  => nil,
             'subscribe' => 'File[nscd_config]',
@@ -574,6 +606,46 @@ describe 'nscd' do
             should contain_class('nscd')
           }.to raise_error(Puppet::Error,/Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemmajrelease is identified as <4>\./)
         end
+      end
+    end
+  end
+
+  describe 'with package_adminfile parameter specified' do
+    context 'as a string' do
+      let(:params) { { :package_adminfile => 'myadminfile' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_package('nscd').with({'adminfile' => 'myadminfile' }) }
+    end
+
+    context 'as an invalid type' do
+      let(:params) { { :package_adminfile => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error,/nscd::package_adminfile must be a string\./)
+      end
+    end
+  end
+
+  describe 'with package_source parameter specified' do
+    context 'as a string' do
+      let(:params) { { :package_source => 'mysource' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_package('nscd').with({'source' => 'mysource' }) }
+    end
+
+    context 'as an invalid type' do
+      let(:params) { { :package_source => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error,/nscd::package_source must be a string\./)
       end
     end
   end

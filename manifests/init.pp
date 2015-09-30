@@ -3,13 +3,15 @@
 # Module to manage nscd
 #
 class nscd (
-  $package_name                     = 'nscd',
+  $package_name                     = 'USE_DEFAULTS',
   $package_ensure                   = 'present',
+  $package_source                   = 'USE_DEFAULTS',
+  $package_adminfile                = 'USE_DEFAULTS',
   $config_path                      = '/etc/nscd.conf',
   $config_owner                     = 'root',
   $config_group                     = 'root',
   $config_mode                      = '0644',
-  $service_name                     = 'nscd',
+  $service_name                     = 'USE_DEFAULTS',
   $service_ensure                   = 'running',
   $service_enable                   = true,
   $service_provider                 = 'USE_DEFAULTS',
@@ -252,10 +254,6 @@ class nscd (
   $user_attr_auto_propagate         = 'yes',
 ) {
 
-  if !is_string($package_name) and !is_array($package_name) {
-    fail('nscd::package_name must be a string or an array.')
-  }
-
   validate_re($package_ensure, '^(present)|(installed)|(absent)$',
     'nscd::package_ensure is invalid and does not match the regex.')
   validate_absolute_path($config_path)
@@ -263,7 +261,6 @@ class nscd (
   validate_string($config_group)
   validate_re($config_mode, '^(\d){4}$',
     "nscd::config_mode is <${config_mode}>. Must be in four digit octal notation.")
-  validate_string($service_name)
   validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
     'nscd::service_ensure is invalid and does not match the regex.')
 
@@ -281,8 +278,12 @@ class nscd (
 
   case $::osfamily {
     'RedHat': {
-      $default_logfile     = '/var/log/nscd.log'
-      $default_server_user = 'nscd'
+      $default_logfile           = '/var/log/nscd.log'
+      $default_server_user       = 'nscd'
+      $package_adminfile_default = undef
+      $package_name_default      = 'nscd'
+      $package_source_default    = undef
+      $service_name_default      = 'nscd'
       case $::operatingsystemmajrelease {
         '5': {
           $default_service_provider          = undef
@@ -365,7 +366,11 @@ class nscd (
       }
     }
     'Suse': {
-      $default_logfile     = '/var/log/nscd.log'
+      $default_logfile           = '/var/log/nscd.log'
+      $package_adminfile_default = undef
+      $package_name_default      = 'nscd'
+      $package_source_default    = undef
+      $service_name_default      = 'nscd'
       case $::operatingsystemmajrelease {
         '10': {
           $default_server_user               = undef
@@ -476,10 +481,18 @@ class nscd (
       $enable_db_tnrhtp_default          = false
       $enable_db_user_attr_default       = false
       $enable_opt_auto_propagate_default = true
+      $package_adminfile_default         = undef
+      $package_name_default              = 'nscd'
+      $package_source_default            = undef
+      $service_name_default              = 'nscd'
     }
     'Solaris': {
-      $default_logfile     = '/var/adm/nscd.log'
-      $default_server_user = undef
+      $default_logfile           = '/var/adm/nscd.log'
+      $default_server_user       = undef
+      $package_adminfile_default = undef
+      $package_name_default      = 'SUNWcsu'
+      $package_source_default    = '/var/spool/pkg'
+      $service_name_default      = 'name-service-cache'
       case $::kernelrelease {
         '5.10': {
           $enable_db_passwd_default          = true
@@ -522,11 +535,49 @@ class nscd (
   }
   validate_absolute_path($logfile_real)
 
+  if $package_adminfile == 'USE_DEFAULTS' {
+    $package_adminfile_real = $package_adminfile_default
+  } else {
+    $package_adminfile_real = $package_adminfile
+  }
+
+  if !is_string($package_adminfile_real) {
+    fail('nscd::package_adminfile must be a string.')
+  }
+
+  if $package_name == 'USE_DEFAULTS' {
+    $package_name_real = $package_name_default
+  } else {
+    $package_name_real = $package_name
+  }
+
+  if !is_string($package_name_real) and !is_array($package_name_real) {
+    fail('nscd::package_name must be a string or an array.')
+  }
+
+  if $package_source == 'USE_DEFAULTS' {
+    $package_source_real = $package_source_default
+  } else {
+    $package_source_real = $package_source
+  }
+
+  if !is_string($package_source_real) {
+    fail('nscd::package_source must be a string.')
+  }
+
   if $server_user == 'USE_DEFAULTS' {
     $server_user_real = $default_server_user
   } else {
     $server_user_real = $server_user
   }
+
+  if $service_name == 'USE_DEFAULTS' {
+    $service_name_real = $service_name_default
+  } else {
+    $service_name_real = $service_name
+  }
+
+  validate_string($service_name_real)
 
   if $service_provider == 'USE_DEFAULTS' {
     $service_provider_real = $default_service_provider
@@ -1129,8 +1180,10 @@ class nscd (
   validate_bool($enable_db_user_attr_real)
   validate_bool($enable_opt_auto_propagate_real)
 
-  package { $package_name:
-    ensure => $package_ensure,
+  package { $package_name_real:
+    ensure    => $package_ensure,
+    source    => $package_source_real,
+    adminfile => $package_adminfile_real,
   }
 
   file { 'nscd_config':
@@ -1140,12 +1193,12 @@ class nscd (
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
-    require => Package[$package_name],
+    require => Package[$package_name_real],
   }
 
   service { 'nscd_service':
     ensure    => $service_ensure,
-    name      => $service_name,
+    name      => $service_name_real,
     enable    => $service_enable_real,
     provider  => $service_provider_real,
     subscribe => File['nscd_config'],
