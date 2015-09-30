@@ -347,6 +347,7 @@ describe 'nscd' do
       let(:facts) do
         { :operatingsystemmajrelease => v[:operatingsystemmajrelease],
           :operatingsystemrelease    => v[:operatingsystemrelease],
+          :kernelrelease             => v[:kernelrelease],
           :osfamily                  => v[:osfamily],
         }
       end
