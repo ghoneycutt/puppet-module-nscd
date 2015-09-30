@@ -371,8 +371,10 @@ class nscd (
       $package_name_default      = 'nscd'
       $package_source_default    = undef
       $service_name_default      = 'nscd'
-      case $::operatingsystemmajrelease {
-        '10': {
+      # Suse sadly do not support $::operatingsystemmajrelease.
+      # Alternative approach is to use $::operatingsystemrelease and use regex to ignore the minor number
+      case $::operatingsystemrelease {
+        /^10\./: {
           $default_server_user               = undef
           $default_service_provider          = undef
           $enable_db_passwd_default          = true
@@ -398,7 +400,7 @@ class nscd (
           $enable_db_user_attr_default       = false
           $enable_opt_auto_propagate_default = false
         }
-        '11': {
+        /^11\./: {
           $default_server_user               = undef
           $default_service_provider          = undef
           $enable_db_passwd_default          = true
@@ -424,7 +426,7 @@ class nscd (
           $enable_db_user_attr_default       = false
           $enable_opt_auto_propagate_default = true
         }
-        '12','13': {
+        /^12\./, /^13\./: {
           $default_server_user               = 'nscd'
           $default_service_provider          = 'systemd'
           $enable_db_passwd_default          = true
@@ -451,7 +453,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
+          fail("Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemrelease is identified as <${::operatingsystemrelease}>.")
         }
       }
     }
