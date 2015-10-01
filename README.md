@@ -54,15 +54,27 @@ All numbers should be type cast as strings. Global options for nscd.con can be a
 
 package_name
 ------------
-String or array for name of package(s).
+String or array for name of package(s). 'USE_DEFAULTS' will use platform specific defaults.
 
-- *Default*: 'nscd'
+- *Default*: 'USE_DEFAULTS'
 
 package_ensure
 --------------
 String for value of ensure attribute of nscd package. Valid values are 'present', 'installed', or 'absent'.
 
 - *Default*: 'present'
+
+package_adminfile
+-----------------
+String for value of Solaris specific adminfile attribute of package resource. 'USE_DEFAULTS' will use platform specific defaults.
+
+- *Default*: 'USE_DEFAULTS'
+
+package_source
+--------------
+String for value of Solaris specific source attribute of package resource. 'USE_DEFAULTS' will use platform specific defaults.
+
+- *Default*: 'USE_DEFAULTS'
 
 config_path
 -----------
@@ -90,9 +102,9 @@ Mode of nscd.conf. Must be in four digit octal notation.
 
 service_name
 ------------
-String or array for name of service(s).
+String or array for name of service(s). 'USE_DEFAULTS' will use platform specific defaults
 
-- *Default*: 'nscd'
+- *Default*: 'USE_DEFAULTS'
 
 service_ensure
 --------------
