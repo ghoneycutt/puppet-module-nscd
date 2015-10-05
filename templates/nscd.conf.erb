@@ -30,69 +30,242 @@
 #
 # Currently supported cache names (services): passwd, group, hosts, services
 #
+# Currently supported cache names for Solaris (services):
+#               audit_user, auth_attr, bootparams, ethers
+#               exec_attr, group, hosts, ipnodes, netmasks
+#               networks, passwd, printers, prof_attr, project
+#               protocols, rpc, services, tnrhdb, tnrhtp, user_attr
+#
 
-logfile           <%= @logfile %>
+logfile           <%= @logfile_real %>
+debug-level       <%= @debug_level %>
+<% if @osfamily != 'Solaris' -%>
 threads           <%= @threads %>
 max-threads       <%= @max_threads %>
-<% if @server_user_real != nil -%>server-user       <%= @server_user_real %><% end %>
+<%   if   @server_user_real != nil -%>server-user       <%= @server_user_real %><% end %>
 stat-user         <%= @stat_user %>
-debug-level       <%= @debug_level %>
 reload-count      <%= @reload_count %>
 paranoia          <%= @paranoia %>
 restart-interval  <%= @restart_interval %>
+<% end -%>
+
 <% if @enable_db_passwd_real == true -%>
 
 # passwd
-enable-cache          passwd <%= @passwd_enable_cache %>
-positive-time-to-live passwd <%= @passwd_positive_time_to_live %>
-negative-time-to-live passwd <%= @passwd_negative_time_to_live %>
-suggested-size        passwd <%= @passwd_suggested_size %>
-check-files           passwd <%= @passwd_check_files %>
-persistent            passwd <%= @passwd_persistent %>
-shared                passwd <%= @passwd_shared %>
-max-db-size           passwd <%= @passwd_max_db_size %>
-<%   if @enable_opt_auto_propagate_real == true -%>
-auto-propagate        passwd <%= @passwd_auto_propagate %>
+enable-cache            passwd          <%= @passwd_enable_cache %>
+positive-time-to-live   passwd          <%= @passwd_positive_time_to_live %>
+negative-time-to-live   passwd          <%= @passwd_negative_time_to_live %>
+suggested-size          passwd          <%= @passwd_suggested_size %>
+<%   if @osfamily == 'Solaris' -%>
+keep-hot-count          passwd          <%= @passwd_keep_hot_count %>
+<%   end -%>
+check-files             passwd          <%= @passwd_check_files %>
+<%   if @osfamily != 'Solaris' -%>
+persistent              passwd          <%= @passwd_persistent %>
+shared                  passwd          <%= @passwd_shared %>
+max-db-size             passwd          <%= @passwd_max_db_size %>
+<%     if @enable_opt_auto_propagate_real == true -%>
+auto-propagate          passwd          <%= @passwd_auto_propagate %>
+<%     end -%>
 <%   end -%>
 <% end -%>
 <% if @enable_db_group_real == true -%>
 
 # group
-enable-cache          group <%= @group_enable_cache %>
-positive-time-to-live group <%= @group_positive_time_to_live %>
-negative-time-to-live group <%= @group_negative_time_to_live %>
-suggested-size        group <%= @group_suggested_size %>
-check-files           group <%= @group_check_files %>
-persistent            group <%= @group_persistent %>
-shared                group <%= @group_shared %>
-max-db-size           group <%= @group_max_db_size %>
-<%   if @enable_opt_auto_propagate_real == true -%>
-auto-propagate        group <%= @group_auto_propagate %>
+enable-cache            group           <%= @group_enable_cache %>
+positive-time-to-live   group           <%= @group_positive_time_to_live %>
+negative-time-to-live   group           <%= @group_negative_time_to_live %>
+suggested-size          group           <%= @group_suggested_size %>
+<%   if @osfamily == 'Solaris' -%>
+keep-hot-count          group           <%= @group_keep_hot_count %>
+<%   end -%>
+check-files             group           <%= @group_check_files %>
+<%   if @osfamily != 'Solaris' -%>
+persistent              group           <%= @group_persistent %>
+shared                  group           <%= @group_shared %>
+max-db-size             group           <%= @group_max_db_size %>
+<%     if @enable_opt_auto_propagate_real == true -%>
+auto-propagate          group           <%= @group_auto_propagate %>
+<%     end -%>
 <%   end -%>
 <% end -%>
 <% if @enable_db_hosts_real == true -%>
 
 # hosts
-enable-cache          hosts <%= @hosts_enable_cache %>
-positive-time-to-live hosts <%= @hosts_positive_time_to_live %>
-negative-time-to-live hosts <%= @hosts_negative_time_to_live %>
-suggested-size        hosts <%= @hosts_suggested_size %>
-check-files           hosts <%= @hosts_check_files %>
-persistent            hosts <%= @hosts_persistent %>
-shared                hosts <%= @hosts_shared %>
-max-db-size           hosts <%= @hosts_max_db_size %>
+enable-cache            hosts           <%= @hosts_enable_cache %>
+positive-time-to-live   hosts           <%= @hosts_positive_time_to_live %>
+negative-time-to-live   hosts           <%= @hosts_negative_time_to_live %>
+suggested-size          hosts           <%= @hosts_suggested_size %>
+<%   if @osfamily == 'Solaris' -%>
+keep-hot-count          hosts           <%= @hosts_keep_hot_count %>
+<%   end -%>
+check-files             hosts           <%= @hosts_check_files %>
+<%   if @osfamily != 'Solaris' -%>
+persistent              hosts           <%= @hosts_persistent %>
+shared                  hosts           <%= @hosts_shared %>
+max-db-size             hosts           <%= @hosts_max_db_size %>
+<%   end -%>
 <% end -%>
 <% if @enable_db_services_real == true -%>
 
 # services
-enable-cache          services <%= @services_enable_cache %>
-positive-time-to-live services <%= @services_positive_time_to_live %>
-negative-time-to-live services <%= @services_negative_time_to_live %>
-suggested-size        services <%= @services_suggested_size %>
-check-files           services <%= @services_check_files %>
-persistent            services <%= @services_persistent %>
-shared                services <%= @services_shared %>
-max-db-size           services <%= @services_max_db_size %>
+enable-cache            services        <%= @services_enable_cache %>
+positive-time-to-live   services        <%= @services_positive_time_to_live %>
+negative-time-to-live   services        <%= @services_negative_time_to_live %>
+suggested-size          services        <%= @services_suggested_size %>
+<%   if @osfamily == 'Solaris' -%>
+keep-hot-count          services        <%= @services_keep_hot_count %>
+<%   end -%>
+check-files             services        <%= @services_check_files %>
+<%   if @osfamily != 'Solaris' -%>
+persistent              services        <%= @services_persistent %>
+shared                  services        <%= @services_shared %>
+max-db-size             services        <%= @services_max_db_size %>
+<%   end -%>
+<% end -%>
+
+<% if @enable_db_audit_user_real == true -%>
+# audit_user
+enable-cache            audit_user      <%= @audit_user_enable_cache %>
+positive-time-to-live   audit_user      <%= @audit_user_positive_time_to_live %>
+negative-time-to-live   audit_user      <%= @audit_user_negative_time_to_live %>
+keep-hot-count          audit_user      <%= @audit_user_keep_hot_count %>
+check-files             audit_user      <%= @audit_user_check_files %>
+<% end -%>
+
+<% if @enable_db_auth_attr_real == true -%>
+# auth_attr
+enable-cache            auth_attr       <%= @auth_attr_enable_cache %>
+positive-time-to-live   auth_attr       <%= @auth_attr_positive_time_to_live %>
+negative-time-to-live   auth_attr       <%= @auth_attr_negative_time_to_live %>
+keep-hot-count          auth_attr       <%= @auth_attr_keep_hot_count %>
+check-files             auth_attr       <%= @auth_attr_check_files %>
+<% end -%>
+
+<% if @enable_db_bootparams_real == true -%>
+# bootparams
+enable-cache            bootparams      <%= @bootparams_enable_cache %>
+positive-time-to-live   bootparams      <%= @bootparams_positive_time_to_live %>
+negative-time-to-live   bootparams      <%= @bootparams_negative_time_to_live %>
+keep-hot-count          bootparams      <%= @bootparams_keep_hot_count %>
+check-files             bootparams      <%= @bootparams_check_files %>
+<% end -%>
+
+<% if @enable_db_ethers_real == true -%>
+# ethers
+enable-cache            ethers          <%= @ethers_enable_cache %>
+positive-time-to-live   ethers          <%= @ethers_positive_time_to_live %>
+negative-time-to-live   ethers          <%= @ethers_negative_time_to_live %>
+keep-hot-count          ethers          <%= @ethers_keep_hot_count %>
+check-files             ethers          <%= @ethers_check_files %>
+<% end -%>
+
+<% if @enable_db_exec_attr_real == true -%>
+# exec_attr
+enable-cache            exec_attr       <%= @exec_attr_enable_cache %>
+positive-time-to-live   exec_attr       <%= @exec_attr_positive_time_to_live %>
+negative-time-to-live   exec_attr       <%= @exec_attr_negative_time_to_live %>
+keep-hot-count          exec_attr       <%= @exec_attr_keep_hot_count %>
+check-files             exec_attr       <%= @exec_attr_check_files %>
+<% end -%>
+
+<% if @enable_db_ipnodes_real == true -%>
+# ipnodes
+enable-cache            ipnodes         <%= @ipnodes_enable_cache %>
+positive-time-to-live   ipnodes         <%= @ipnodes_positive_time_to_live %>
+negative-time-to-live   ipnodes         <%= @ipnodes_negative_time_to_live %>
+keep-hot-count          ipnodes         <%= @ipnodes_keep_hot_count %>
+check-files             ipnodes         <%= @ipnodes_check_files %>
+<% end -%>
+
+<% if @enable_db_netmasks_real == true -%>
+# netmasks
+enable-cache            netmasks        <%= @netmasks_enable_cache %>
+positive-time-to-live   netmasks        <%= @netmasks_positive_time_to_live %>
+negative-time-to-live   netmasks        <%= @netmasks_negative_time_to_live %>
+keep-hot-count          netmasks        <%= @netmasks_keep_hot_count %>
+check-files             netmasks        <%= @netmasks_check_files %>
+<% end -%>
+
+<% if @enable_db_networks_real == true -%>
+# networks
+enable-cache            networks        <%= @networks_enable_cache %>
+positive-time-to-live   networks        <%= @networks_positive_time_to_live %>
+negative-time-to-live   networks        <%= @networks_negative_time_to_live %>
+keep-hot-count          networks        <%= @networks_keep_hot_count %>
+check-files             networks        <%= @networks_check_files %>
+<% end -%>
+
+<% if @enable_db_printers_real == true -%>
+# printers
+enable-cache            printers        <%= @printers_enable_cache %>
+positive-time-to-live   printers        <%= @printers_positive_time_to_live %>
+negative-time-to-live   printers        <%= @printers_negative_time_to_live %>
+keep-hot-count          printers        <%= @printers_keep_hot_count %>
+check-files             printers        <%= @printers_check_files %>
+<% end -%>
+
+<% if @enable_db_prof_attr_real == true -%>
+# prof_attr
+enable-cache            prof_attr       <%= @prof_attr_enable_cache %>
+positive-time-to-live   prof_attr       <%= @prof_attr_positive_time_to_live %>
+negative-time-to-live   prof_attr       <%= @prof_attr_negative_time_to_live %>
+keep-hot-count          prof_attr       <%= @prof_attr_keep_hot_count %>
+check-files             prof_attr       <%= @prof_attr_check_files %>
+<% end -%>
+
+<% if @enable_db_project_real == true -%>
+# project
+enable-cache            project         <%= @project_enable_cache %>
+positive-time-to-live   project         <%= @project_positive_time_to_live %>
+negative-time-to-live   project         <%= @project_negative_time_to_live %>
+keep-hot-count          project         <%= @project_keep_hot_count %>
+check-files             project         <%= @project_check_files %>
+<% end -%>
+
+<% if @enable_db_protocols_real == true -%>
+# protocols
+enable-cache            protocols       <%= @protocols_enable_cache %>
+positive-time-to-live   protocols       <%= @protocols_positive_time_to_live %>
+negative-time-to-live   protocols       <%= @protocols_negative_time_to_live %>
+keep-hot-count          protocols       <%= @protocols_keep_hot_count %>
+check-files             protocols       <%= @protocols_check_files %>
+<% end -%>
+
+<% if @enable_db_rpc_real == true -%>
+# rpc
+enable-cache            rpc             <%= @rpc_enable_cache %>
+positive-time-to-live   rpc             <%= @rpc_positive_time_to_live %>
+negative-time-to-live   rpc             <%= @rpc_negative_time_to_live %>
+keep-hot-count          rpc             <%= @rpc_keep_hot_count %>
+check-files             rpc             <%= @rpc_check_files %>
+<% end -%>
+
+<% if @enable_db_tnrhdb_real == true -%>
+# tnrhdb
+enable-cache            tnrhdb          <%= @tnrhdb_enable_cache %>
+positive-time-to-live   tnrhdb          <%= @tnrhdb_positive_time_to_live %>
+negative-time-to-live   tnrhdb          <%= @tnrhdb_negative_time_to_live %>
+keep-hot-count          tnrhdb          <%= @tnrhdb_keep_hot_count %>
+check-files             tnrhdb          <%= @tnrhdb_check_files %>
+<% end -%>
+
+<% if @enable_db_tnrhtp_real == true -%>
+# tnrhtp
+enable-cache            tnrhtp          <%= @tnrhtp_enable_cache %>
+positive-time-to-live   tnrhtp          <%= @tnrhtp_positive_time_to_live %>
+negative-time-to-live   tnrhtp          <%= @tnrhtp_negative_time_to_live %>
+keep-hot-count          tnrhtp          <%= @tnrhtp_keep_hot_count %>
+check-files             tnrhtp          <%= @tnrhtp_check_files %>
+<% end -%>
+
+<% if @enable_db_user_attr_real == true -%>
+# user_attr
+enable-cache            user_attr       <%= @user_attr_enable_cache %>
+positive-time-to-live   user_attr       <%= @user_attr_positive_time_to_live %>
+negative-time-to-live   user_attr       <%= @user_attr_negative_time_to_live %>
+keep-hot-count          user_attr       <%= @user_attr_keep_hot_count %>
+check-files             user_attr       <%= @user_attr_check_files %>
 <% end -%>
 <% if @enable_db_netgroup_real == true -%>
 

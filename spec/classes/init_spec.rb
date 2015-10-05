@@ -5,100 +5,349 @@ describe 'nscd' do
     'debian6' =>
       { :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '6',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'el5' =>
       { :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '5',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => false,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'el6' =>
       { :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '6',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'el7' =>
       { :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '7',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'suse10' =>
       { :osfamily                  => 'Suse',
         :operatingsystemrelease    => '10.1',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => false,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => false,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'suse11' =>
       { :osfamily                  => 'Suse',
         :operatingsystemrelease    => '11.2',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'suse12' =>
       { :osfamily                  => 'Suse',
         :operatingsystemrelease    => '12.3',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => 'systemd',
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'suse13' =>
       { :osfamily                  => 'Suse',
         :operatingsystemrelease    => '13.0',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => 'nscd',
+        :service_name              => 'nscd',
         :service_provider          => 'systemd',
         :enable_db_services        => true,
         :enable_db_netgroup        => true,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
       },
     'ubuntu12' =>
       { :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '12',
+        :package_adminfile         => nil,
         :package_name              => 'nscd',
+        :package_source            => nil,
         :server_user               => nil,
+        :service_name              => 'nscd',
         :service_provider          => nil,
         :enable_db_services        => true,
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
+      },
+    'solaris10' =>
+      { :osfamily                  => 'Solaris',
+        :kernelrelease             => '5.10',
+        :package_adminfile         => nil,
+        :package_name              => 'SUNWcsu',
+        :package_source            => '/var/spool/pkg',
+        :server_user               => nil,
+        :service_name              => 'name-service-cache',
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_services        => true,
+        :enable_db_netgroup        => false,
+        :enable_db_audit_user      => true,
+        :enable_db_auth_attr       => true,
+        :enable_db_bootparams      => true,
+        :enable_db_ethers          => true,
+        :enable_db_exec_attr       => true,
+        :enable_db_ipnodes         => true,
+        :enable_db_netmasks        => true,
+        :enable_db_networks        => true,
+        :enable_db_printers        => true,
+        :enable_db_prof_attr       => true,
+        :enable_db_project         => true,
+        :enable_db_protocols       => true,
+        :enable_db_rpc             => true,
+        :enable_db_tnrhdb          => true,
+        :enable_db_tnrhtp          => true,
+        :enable_db_user_attr       => true,
+        :enable_opt_auto_propagate => false,
       },
   }
+
+  services_solaris = [
+    'audit_user',
+    'auth_attr',
+    'bootparams',
+    'ethers',
+    'exec_attr',
+    'ipnodes',
+    'netmasks',
+    'networks',
+    'printers',
+    'prof_attr',
+    'project',
+    'protocols',
+    'rpc',
+    'tnrhdb',
+    'tnrhtp',
+    'user_attr'
+  ]
 
   platforms.sort.each do |k,v|
     describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]} with default values for all parameters" do
       let(:facts) do
         { :operatingsystemmajrelease => v[:operatingsystemmajrelease],
           :operatingsystemrelease    => v[:operatingsystemrelease],
+          :kernelrelease             => v[:kernelrelease],
           :osfamily                  => v[:osfamily],
         }
       end
@@ -109,7 +358,9 @@ describe 'nscd' do
 
       it {
         should contain_package(v[:package_name]).with({
-          'ensure' => 'present',
+          'ensure'    => 'present',
+          'source'    => v[:package_source],
+          'adminfile' => v[:package_adminfile],
         })
       }
 
@@ -124,68 +375,157 @@ describe 'nscd' do
         })
       }
 
-      it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/log\/nscd.log$/) }
-      it { should contain_file('nscd_config').with_content(/^threads\ +5$/) }
-      it { should contain_file('nscd_config').with_content(/^max-threads\ +32$/) }
-      if v[:server_user] != nil
-        it { should contain_file('nscd_config').with_content(/^server-user\ +#{v[:server_user]}$/) }
-      else
-        it { should contain_file('nscd_config').without_content(/^\s*server-user/) }
-      end
-      it { should contain_file('nscd_config').with_content(/^stat-user\ +root$/) }
       it { should contain_file('nscd_config').with_content(/^debug-level\ +0$/) }
-      it { should contain_file('nscd_config').with_content(/^reload-count\ +5$/) }
-      it { should contain_file('nscd_config').with_content(/^paranoia\ +no$/) }
-      it { should contain_file('nscd_config').with_content(/^restart-interval\ +3600$/) }
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +passwd\ +600$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +passwd\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +passwd\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
-      if v[:enable_opt_auto_propagate] == true
-        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+      if v[:osfamily] != 'Solaris'
+        it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/log\/nscd.log$/) }
+        it { should contain_file('nscd_config').with_content(/^threads\ +5$/) }
+        it { should contain_file('nscd_config').with_content(/^max-threads\ +32$/) }
+        if v[:server_user] != nil
+          it { should contain_file('nscd_config').with_content(/^\s*server-user\ +#{v[:server_user]}$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^\s*server-user/) }
+        end
+        it { should contain_file('nscd_config').with_content(/^stat-user\ +root$/) }
+        it { should contain_file('nscd_config').with_content(/^reload-count\ +5$/) }
+        it { should contain_file('nscd_config').with_content(/^paranoia\ +no$/) }
+        it { should contain_file('nscd_config').with_content(/^restart-interval\ +3600$/) }
       else
-        it { should contain_file('nscd_config').without_content(/^\s*auto-propagate +passwd/) }
-        it { should contain_file('nscd_config').without_content(/^\s*auto-propagate +group/) }
+        it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/adm\/nscd.log$/) }
       end
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +group\ +3600$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +group\ +60$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +group\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
-      it { should contain_file('nscd_config').with_content(/^enable-cache\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +hosts\ +3600$/) }
-      it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +hosts\ +20$/) }
-      it { should contain_file('nscd_config').with_content(/^suggested-size\ +hosts\ +211$/) }
-      it { should contain_file('nscd_config').with_content(/^check-files\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
-      it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
+      if v[:enable_db_passwd] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +passwd\ +600$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +passwd\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +passwd\ +211$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +passwd\ +2048$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +passwd/) }
+        end
+        it { should contain_file('nscd_config').with_content(/^check-files\ +passwd\ +yes$/) }
+        if v[:osfamily] != 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^persistent\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +passwd\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +passwd\ +33554432$/) }
+          if v[:enable_opt_auto_propagate] == true
+            it { should contain_file('nscd_config').with_content(/^auto-propagate\ +passwd\ +yes$/) }
+          else
+            it { should contain_file('nscd_config').without_content(/^auto-propagate +passwd/) }
+          end
+        end
+      else
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^suggested-size\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^check-files\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^persistent\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^shared\ +passwd/) }
+        it { should contain_file('nscd_config').without_content(/^max-db-size\ +passwd/) }
+      end
+      if v[:enable_db_group] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +group\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +group\ +3600$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +group\ +60$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +group\ +211$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +group\ +2048$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +group/) }
+        end
+        it { should contain_file('nscd_config').with_content(/^check-files\ +group\ +yes$/) }
+        if v[:osfamily] != 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^persistent\ +group\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +group\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +group\ +33554432$/) }
+          if v[:enable_opt_auto_propagate] == true
+            it { should contain_file('nscd_config').with_content(/^auto-propagate\ +group\ +yes$/) }
+          else
+            it { should contain_file('nscd_config').without_content(/^auto-propagate +group/) }
+          end
+        end
+      else
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^suggested-size\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^check-files\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^persistent\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^shared\ +group/) }
+        it { should contain_file('nscd_config').without_content(/^max-db-size\ +group/) }
+      end
+      if v[:enable_db_hosts] == true
+        it { should contain_file('nscd_config').with_content(/^enable-cache\ +hosts\ +yes$/) }
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +hosts\ +3600$/) }
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +hosts\ +20$/) }
+        it { should contain_file('nscd_config').with_content(/^suggested-size\ +hosts\ +211$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +hosts\ +2048$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +hosts/) }
+        end
+        it { should contain_file('nscd_config').with_content(/^check-files\ +hosts\ +yes$/) }
+        if v[:osfamily] != 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^persistent\ +hosts\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +hosts\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +hosts\ +33554432$/) }
+        end
+      else
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^suggested-size\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^check-files\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^persistent\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^shared\ +hosts/) }
+        it { should contain_file('nscd_config').without_content(/^max-db-size\ +hosts/) }
+      end
       if v[:enable_db_services] == true
         it { should contain_file('nscd_config').with_content(/^enable-cache\ +services\ +yes$/) }
         it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +services\ +28800$/) }
         it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +services\ +20$/) }
         it { should contain_file('nscd_config').with_content(/^suggested-size\ +services\ +211$/) }
+        if v[:osfamily] == 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +services\ +2048$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +services/) }
+        end
         it { should contain_file('nscd_config').with_content(/^check-files\ +services\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
-        it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+        if v[:osfamily] != 'Solaris'
+          it { should contain_file('nscd_config').with_content(/^persistent\ +services\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^shared\ +services\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^max-db-size\ +services\ +33554432$/) }
+        end
       else
-        it { should contain_file('nscd_config').without_content(/^\s*enable-cache\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*positive-time-to-live\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*negative-time-to-live\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*suggested-size\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*check-files\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*persistent\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*shared\ +services/) }
-        it { should contain_file('nscd_config').without_content(/^\s*max-db-size\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^enable-cache\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^suggested-size\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^check-files\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^persistent\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^shared\ +services/) }
+        it { should contain_file('nscd_config').without_content(/^max-db-size\ +services/) }
+      end
+
+      services_solaris.each do |service|
+        enable_service = "enable_db_#{service}"
+        if v[enable_service.to_sym] == true
+          it { should contain_file('nscd_config').with_content(/^enable-cache\ +#{service}\ +yes$/) }
+          it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +#{service}\ +3600$/) }
+          it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +#{service}\ +20$/) }
+          it { should contain_file('nscd_config').with_content(/^keep-hot-count\ +#{service}\ +2048$/) }
+          it { should contain_file('nscd_config').with_content(/^check-files\ +#{service}\ +yes$/) }
+        else
+          it { should contain_file('nscd_config').without_content(/^enable-cache\ +#{service}/) }
+          it { should contain_file('nscd_config').without_content(/^positive-time-to-live\ +#{service}/) }
+          it { should contain_file('nscd_config').without_content(/^negative-time-to-live\ +#{service}/) }
+          it { should contain_file('nscd_config').without_content(/^keep-hot-count\ +#{service}/) }
+          it { should contain_file('nscd_config').without_content(/^check-files\ +#{service}/) }
+        end
       end
       if v[:enable_db_netgroup] == true
         it { should contain_file('nscd_config').with_content(/^enable-cache\ +netgroup\ +yes$/) }
@@ -211,7 +551,7 @@ describe 'nscd' do
         it {
           should contain_service('nscd_service').with({
             'ensure'    => 'running',
-            'name'      => 'nscd',
+            'name'      => v[:service_name],
             'enable'    => 'true',
             'provider'  => v[:service_provider],
             'subscribe' => 'File[nscd_config]',
@@ -221,7 +561,7 @@ describe 'nscd' do
         it {
           should contain_service('nscd_service').with({
             'ensure'    => 'running',
-            'name'      => 'nscd',
+            'name'      => v[:service_name],
             'enable'    => 'true',
             'provider'  => nil,
             'subscribe' => 'File[nscd_config]',
@@ -238,7 +578,7 @@ describe 'nscd' do
       it 'should fail' do
         expect {
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd supports osfamilies Debian, RedHat and Suse. Detected osfamily is <unsupported>\./)
+        }.to raise_error(Puppet::Error,/Nscd supports osfamilies Debian, RedHat, Suse and Solaris\. Detected osfamily is <unsupported>\./)
       end
     end
 
@@ -267,6 +607,46 @@ describe 'nscd' do
             should contain_class('nscd')
           }.to raise_error(Puppet::Error,/Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemmajrelease is identified as <4>\./)
         end
+      end
+    end
+  end
+
+  describe 'with package_adminfile parameter specified' do
+    context 'as a string' do
+      let(:params) { { :package_adminfile => 'myadminfile' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_package('nscd').with({'adminfile' => 'myadminfile' }) }
+    end
+
+    context 'as an invalid type' do
+      let(:params) { { :package_adminfile => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error,/nscd::package_adminfile must be a string\./)
+      end
+    end
+  end
+
+  describe 'with package_source parameter specified' do
+    context 'as a string' do
+      let(:params) { { :package_source => 'mysource' } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it { should contain_package('nscd').with({'source' => 'mysource' }) }
+    end
+
+    context 'as an invalid type' do
+      let(:params) { { :package_source => true } }
+      let(:facts) { { :osfamily => 'Debian' } }
+
+      it 'should fail' do
+        expect {
+          should contain_class('nscd')
+        }.to raise_error(Puppet::Error,/nscd::package_source must be a string\./)
       end
     end
   end
@@ -1093,6 +1473,118 @@ describe 'nscd' do
                 should contain_class('nscd')
               }.to raise_error(Puppet::Error,/nscd::#{service}_auto_propagate is <#{value}>\. Must be either 'yes' or 'no'\./)
             end
+          end
+        end
+      end
+    end
+  end
+
+  services_solaris.each do |service|
+    describe "with #{service}_enable_cache specified" do
+      ['yes','no'].each do |value|
+        context "as valid value #{value}" do
+          let(:params) { { :"#{service}_enable_cache" => value } }
+          let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+          it { should contain_file('nscd_config').with_content(/^enable-cache\ +#{service}\ +#{value}$/) }
+        end
+      end
+
+      ['yess','nooo','-1',true].each do |value|
+        context "as invalid value #{value}" do
+          let(:params) { { :"#{service}_enable_cache" => value } }
+          let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+          it 'should fail' do
+            expect {
+              should contain_class('nscd')
+            }.to raise_error(Puppet::Error,/nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\./)
+          end
+        end
+      end
+    end
+
+    describe "with #{service}_positive_time_to_live specified" do
+      context 'as a valid number' do
+        let(:params) { { :"#{service}_positive_time_to_live" => '31415' } }
+        let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+        it { should contain_file('nscd_config').with_content(/^positive-time-to-live\ +#{service}\ +31415$/) }
+      end
+
+      context 'as an invalid value' do
+        let(:params) { { :"#{service}_positive_time_to_live" => 'x' } }
+        let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error,/nscd::#{service}_positive_time_to_live is <x>\. Must be a number in seconds\./)
+        end
+      end
+
+      context 'as an invalid type' do
+        let(:params) { { :"#{service}_positive_time_to_live" => true } }
+        let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error)
+        end
+      end
+    end
+
+    describe "with #{service}_negative_time_to_live specified" do
+      context 'as a valid number' do
+        let(:params) { { :"#{service}_negative_time_to_live" => '23' } }
+        let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+        it { should contain_file('nscd_config').with_content(/^negative-time-to-live\ +#{service}\ +23$/) }
+      end
+
+      context 'as an invalid value' do
+        let(:params) { { :"#{service}_negative_time_to_live" => 'x' } }
+        let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error,/nscd::#{service}_negative_time_to_live is <x>\. Must be a number in seconds\./)
+        end
+      end
+
+      context 'as an invalid type' do
+        let(:params) { { :"#{service}_negative_time_to_live" => true } }
+        let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+        it 'should fail' do
+          expect {
+            should contain_class('nscd')
+          }.to raise_error(Puppet::Error)
+        end
+      end
+    end
+
+    describe "with #{service}_check_files specified" do
+      ['yes','no'].each do |value|
+        context "as valid value #{value}" do
+          let(:params) { { :"#{service}_check_files" => value } }
+          let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+          it { should contain_file('nscd_config').with_content(/^check-files\ +#{service}\ +#{value}$/) }
+        end
+      end
+
+      ['yess','nooo','-1',true].each do |value|
+        context "as invalid value #{value}" do
+          let(:params) { { :"#{service}_check_files" => value } }
+          let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
+
+          it 'should fail' do
+            expect {
+              should contain_class('nscd')
+            }.to raise_error(Puppet::Error,/nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
