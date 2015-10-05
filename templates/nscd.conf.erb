@@ -48,7 +48,6 @@ reload-count      <%= @reload_count %>
 paranoia          <%= @paranoia %>
 restart-interval  <%= @restart_interval %>
 <% end -%>
-
 <% if @enable_db_passwd_real == true -%>
 
 # passwd
@@ -123,8 +122,8 @@ shared                  services        <%= @services_shared %>
 max-db-size             services        <%= @services_max_db_size %>
 <%   end -%>
 <% end -%>
-
 <% if @enable_db_audit_user_real == true -%>
+
 # audit_user
 enable-cache            audit_user      <%= @audit_user_enable_cache %>
 positive-time-to-live   audit_user      <%= @audit_user_positive_time_to_live %>
@@ -132,8 +131,8 @@ negative-time-to-live   audit_user      <%= @audit_user_negative_time_to_live %>
 keep-hot-count          audit_user      <%= @audit_user_keep_hot_count %>
 check-files             audit_user      <%= @audit_user_check_files %>
 <% end -%>
-
 <% if @enable_db_auth_attr_real == true -%>
+
 # auth_attr
 enable-cache            auth_attr       <%= @auth_attr_enable_cache %>
 positive-time-to-live   auth_attr       <%= @auth_attr_positive_time_to_live %>
@@ -141,8 +140,8 @@ negative-time-to-live   auth_attr       <%= @auth_attr_negative_time_to_live %>
 keep-hot-count          auth_attr       <%= @auth_attr_keep_hot_count %>
 check-files             auth_attr       <%= @auth_attr_check_files %>
 <% end -%>
-
 <% if @enable_db_bootparams_real == true -%>
+
 # bootparams
 enable-cache            bootparams      <%= @bootparams_enable_cache %>
 positive-time-to-live   bootparams      <%= @bootparams_positive_time_to_live %>
@@ -150,8 +149,8 @@ negative-time-to-live   bootparams      <%= @bootparams_negative_time_to_live %>
 keep-hot-count          bootparams      <%= @bootparams_keep_hot_count %>
 check-files             bootparams      <%= @bootparams_check_files %>
 <% end -%>
-
 <% if @enable_db_ethers_real == true -%>
+
 # ethers
 enable-cache            ethers          <%= @ethers_enable_cache %>
 positive-time-to-live   ethers          <%= @ethers_positive_time_to_live %>
@@ -159,8 +158,8 @@ negative-time-to-live   ethers          <%= @ethers_negative_time_to_live %>
 keep-hot-count          ethers          <%= @ethers_keep_hot_count %>
 check-files             ethers          <%= @ethers_check_files %>
 <% end -%>
-
 <% if @enable_db_exec_attr_real == true -%>
+
 # exec_attr
 enable-cache            exec_attr       <%= @exec_attr_enable_cache %>
 positive-time-to-live   exec_attr       <%= @exec_attr_positive_time_to_live %>
@@ -168,8 +167,8 @@ negative-time-to-live   exec_attr       <%= @exec_attr_negative_time_to_live %>
 keep-hot-count          exec_attr       <%= @exec_attr_keep_hot_count %>
 check-files             exec_attr       <%= @exec_attr_check_files %>
 <% end -%>
-
 <% if @enable_db_ipnodes_real == true -%>
+
 # ipnodes
 enable-cache            ipnodes         <%= @ipnodes_enable_cache %>
 positive-time-to-live   ipnodes         <%= @ipnodes_positive_time_to_live %>
@@ -177,8 +176,8 @@ negative-time-to-live   ipnodes         <%= @ipnodes_negative_time_to_live %>
 keep-hot-count          ipnodes         <%= @ipnodes_keep_hot_count %>
 check-files             ipnodes         <%= @ipnodes_check_files %>
 <% end -%>
-
 <% if @enable_db_netmasks_real == true -%>
+
 # netmasks
 enable-cache            netmasks        <%= @netmasks_enable_cache %>
 positive-time-to-live   netmasks        <%= @netmasks_positive_time_to_live %>
@@ -186,8 +185,8 @@ negative-time-to-live   netmasks        <%= @netmasks_negative_time_to_live %>
 keep-hot-count          netmasks        <%= @netmasks_keep_hot_count %>
 check-files             netmasks        <%= @netmasks_check_files %>
 <% end -%>
-
 <% if @enable_db_networks_real == true -%>
+
 # networks
 enable-cache            networks        <%= @networks_enable_cache %>
 positive-time-to-live   networks        <%= @networks_positive_time_to_live %>
@@ -195,8 +194,8 @@ negative-time-to-live   networks        <%= @networks_negative_time_to_live %>
 keep-hot-count          networks        <%= @networks_keep_hot_count %>
 check-files             networks        <%= @networks_check_files %>
 <% end -%>
-
 <% if @enable_db_printers_real == true -%>
+
 # printers
 enable-cache            printers        <%= @printers_enable_cache %>
 positive-time-to-live   printers        <%= @printers_positive_time_to_live %>
@@ -204,8 +203,8 @@ negative-time-to-live   printers        <%= @printers_negative_time_to_live %>
 keep-hot-count          printers        <%= @printers_keep_hot_count %>
 check-files             printers        <%= @printers_check_files %>
 <% end -%>
-
 <% if @enable_db_prof_attr_real == true -%>
+
 # prof_attr
 enable-cache            prof_attr       <%= @prof_attr_enable_cache %>
 positive-time-to-live   prof_attr       <%= @prof_attr_positive_time_to_live %>
@@ -213,8 +212,8 @@ negative-time-to-live   prof_attr       <%= @prof_attr_negative_time_to_live %>
 keep-hot-count          prof_attr       <%= @prof_attr_keep_hot_count %>
 check-files             prof_attr       <%= @prof_attr_check_files %>
 <% end -%>
-
 <% if @enable_db_project_real == true -%>
+
 # project
 enable-cache            project         <%= @project_enable_cache %>
 positive-time-to-live   project         <%= @project_positive_time_to_live %>
@@ -222,8 +221,8 @@ negative-time-to-live   project         <%= @project_negative_time_to_live %>
 keep-hot-count          project         <%= @project_keep_hot_count %>
 check-files             project         <%= @project_check_files %>
 <% end -%>
-
 <% if @enable_db_protocols_real == true -%>
+
 # protocols
 enable-cache            protocols       <%= @protocols_enable_cache %>
 positive-time-to-live   protocols       <%= @protocols_positive_time_to_live %>
@@ -231,8 +230,8 @@ negative-time-to-live   protocols       <%= @protocols_negative_time_to_live %>
 keep-hot-count          protocols       <%= @protocols_keep_hot_count %>
 check-files             protocols       <%= @protocols_check_files %>
 <% end -%>
-
 <% if @enable_db_rpc_real == true -%>
+
 # rpc
 enable-cache            rpc             <%= @rpc_enable_cache %>
 positive-time-to-live   rpc             <%= @rpc_positive_time_to_live %>
@@ -240,8 +239,8 @@ negative-time-to-live   rpc             <%= @rpc_negative_time_to_live %>
 keep-hot-count          rpc             <%= @rpc_keep_hot_count %>
 check-files             rpc             <%= @rpc_check_files %>
 <% end -%>
-
 <% if @enable_db_tnrhdb_real == true -%>
+
 # tnrhdb
 enable-cache            tnrhdb          <%= @tnrhdb_enable_cache %>
 positive-time-to-live   tnrhdb          <%= @tnrhdb_positive_time_to_live %>
@@ -249,8 +248,8 @@ negative-time-to-live   tnrhdb          <%= @tnrhdb_negative_time_to_live %>
 keep-hot-count          tnrhdb          <%= @tnrhdb_keep_hot_count %>
 check-files             tnrhdb          <%= @tnrhdb_check_files %>
 <% end -%>
-
 <% if @enable_db_tnrhtp_real == true -%>
+
 # tnrhtp
 enable-cache            tnrhtp          <%= @tnrhtp_enable_cache %>
 positive-time-to-live   tnrhtp          <%= @tnrhtp_positive_time_to_live %>
@@ -258,8 +257,8 @@ negative-time-to-live   tnrhtp          <%= @tnrhtp_negative_time_to_live %>
 keep-hot-count          tnrhtp          <%= @tnrhtp_keep_hot_count %>
 check-files             tnrhtp          <%= @tnrhtp_check_files %>
 <% end -%>
-
 <% if @enable_db_user_attr_real == true -%>
+
 # user_attr
 enable-cache            user_attr       <%= @user_attr_enable_cache %>
 positive-time-to-live   user_attr       <%= @user_attr_positive_time_to_live %>
