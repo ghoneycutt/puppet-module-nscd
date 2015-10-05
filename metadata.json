@@ -1,6 +1,6 @@
 {
   "name": "ghoneycutt-nscd",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "author": "ghoneycutt",
   "summary": "manage NSCD - name service cache daemon",
   "license": "Apache-2.0",
@@ -55,6 +55,12 @@
         "5",
         "6",
         "7"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10"
       ]
     },
     {

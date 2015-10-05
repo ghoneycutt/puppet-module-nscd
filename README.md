@@ -24,12 +24,12 @@ parser) and Puppet v4 on the following platforms and supports Ruby versions
 * EL 5
 * EL 6
 * EL 7
+* Solaris 10
 * Suse 10
 * Suse 11
 * Suse 12
 * OpenSuse 13.1
 * Ubuntu 12.04 LTS
-* Solaris 10
 
 
 # Compatibility with Dell Authentication Services
