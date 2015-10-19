@@ -269,12 +269,12 @@ check-files             user_attr       <%= @user_attr_check_files %>
 <% if @enable_db_netgroup_real == true -%>
 
 # netgroup
-enable-cache          netgroup <%= @netgroup_enable_cache %>
-positive-time-to-live netgroup <%= @netgroup_positive_time_to_live %>
-negative-time-to-live netgroup <%= @netgroup_negative_time_to_live %>
-suggested-size        netgroup <%= @netgroup_suggested_size %>
-check-files           netgroup <%= @netgroup_check_files %>
-persistent            netgroup <%= @netgroup_persistent %>
-shared                netgroup <%= @netgroup_shared %>
-max-db-size           netgroup <%= @netgroup_max_db_size %>
+enable-cache            netgroup        <%= @netgroup_enable_cache %>
+positive-time-to-live   netgroup        <%= @netgroup_positive_time_to_live %>
+negative-time-to-live   netgroup        <%= @netgroup_negative_time_to_live %>
+suggested-size          netgroup        <%= @netgroup_suggested_size %>
+check-files             netgroup        <%= @netgroup_check_files %>
+persistent              netgroup        <%= @netgroup_persistent %>
+shared                  netgroup        <%= @netgroup_shared %>
+max-db-size             netgroup        <%= @netgroup_max_db_size %>
 <% end -%>
