@@ -12,6 +12,8 @@ The module assumes that you want to set enable-cache to true for each of the
 services (passwd, group, hosts, and services). If this is not the case, you can
 disable the cache on a per service basis.
 
+To use this module simply `include ::nscd`
+
 ===
 
 # Compatibility
