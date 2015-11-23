@@ -1,6 +1,5 @@
 require 'spec_helper'
 describe 'nscd' do
-
   platforms = {
     'debian6' =>
       { :osfamily                  => 'Debian',
@@ -323,26 +322,25 @@ describe 'nscd' do
       },
   }
 
-  services_solaris = [
-    'audit_user',
-    'auth_attr',
-    'bootparams',
-    'ethers',
-    'exec_attr',
-    'ipnodes',
-    'netmasks',
-    'networks',
-    'printers',
-    'prof_attr',
-    'project',
-    'protocols',
-    'rpc',
-    'tnrhdb',
-    'tnrhtp',
-    'user_attr'
-  ]
+  services_solaris = %w(
+    audit_user
+    auth_attr
+    bootparams
+    ethers
+    exec_attr
+    ipnodes
+    netmasks
+    networks
+    printers
+    prof_attr
+    project
+    protocols
+    rpc
+    tnrhdb
+    tnrhtp
+    user_attr)
 
-  platforms.sort.each do |k,v|
+  platforms.sort.each do |_k, v|
     describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]} with default values for all parameters" do
       let(:facts) do
         { :operatingsystemmajrelease => v[:operatingsystemmajrelease],
@@ -356,15 +354,15 @@ describe 'nscd' do
 
       it { should contain_class('nscd') }
 
-      it {
+      it do
         should contain_package(v[:package_name]).with({
           'ensure'    => 'present',
           'source'    => v[:package_source],
           'adminfile' => v[:package_adminfile],
         })
-      }
+      end
 
-      it {
+      it do
         should contain_file('nscd_config').with({
           'ensure'  => 'file',
           'path'    => '/etc/nscd.conf',
@@ -373,11 +371,11 @@ describe 'nscd' do
           'mode'    => '0644',
           'require' => "Package[#{v[:package_name]}]",
         })
-      }
+      end
 
       it { should contain_file('nscd_config').with_content(/^debug-level\ +0$/) }
       if v[:osfamily] != 'Solaris'
-        it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/log\/nscd.log$/) }
+        it { should contain_file('nscd_config').with_content(%r{^logfile\ +/var/log/nscd\.log$}) }
         it { should contain_file('nscd_config').with_content(/^threads\ +5$/) }
         it { should contain_file('nscd_config').with_content(/^max-threads\ +32$/) }
         if v[:server_user] != nil
@@ -390,7 +388,7 @@ describe 'nscd' do
         it { should contain_file('nscd_config').with_content(/^paranoia\ +no$/) }
         it { should contain_file('nscd_config').with_content(/^restart-interval\ +3600$/) }
       else
-        it { should contain_file('nscd_config').with_content(/^logfile\ +\/var\/adm\/nscd.log$/) }
+        it { should contain_file('nscd_config').with_content(%r{^logfile\ +/var/adm/nscd\.log$}) }
       end
       if v[:enable_db_passwd] == true
         it { should contain_file('nscd_config').with_content(/^enable-cache\ +passwd\ +yes$/) }
@@ -548,7 +546,7 @@ describe 'nscd' do
       end
 
       if v[:service_provider] != nil
-        it {
+        it do
           should contain_service('nscd_service').with({
             'ensure'    => 'running',
             'name'      => v[:service_name],
@@ -556,9 +554,9 @@ describe 'nscd' do
             'provider'  => v[:service_provider],
             'subscribe' => 'File[nscd_config]',
           })
-        }
+        end
       else
-        it {
+        it do
           should contain_service('nscd_service').with({
             'ensure'    => 'running',
             'name'      => v[:service_name],
@@ -566,7 +564,7 @@ describe 'nscd' do
             'provider'  => nil,
             'subscribe' => 'File[nscd_config]',
           })
-        }
+        end
       end
     end
   end
@@ -576,9 +574,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'unsupported' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/Nscd supports osfamilies Debian, RedHat, Suse and Solaris\. Detected osfamily is <unsupported>\./)
+        end.to raise_error(Puppet::Error, /Nscd supports osfamilies Debian, RedHat, Suse and Solaris\. Detected osfamily is <unsupported>\./)
       end
     end
 
@@ -587,26 +585,27 @@ describe 'nscd' do
         { :osfamily                  => 'RedHat',
           :operatingsystemmajrelease => '4',
         }
+      end
 
-        it 'should fail' do
-          expect {
-            should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/Nscd is only supported on EL 5 and 6. Your operatingsystemmajrelease is identified as <4>\./)
-        end
+      it 'should fail' do
+        expect do
+          should contain_class('nscd')
+        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6 and 7\. Your operatingsystemmajrelease is identified as <4>\./)
       end
     end
 
     context 'versions of Suse' do
       let :facts do
         { :osfamily                  => 'Suse',
+          :operatingsystemrelease    => '4.0',
           :operatingsystemmajrelease => '4',
         }
+      end
 
-        it 'should fail' do
-          expect {
-            should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemmajrelease is identified as <4>\./)
-        end
+      it 'should fail' do
+        expect do
+          should contain_class('nscd')
+        end.to raise_error(Puppet::Error, /Nscd is only supported on Suse 10, 11, 12 and 13\. Your operatingsystemrelease is identified as <4\.0>\./)
       end
     end
   end
@@ -616,7 +615,7 @@ describe 'nscd' do
       let(:params) { { :package_adminfile => 'myadminfile' } }
       let(:facts) { { :osfamily => 'Debian' } }
 
-      it { should contain_package('nscd').with({'adminfile' => 'myadminfile' }) }
+      it { should contain_package('nscd').with({ 'adminfile' => 'myadminfile' }) }
     end
 
     context 'as an invalid type' do
@@ -624,9 +623,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::package_adminfile must be a string\./)
+        end.to raise_error(Puppet::Error, /nscd::package_adminfile must be a string\./)
       end
     end
   end
@@ -636,7 +635,7 @@ describe 'nscd' do
       let(:params) { { :package_source => 'mysource' } }
       let(:facts) { { :osfamily => 'Debian' } }
 
-      it { should contain_package('nscd').with({'source' => 'mysource' }) }
+      it { should contain_package('nscd').with({ 'source' => 'mysource' }) }
     end
 
     context 'as an invalid type' do
@@ -644,9 +643,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::package_source must be a string\./)
+        end.to raise_error(Puppet::Error, /nscd::package_source must be a string\./)
       end
     end
   end
@@ -656,15 +655,15 @@ describe 'nscd' do
       let(:params) { { :package_name => 'mynscd' } }
       let(:facts) { { :osfamily => 'Debian' } }
 
-      it { should contain_package('mynscd').with({'ensure' => 'present' }) }
+      it { should contain_package('mynscd').with({ 'ensure' => 'present' }) }
     end
 
     context 'as an array' do
-      let(:params) { { :package_name => ['nscd','foo'] } }
+      let(:params) { { :package_name => %w(nscd foo) } }
       let(:facts) { { :osfamily => 'Debian' } }
 
-      it { should contain_package('nscd').with({'ensure' => 'present' }) }
-      it { should contain_package('foo').with({'ensure' => 'present' }) }
+      it { should contain_package('nscd').with({ 'ensure' => 'present' }) }
+      it { should contain_package('foo').with({ 'ensure' => 'present' }) }
     end
 
     context 'as an invalid type' do
@@ -672,16 +671,16 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::package_name must be a string or an array\./)
+        end.to raise_error(Puppet::Error, /nscd::package_name must be a string or an array\./)
       end
     end
   end
 
   describe 'with package_ensure parameter' do
     context 'set to all possible valid values' do
-      %w{present installed absent}.each do |ensure_value|
+      %w(present installed absent).each do |ensure_value|
         context "package_ensure => #{ensure_value}" do
           let(:params) { { :package_ensure => ensure_value } }
           let(:facts) { { :osfamily => 'Debian' } }
@@ -696,9 +695,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::package_ensure is invalid and does not match the regex\./)
+        end.to raise_error(Puppet::Error, /nscd::package_ensure is invalid and does not match the regex\./)
       end
     end
   end
@@ -716,9 +715,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
+        end.to raise_error(Puppet::Error, %r{"invalid/path" is not an absolute path})
       end
     end
   end
@@ -732,13 +731,13 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :config_owner => ['invalid','root'] } }
+      let(:params) { { :config_owner => %w(invalid root) } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/\["invalid", "root"\] is not a string/)
+        end.to raise_error(Puppet::Error, /\["invalid", "root"\] is not a string/)
       end
     end
   end
@@ -752,13 +751,13 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :config_group => ['invalid','root'] } }
+      let(:params) { { :config_group => %w(invalid root) } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/\["invalid", "root"\] is not a string/)
+        end.to raise_error(Puppet::Error, /\["invalid", "root"\] is not a string/)
       end
     end
   end
@@ -776,9 +775,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::config_mode is <644>. Must be in four digit octal notation\./)
+        end.to raise_error(Puppet::Error, /nscd::config_mode is <644>. Must be in four digit octal notation\./)
       end
     end
 
@@ -787,9 +786,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::config_mode is <true>\. Must be in four digit octal notation/)
+        end.to raise_error(Puppet::Error, /nscd::config_mode is <true>\. Must be in four digit octal notation/)
       end
     end
   end
@@ -807,16 +806,16 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::config_mode is <true>\. Must be in four digit octal notation/)
+        end.to raise_error(Puppet::Error, /nscd::config_mode is <true>\. Must be in four digit octal notation/)
       end
     end
   end
 
   describe 'with service_ensure parameter' do
     context 'set to all possible valid values' do
-      %w{present running absent stopped}.each do |ensure_value|
+      %w(present running absent stopped).each do |ensure_value|
         context "service_ensure => #{ensure_value}" do
           let(:params) { { :service_ensure => ensure_value } }
           let(:facts) { { :osfamily => 'Debian' } }
@@ -831,9 +830,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::service_ensure is invalid and does not match the regex\./)
+        end.to raise_error(Puppet::Error, /nscd::service_ensure is invalid and does not match the regex\./)
       end
     end
   end
@@ -855,20 +854,20 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/Unknown type of boolean/)
+        end.to raise_error(Puppet::Error, /Unknown type of boolean/)
       end
     end
 
     context 'set to invalid type' do
-      let(:params) { { :service_enable => ['invalid','type'] } }
+      let(:params) { { :service_enable => %w(invalid type) } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/\["invalid", "type"\] is not a boolean/)
+        end.to raise_error(Puppet::Error, /\["invalid", "type"\] is not a boolean/)
       end
     end
   end
@@ -882,20 +881,20 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :service_provider => ['not','a','string'] } }
+      let(:params) { { :service_provider => %w(not a string) } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error, /is not a string/)
+        end.to raise_error(Puppet::Error, /is not a string/)
       end
     end
   end
 
-  ['passwd','group','hosts','services','netgroup'].each do |service|
+  %w(passwd group hosts services netgroup).each do |service|
     describe "with enable_db_#{service}" do
-      [true,'true',false,'false'].each do |value|
+      [true, 'true', false, 'false'].each do |value|
         context "set to valid value #{value}" do
           let(:params) { { :"enable_db_#{service}" => value } }
           let(:facts) { { :osfamily => 'Debian' } }
@@ -905,20 +904,20 @@ describe 'nscd' do
       end
 
       context 'set to an invalid type (non-boolean or string convertible to boolean)' do
-        let(:params) { { :"enable_db_#{service}" => ['invalid','type'] } }
+        let(:params) { { :"enable_db_#{service}" => %w(invalid type) } }
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/Requires either string to work with/)
+          end.to raise_error(Puppet::Error, /Requires either string to work with/)
         end
       end
     end
   end
 
   describe 'with enable_opt_auto_propagate' do
-    [true,'true',false,'false'].each do |value|
+    [true, 'true', false, 'false'].each do |value|
       context "set to valid value #{value}" do
         let(:params) { { :enable_opt_auto_propagate => value } }
         let(:facts) { { :osfamily => 'Debian' } }
@@ -928,13 +927,13 @@ describe 'nscd' do
     end
 
     context 'set to an invalid type (non-boolean or string convertible to boolean)' do
-      let(:params) { { :enable_opt_auto_propagate => ['invalid','type'] } }
+      let(:params) { { :enable_opt_auto_propagate => %w(invalid type) } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/Requires either string to work with/)
+        end.to raise_error(Puppet::Error, /Requires either string to work with/)
       end
     end
   end
@@ -944,7 +943,7 @@ describe 'nscd' do
       let(:params) { { :logfile => '/path/to/nscd.log' } }
       let(:facts) { { :osfamily => 'Debian' } }
 
-      it { should contain_file('nscd_config').with_content(/^logfile\ +\/path\/to\/nscd.log$/) }
+      it { should contain_file('nscd_config').with_content(%r{^logfile\ +/path/to/nscd\.log$}) }
     end
 
     context 'as an invalid path' do
@@ -952,9 +951,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/"invalid\/path" is not an absolute path/)
+        end.to raise_error(Puppet::Error, %r{"invalid/path" is not an absolute path})
       end
     end
 
@@ -963,9 +962,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/true is not an absolute path/)
+        end.to raise_error(Puppet::Error, /true is not an absolute path/)
       end
     end
   end
@@ -983,9 +982,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::threads is <x>\. Must be a number\./)
+        end.to raise_error(Puppet::Error, /nscd::threads is <x>\. Must be a number\./)
       end
     end
 
@@ -994,9 +993,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::threads is <true>\. Must be a number/)
+        end.to raise_error(Puppet::Error, /nscd::threads is <true>\. Must be a number/)
       end
     end
   end
@@ -1014,9 +1013,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::max_threads is <x>\. Must be a number\./)
+        end.to raise_error(Puppet::Error, /nscd::max_threads is <x>\. Must be a number\./)
       end
     end
 
@@ -1025,9 +1024,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::max_threads is <true>. Must be a number/)
+        end.to raise_error(Puppet::Error, /nscd::max_threads is <true>. Must be a number/)
       end
     end
   end
@@ -1060,9 +1059,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/true is not a string\.  It looks to be a TrueClass/)
+        end.to raise_error(Puppet::Error, /true is not a string\.  It looks to be a TrueClass/)
       end
     end
   end
@@ -1080,9 +1079,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::debug_level is <x>\. Must be a number\./)
+        end.to raise_error(Puppet::Error, /nscd::debug_level is <x>\. Must be a number\./)
       end
     end
 
@@ -1091,9 +1090,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::debug_level is <true>\. Must be a number/)
+        end.to raise_error(Puppet::Error, /nscd::debug_level is <true>\. Must be a number/)
       end
     end
   end
@@ -1114,15 +1113,15 @@ describe 'nscd' do
       it { should contain_file('nscd_config').with_content(/^reload-count\ +unlimited$/) }
     end
 
-    ['unlimitedd','invalid','-1'].each do |value|
+    ['unlimitedd', 'invalid', '-1'].each do |value|
       context "as invalid value #{value}" do
         let(:params) { { :reload_count => value } }
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::reload_count is <#{value}>\. Must be a number or 'unlimited'\./)
+          end.to raise_error(Puppet::Error, /nscd::reload_count is <#{value}>\. Must be a number or 'unlimited'\./)
         end
       end
     end
@@ -1132,15 +1131,15 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::reload_count is <true>\. Must be a number or 'unlimited'/)
+        end.to raise_error(Puppet::Error, /nscd::reload_count is <true>\. Must be a number or 'unlimited'/)
       end
     end
   end
 
   describe 'with paranoia parameter specified' do
-    ['yes','no'].each do |value|
+    %w(yes no).each do |value|
       context "as valid value #{value}" do
         let(:params) { { :paranoia => value } }
         let(:facts) { { :osfamily => 'Debian' } }
@@ -1149,15 +1148,15 @@ describe 'nscd' do
       end
     end
 
-    ['yess','nooo','-1',true].each do |value|
+    ['yess', 'nooo', '-1', true].each do |value|
       context "as invalid value #{value}" do
         let(:params) { { :paranoia => value } }
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::paranoia is <#{value}>\. Must be either 'yes' or 'no'\./)
+          end.to raise_error(Puppet::Error, /nscd::paranoia is <#{value}>\. Must be either 'yes' or 'no'\./)
         end
       end
     end
@@ -1176,9 +1175,9 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::restart_interval is <x>\. Must be a number in seconds\./)
+        end.to raise_error(Puppet::Error, /nscd::restart_interval is <x>\. Must be a number in seconds\./)
       end
     end
 
@@ -1187,16 +1186,16 @@ describe 'nscd' do
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
-        expect {
+        expect do
           should contain_class('nscd')
-        }.to raise_error(Puppet::Error,/nscd::restart_interval is <true>\. Must be a number in seconds\./)
+        end.to raise_error(Puppet::Error, /nscd::restart_interval is <true>\. Must be a number in seconds\./)
       end
     end
   end
 
-  ['passwd','group','hosts','services','netgroup'].each do |service|
+  %w(passwd group hosts services netgroup).each do |service|
     describe "with #{service}_enable_cache specified" do
-      ['yes','no'].each do |value|
+      %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
             { :"enable_db_#{service}"    => true,
@@ -1209,15 +1208,15 @@ describe 'nscd' do
         end
       end
 
-      ['yess','nooo','-1',true].each do |value|
+      ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_enable_cache" => value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
-            expect {
+            expect do
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\./)
+            end.to raise_error(Puppet::Error, /nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -1240,9 +1239,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_positive_time_to_live is <x>\. Must be a number in seconds\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_positive_time_to_live is <x>\. Must be a number in seconds\./)
         end
       end
 
@@ -1251,9 +1250,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_positive_time_to_live is <true>\. Must be a number in seconds\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_positive_time_to_live is <true>\. Must be a number in seconds\./)
         end
       end
     end
@@ -1275,9 +1274,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_negative_time_to_live is <x>\. Must be a number in seconds\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_negative_time_to_live is <x>\. Must be a number in seconds\./)
         end
       end
 
@@ -1286,9 +1285,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_negative_time_to_live is <true>\. Must be a number in seconds\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_negative_time_to_live is <true>\. Must be a number in seconds\./)
         end
       end
     end
@@ -1310,9 +1309,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_suggested_size is <x>\. Must be a number\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_suggested_size is <x>\. Must be a number\./)
         end
       end
 
@@ -1321,15 +1320,15 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_suggested_size is <true>\. Must be a number\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_suggested_size is <true>\. Must be a number\./)
         end
       end
     end
 
     describe "with #{service}_check_files specified" do
-      ['yes','no'].each do |value|
+      %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
             { :"enable_db_#{service}"   => true,
@@ -1342,22 +1341,22 @@ describe 'nscd' do
         end
       end
 
-      ['yess','nooo','-1',true].each do |value|
+      ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_check_files" => value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
-            expect {
+            expect do
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\./)
+            end.to raise_error(Puppet::Error, /nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
     end
 
     describe "with #{service}_persistent specified" do
-      ['yes','no'].each do |value|
+      %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
             { :"enable_db_#{service}"  => true,
@@ -1370,22 +1369,22 @@ describe 'nscd' do
         end
       end
 
-      ['yess','nooo','-1',true].each do |value|
+      ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_persistent" => value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
-            expect {
+            expect do
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/nscd::#{service}_persistent is <#{value}>\. Must be either 'yes' or 'no'\./)
+            end.to raise_error(Puppet::Error, /nscd::#{service}_persistent is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
     end
 
     describe "with #{service}_shared specified" do
-      ['yes','no'].each do |value|
+      %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
             { :"enable_db_#{service}" => true,
@@ -1398,15 +1397,15 @@ describe 'nscd' do
         end
       end
 
-      ['yess','nooo','-1',true].each do |value|
+      ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_shared" => value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
           it 'should fail' do
-            expect {
+            expect do
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/nscd::#{service}_shared is <#{value}>\. Must be either 'yes' or 'no'\./)
+            end.to raise_error(Puppet::Error, /nscd::#{service}_shared is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -1429,9 +1428,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_max_db_size is <x>\. Must be a number in bytes\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_max_db_size is <x>\. Must be a number in bytes\./)
         end
       end
 
@@ -1440,17 +1439,17 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_max_db_size is <true>\. Must be a number in bytes\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_max_db_size is <true>\. Must be a number in bytes\./)
         end
       end
     end
 
     # only the passwd and group services use auto-propogate
-    if service == 'passwd' or service == 'group'
+    if service == 'passwd' || service == 'group'
       describe "with #{service}_auto_propagate specified" do
-        ['yes','no'].each do |value|
+        %w(yes no).each do |value|
           context "as valid value #{value}" do
             let :params do
               { :"enable_db_#{service}"      => true,
@@ -1463,15 +1462,15 @@ describe 'nscd' do
           end
         end
 
-        ['yess','nooo','-1',true].each do |value|
+        ['yess', 'nooo', '-1', true].each do |value|
           context "as invalid value #{value}" do
             let(:params) { { :"#{service}_auto_propagate" => value } }
             let(:facts) { { :osfamily => 'Debian' } }
 
             it 'should fail' do
-              expect {
+              expect do
                 should contain_class('nscd')
-              }.to raise_error(Puppet::Error,/nscd::#{service}_auto_propagate is <#{value}>\. Must be either 'yes' or 'no'\./)
+              end.to raise_error(Puppet::Error, /nscd::#{service}_auto_propagate is <#{value}>\. Must be either 'yes' or 'no'\./)
             end
           end
         end
@@ -1481,7 +1480,7 @@ describe 'nscd' do
 
   services_solaris.each do |service|
     describe "with #{service}_enable_cache specified" do
-      ['yes','no'].each do |value|
+      %w(yes no).each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_enable_cache" => value } }
           let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
@@ -1490,15 +1489,15 @@ describe 'nscd' do
         end
       end
 
-      ['yess','nooo','-1',true].each do |value|
+      ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_enable_cache" => value } }
           let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
 
           it 'should fail' do
-            expect {
+            expect do
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\./)
+            end.to raise_error(Puppet::Error, /nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
@@ -1517,9 +1516,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_positive_time_to_live is <x>\. Must be a number in seconds\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_positive_time_to_live is <x>\. Must be a number in seconds\./)
         end
       end
 
@@ -1528,9 +1527,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          end.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1548,9 +1547,9 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error,/nscd::#{service}_negative_time_to_live is <x>\. Must be a number in seconds\./)
+          end.to raise_error(Puppet::Error, /nscd::#{service}_negative_time_to_live is <x>\. Must be a number in seconds\./)
         end
       end
 
@@ -1559,15 +1558,15 @@ describe 'nscd' do
         let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
 
         it 'should fail' do
-          expect {
+          expect do
             should contain_class('nscd')
-          }.to raise_error(Puppet::Error)
+          end.to raise_error(Puppet::Error)
         end
       end
     end
 
     describe "with #{service}_check_files specified" do
-      ['yes','no'].each do |value|
+      %w(yes no).each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_check_files" => value } }
           let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
@@ -1576,15 +1575,15 @@ describe 'nscd' do
         end
       end
 
-      ['yess','nooo','-1',true].each do |value|
+      ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { :"#{service}_check_files" => value } }
           let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
 
           it 'should fail' do
-            expect {
+            expect do
               should contain_class('nscd')
-            }.to raise_error(Puppet::Error,/nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\./)
+            end.to raise_error(Puppet::Error, /nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\./)
           end
         end
       end
