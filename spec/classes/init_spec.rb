@@ -654,7 +654,7 @@ describe 'nscd' do
       it 'should fail' do
         expect do
           should contain_class('nscd')
-        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6 and 7\. Your operatingsystemmajrelease is identified as <4>\./)
+        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6, 7 and Amazon linux 2015, 2016\. Your operatingsystemmajrelease is identified as <4>\./)
       end
     end
 
