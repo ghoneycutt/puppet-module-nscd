@@ -28,7 +28,10 @@ Style/Next:
 Style/NonNilCheck:
   Enabled: false
 
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
   Enabled: false
 
 # Cop's that require ruby >= 1.9
