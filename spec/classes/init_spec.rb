@@ -685,7 +685,7 @@ describe 'nscd' do
           let(:params) { { :package_ensure => ensure_value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
-          it { should contain_package('nscd').with({ 'ensure' => "#{ensure_value}" }) }
+          it { should contain_package('nscd').with({ 'ensure' => ensure_value.to_s }) }
         end
       end
     end
@@ -820,7 +820,7 @@ describe 'nscd' do
           let(:params) { { :service_ensure => ensure_value } }
           let(:facts) { { :osfamily => 'Debian' } }
 
-          it { should contain_service('nscd_service').with({ 'ensure' => "#{ensure_value}" }) }
+          it { should contain_service('nscd_service').with({ 'ensure' => ensure_value.to_s }) }
         end
       end
     end
