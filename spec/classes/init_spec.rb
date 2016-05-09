@@ -2,7 +2,8 @@ require 'spec_helper'
 describe 'nscd' do
   platforms = {
     'debian6' =>
-      { :osfamily                  => 'Debian',
+      {
+        :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '6',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -34,7 +35,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'el5' =>
-      { :osfamily                  => 'RedHat',
+      {
+        :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '5',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -66,7 +68,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'el6' =>
-      { :osfamily                  => 'RedHat',
+      {
+        :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '6',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -97,8 +100,75 @@ describe 'nscd' do
         :enable_db_tnrhtp          => false,
         :enable_db_user_attr       => false,
       },
+    'amazon2015' =>
+      {
+        :osfamily                  => 'RedHat',
+        :operatingsystemmajrelease => '2015',
+        :package_adminfile         => nil,
+        :package_name              => 'nscd',
+        :package_source            => nil,
+        :server_user               => 'nscd',
+        :service_name              => 'nscd',
+        :service_provider          => nil,
+        :enable_db_services        => true,
+        :enable_db_netgroup        => true,
+        :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
+      },
+    'amazon2016' =>
+      {
+        :osfamily                  => 'RedHat',
+        :operatingsystemmajrelease => '2016',
+        :package_adminfile         => nil,
+        :package_name              => 'nscd',
+        :package_source            => nil,
+        :server_user               => 'nscd',
+        :service_name              => 'nscd',
+        :service_provider          => nil,
+        :enable_db_services        => true,
+        :enable_db_netgroup        => true,
+        :enable_opt_auto_propagate => true,
+        :enable_db_passwd          => true,
+        :enable_db_group           => true,
+        :enable_db_hosts           => true,
+        :enable_db_audit_user      => false,
+        :enable_db_auth_attr       => false,
+        :enable_db_bootparams      => false,
+        :enable_db_ethers          => false,
+        :enable_db_exec_attr       => false,
+        :enable_db_ipnodes         => false,
+        :enable_db_netmasks        => false,
+        :enable_db_networks        => false,
+        :enable_db_printers        => false,
+        :enable_db_prof_attr       => false,
+        :enable_db_project         => false,
+        :enable_db_protocols       => false,
+        :enable_db_rpc             => false,
+        :enable_db_tnrhdb          => false,
+        :enable_db_tnrhtp          => false,
+        :enable_db_user_attr       => false,
+      },
     'el7' =>
-      { :osfamily                  => 'RedHat',
+      {
+        :osfamily                  => 'RedHat',
         :operatingsystemmajrelease => '7',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -130,7 +200,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'suse10' =>
-      { :osfamily                  => 'Suse',
+      {
+        :osfamily                  => 'Suse',
         :operatingsystemrelease    => '10.1',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -162,7 +233,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'suse11' =>
-      { :osfamily                  => 'Suse',
+      {
+        :osfamily                  => 'Suse',
         :operatingsystemrelease    => '11.2',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -194,7 +266,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'suse12' =>
-      { :osfamily                  => 'Suse',
+      {
+        :osfamily                  => 'Suse',
         :operatingsystemrelease    => '12.3',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -226,7 +299,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'suse13' =>
-      { :osfamily                  => 'Suse',
+      {
+        :osfamily                  => 'Suse',
         :operatingsystemrelease    => '13.0',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -258,7 +332,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'ubuntu12' =>
-      { :osfamily                  => 'Debian',
+      {
+        :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '12',
         :package_adminfile         => nil,
         :package_name              => 'nscd',
@@ -290,7 +365,8 @@ describe 'nscd' do
         :enable_db_user_attr       => false,
       },
     'solaris10' =>
-      { :osfamily                  => 'Solaris',
+      {
+        :osfamily                  => 'Solaris',
         :kernelrelease             => '5.10',
         :package_adminfile         => nil,
         :package_name              => 'SUNWcsu',
@@ -338,12 +414,14 @@ describe 'nscd' do
     rpc
     tnrhdb
     tnrhtp
-    user_attr)
+    user_attr
+  )
 
   platforms.sort.each do |_k, v|
     describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]} with default values for all parameters" do
       let(:facts) do
-        { :operatingsystemmajrelease => v[:operatingsystemmajrelease],
+        {
+          :operatingsystemmajrelease => v[:operatingsystemmajrelease],
           :operatingsystemrelease    => v[:operatingsystemrelease],
           :kernelrelease             => v[:kernelrelease],
           :osfamily                  => v[:osfamily],
@@ -582,7 +660,8 @@ describe 'nscd' do
 
     context 'versions of EL' do
       let :facts do
-        { :osfamily                  => 'RedHat',
+        {
+          :osfamily                  => 'RedHat',
           :operatingsystemmajrelease => '4',
         }
       end
@@ -590,13 +669,14 @@ describe 'nscd' do
       it 'should fail' do
         expect do
           should contain_class('nscd')
-        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6 and 7\. Your operatingsystemmajrelease is identified as <4>\./)
+        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6, 7 and Amazon linux 2015, 2016\. Your operatingsystemmajrelease is identified as <4>\./)
       end
     end
 
     context 'versions of Suse' do
       let :facts do
-        { :osfamily                  => 'Suse',
+        {
+          :osfamily                  => 'Suse',
           :operatingsystemrelease    => '4.0',
           :operatingsystemmajrelease => '4',
         }
@@ -1198,7 +1278,8 @@ describe 'nscd' do
       %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
-            { :"enable_db_#{service}"    => true,
+            {
+              :"enable_db_#{service}"    => true,
               :"#{service}_enable_cache" => value,
             }
           end
@@ -1225,7 +1306,8 @@ describe 'nscd' do
     describe "with #{service}_positive_time_to_live specified" do
       context 'as a valid number' do
         let :params do
-          { :"enable_db_#{service}"             => true,
+          {
+            :"enable_db_#{service}"             => true,
             :"#{service}_positive_time_to_live" => '31415',
           }
         end
@@ -1260,7 +1342,8 @@ describe 'nscd' do
     describe "with #{service}_negative_time_to_live specified" do
       context 'as a valid number' do
         let :params do
-          { :"enable_db_#{service}"             => true,
+          {
+            :"enable_db_#{service}"             => true,
             :"#{service}_negative_time_to_live" => '23',
           }
         end
@@ -1295,7 +1378,8 @@ describe 'nscd' do
     describe "with #{service}_suggested_size specified" do
       context 'as a valid number' do
         let :params do
-          { :"enable_db_#{service}"      => true,
+          {
+            :"enable_db_#{service}"      => true,
             :"#{service}_suggested_size" => '411',
           }
         end
@@ -1331,7 +1415,8 @@ describe 'nscd' do
       %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
-            { :"enable_db_#{service}"   => true,
+            {
+              :"enable_db_#{service}"   => true,
               :"#{service}_check_files" => value,
             }
           end
@@ -1359,7 +1444,8 @@ describe 'nscd' do
       %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
-            { :"enable_db_#{service}"  => true,
+            {
+              :"enable_db_#{service}"  => true,
               :"#{service}_persistent" => value,
             }
           end
@@ -1387,7 +1473,8 @@ describe 'nscd' do
       %w(yes no).each do |value|
         context "as valid value #{value}" do
           let :params do
-            { :"enable_db_#{service}" => true,
+            {
+              :"enable_db_#{service}" => true,
               :"#{service}_shared"    => value,
             }
           end
@@ -1414,7 +1501,8 @@ describe 'nscd' do
     describe "with #{service}_max_db_size specified" do
       context 'as a valid number' do
         let :params do
-          { :"enable_db_#{service}"   => true,
+          {
+            :"enable_db_#{service}"   => true,
             :"#{service}_max_db_size" => '1000000',
           }
         end
@@ -1452,7 +1540,8 @@ describe 'nscd' do
         %w(yes no).each do |value|
           context "as valid value #{value}" do
             let :params do
-              { :"enable_db_#{service}"      => true,
+              {
+                :"enable_db_#{service}"      => true,
                 :"#{service}_auto_propagate" => value,
               }
             end
