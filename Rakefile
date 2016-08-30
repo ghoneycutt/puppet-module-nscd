@@ -8,6 +8,7 @@ if RUBY_VERSION >= '1.9'
 end
 
 PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.relative = true
 PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp']
 
