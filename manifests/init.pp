@@ -286,7 +286,7 @@ class nscd (
       $service_name_default      = 'nscd'
       case $::operatingsystemmajrelease {
         '5': {
-          $default_service_provider          = undef
+          $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -311,7 +311,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         '6': {
-          $default_service_provider          = undef
+          $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -336,7 +336,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         '7': {
-          $default_service_provider          = undef
+          $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -364,7 +364,7 @@ class nscd (
         # Amazon Linux has 'YYYY-MM' version format
         # https://github.com/ghoneycutt/puppet-module-nscd/issues/41
         '2015', '2016': {
-          $default_service_provider          = undef
+          $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -404,7 +404,7 @@ class nscd (
       case $::operatingsystemrelease {
         /^10\./: {
           $default_server_user               = undef
-          $default_service_provider          = undef
+          $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -430,7 +430,7 @@ class nscd (
         }
         /^11\./: {
           $default_server_user               = undef
-          $default_service_provider          = undef
+          $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -456,7 +456,7 @@ class nscd (
         }
         /^12\./, /^13\./: {
           $default_server_user               = 'nscd'
-          $default_service_provider          = 'systemd'
+          $service_provider_default          = 'systemd'
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
           $enable_db_hosts_default           = true
@@ -488,7 +488,7 @@ class nscd (
     'Debian': {
       $default_logfile                   = '/var/log/nscd.log'
       $default_server_user               = undef
-      $default_service_provider          = undef
+      $service_provider_default          = undef
       $enable_db_passwd_default          = true
       $enable_db_group_default           = true
       $enable_db_hosts_default           = true
@@ -522,6 +522,7 @@ class nscd (
       $package_adminfile_default = undef
       $package_name_default      = 'SUNWcsu'
       $package_source_default    = '/var/spool/pkg'
+      $service_provider_default  = undef
       $service_name_default      = 'name-service-cache'
       case $::kernelrelease {
         '5.10': {
@@ -610,7 +611,7 @@ class nscd (
   validate_string($service_name_real)
 
   if $service_provider == 'USE_DEFAULTS' {
-    $service_provider_real = $default_service_provider
+    $service_provider_real = $service_provider_default
   } else {
     if $service_provider != undef {
       validate_string($service_provider)
