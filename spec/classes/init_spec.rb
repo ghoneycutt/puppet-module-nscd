@@ -373,6 +373,7 @@ describe 'nscd' do
         :package_source            => '/var/spool/pkg',
         :server_user               => nil,
         :service_name              => 'name-service-cache',
+        :service_provider          => nil,
         :enable_db_passwd          => true,
         :enable_db_group           => true,
         :enable_db_hosts           => true,
