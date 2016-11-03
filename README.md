@@ -165,13 +165,13 @@ Setting for stat-user in nscd.conf.  See nscd.conf(5).
 
 debug_level
 -----------
-Setting for debug-level in nscd.conf.  See nscd.conf(5). Must be a number.
+Setting for debug-level in nscd.conf.  See nscd.conf(5). Must be a number expressed as a string.
 
 - *Default*: '0'
 
 reload_count
 ------------
-Settings for reload-count in nscd.conf.  See nscd.conf(5). Must be a number or 'unlimited'.
+Settings for reload-count in nscd.conf.  See nscd.conf(5). Must be a number expressed as a string or 'unlimited'.
 
 - *Default*: '5'
 
@@ -183,7 +183,7 @@ Setting for paranoia in nscd.conf.  See nscd.conf(5). Must be 'yes' or 'no'.
 
 restart_interval
 ----------------
-Setting for restart-interval in nscd.conf.  See nscd.conf(5). Must be a number.
+Setting for restart-interval in nscd.conf.  See nscd.conf(5). Must be a number expressed as a string.
 
 - *Default*: '3600'
 
@@ -330,27 +330,27 @@ Settings for enable-cache passwd in nscd.conf. Must be 'yes' or 'no'.
 
 passwd_positive_time_to_live
 ----------------------------
-Settings for positive-time-to-live passwd in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live passwd in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 600
+- *Default*: '600'
 
 passwd_negative_time_to_live
 ----------------------------
-Settings for negative-time-to-live passwd in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live passwd in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 passwd_keep_hot_count
 ---------------------
-Settings for keep-hot-count passwd in nscd.conf. Must be a number.
+Settings for keep-hot-count passwd in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 passwd_suggested_size
 ---------------------
-Settings for suggested-size passwd in nscd.conf. Must be a number.
+Settings for suggested-size passwd in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 passwd_check_files
 ------------------
@@ -372,9 +372,9 @@ Settings for shared passwd in nscd.conf. Must be 'yes' or 'no'.
 
 passwd_max_db_size
 ------------------
-Settings for max-db-size passwd in nscd.conf. Must be a number in bytes.
+Settings for max-db-size passwd in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 passwd_auto_propagate
 ---------------------
@@ -390,27 +390,27 @@ Settings for enable-cache group in nscd.conf. Must be 'yes' or 'no'.
 
 group_positive_time_to_live
 ---------------------------
-Settings for positive-time-to-live group in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live group in nscd.conf. Must be a number in seconds expressed as a string.
 
 - *Default*: '3600'
 
 group_negative_time_to_live
 ---------------------------
-Settings for negative-time-to-live group in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live group in nscd.conf. Must be a number in seconds expressed as a string.
 
 - *Default*: '60'
 
 group_keep_hot_count
 --------------------
-Settings for keep-hot-count group in nscd.conf. Must be a number.
+Settings for keep-hot-count group in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 group_suggested_size
 --------------------
-Settings for suggested-size group in nscd.conf. Must be a number.
+Settings for suggested-size group in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 group_check_files
 -----------------
@@ -432,9 +432,9 @@ Settings for shared group in nscd.conf. Must be 'yes' or 'no'.
 
 group_max_db_size
 -----------------
-Settings for max-db-size group in nscd.conf. Must be a number in bytes.
+Settings for max-db-size group in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 group_auto_propagate
 --------------------
@@ -450,27 +450,27 @@ Settings for enable-cache hosts in nscd.conf. Must be 'yes' or 'no'.
 
 hosts_positive_time_to_live
 ---------------------------
-Settings for positive-time-to-live hosts in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live hosts in nscd.conf. Must be a number in seconds expressed as a string.
 
 - *Default*: '3600'
 
 hosts_negative_time_to_live
 ---------------------------
-Settings for negative-time-to-live hosts in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live hosts in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 hosts_keep_hot_count
 --------------------
-Settings for keep-hot-count hosts in nscd.conf. Must be a number.
+Settings for keep-hot-count hosts in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 hosts_suggested_size
 --------------------
-Settings for suggested-size hosts in nscd.conf. Must be a number.
+Settings for suggested-size hosts in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 hosts_check_files
 -----------------
@@ -492,9 +492,9 @@ Settings for shared hosts in nscd.conf. Must be 'yes' or 'no'.
 
 hosts_max_db_size
 -----------------
-Settings for max-db-size hosts in nscd.conf. Must be a number in bytes.
+Settings for max-db-size hosts in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 services_enable_cache
 ---------------------
@@ -504,27 +504,27 @@ Settings for enable-cache services in nscd.conf. Must be 'yes' or 'no'.
 
 services_positive_time_to_live
 ------------------------------
-Settings for positive-time-to-live services in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live services in nscd.conf. Must be a number in seconds expressed as a string.
 
 - *Default*: '28800'
 
 services_negative_time_to_live
 ------------------------------
-Settings for negative-time-to-live services in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live services in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 services_keep_hot_count
 -----------------------
-Settings for keep-hot-count services in nscd.conf. Must be a number.
+Settings for keep-hot-count services in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 services_suggested_size
 -----------------------
-Settings for suggested-size services in nscd.conf. Must be a number.
+Settings for suggested-size services in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 services_check_files
 --------------------
@@ -546,9 +546,9 @@ Settings for shared services in nscd.conf. Must be 'yes' or 'no'.
 
 services_max_db_size
 --------------------
-Settings for max-db-size servicess in nscd.conf. Must be a number in bytes.
+Settings for max-db-size servicess in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 netgroup_enable_cache
 ---------------------
@@ -558,21 +558,21 @@ Settings for enable-cache netgroup in nscd.conf. Must be 'yes' or 'no'.
 
 netgroup_positive_time_to_live
 ------------------------------
-Settings for positive-time-to-live netgroup in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live netgroup in nscd.conf. Must be a number in seconds expressed as a string.
 
 - *Default*: '28800'
 
 netgroup_negative_time_to_live
 ------------------------------
-Settings for negative-time-to-live netgroup in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live netgroup in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 netgroup_suggested_size
 -----------------------
-Settings for suggested-size netgroup in nscd.conf. Must be a number.
+Settings for suggested-size netgroup in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 netgroup_check_files
 --------------------
@@ -594,9 +594,9 @@ Settings for shared netgroup in nscd.conf. Must be 'yes' or 'no'.
 
 netgroup_max_db_size
 --------------------
-Settings for max-db-size netgroup in nscd.conf. Must be a number in bytes.
+Settings for max-db-size netgroup in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 audit_user_enable_cache
 -----------------------
@@ -606,27 +606,27 @@ Settings for enable-cache audit_user in nscd.conf. Must be 'yes' or 'no'.
 
 audit_user_positive_time_to_live
 --------------------------------
-Settings for positive-time-to-live audit_user in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live audit_user in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 audit_user_negative_time_to_live
 --------------------------------
-Settings for negative-time-to-live audit_user in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live audit_user in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 audit_user_keep_hot_count
 -------------------------
-Settings for keep-hot-count audit_user in nscd.conf. Must be a number.
+Settings for keep-hot-count audit_user in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 audit_user_suggested_size
 -------------------------
-Settings for suggested-size audit_user in nscd.conf. Must be a number.
+Settings for suggested-size audit_user in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 audit_user_check_files
 ----------------------
@@ -648,9 +648,9 @@ Settings for shared audit_user in nscd.conf. Must be 'yes' or 'no'.
 
 audit_user_max_db_size
 ----------------------
-Settings for max-db-size audit_user in nscd.conf. Must be a number in bytes.
+Settings for max-db-size audit_user in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 audit_user_auto_propagate
 -------------------------
@@ -666,27 +666,27 @@ Settings for enable-cache auth_attr in nscd.conf. Must be 'yes' or 'no'.
 
 auth_attr_positive_time_to_live
 -------------------------------
-Settings for positive-time-to-live auth_attr in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live auth_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 auth_attr_negative_time_to_live
 -------------------------------
-Settings for negative-time-to-live auth_attr in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live auth_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 auth_attr_keep_hot_count
 ------------------------
-Settings for keep-hot-count auth_attr in nscd.conf. Must be a number.
+Settings for keep-hot-count auth_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 auth_attr_suggested_size
 ------------------------
-Settings for suggested-size auth_attr in nscd.conf. Must be a number.
+Settings for suggested-size auth_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 auth_attr_check_files
 ---------------------
@@ -708,9 +708,9 @@ Settings for shared auth_attr in nscd.conf. Must be 'yes' or 'no'.
 
 auth_attr_max_db_size
 ---------------------
-Settings for max-db-size auth_attr in nscd.conf. Must be a number in bytes.
+Settings for max-db-size auth_attr in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 auth_attr_auto_propagate
 ------------------------
@@ -726,27 +726,27 @@ Settings for enable-cache bootparams in nscd.conf. Must be 'yes' or 'no'.
 
 bootparams_positive_time_to_live
 --------------------------------
-Settings for positive-time-to-live bootparams in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live bootparams in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 bootparams_negative_time_to_live
 --------------------------------
-Settings for negative-time-to-live bootparams in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live bootparams in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 bootparams_keep_hot_count
 -------------------------
-Settings for keep-hot-count bootparams in nscd.conf. Must be a number.
+Settings for keep-hot-count bootparams in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 bootparams_suggested_size
 -------------------------
-Settings for suggested-size bootparams in nscd.conf. Must be a number.
+Settings for suggested-size bootparams in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 bootparams_check_files
 ----------------------
@@ -768,9 +768,9 @@ Settings for shared bootparams in nscd.conf. Must be 'yes' or 'no'.
 
 bootparams_max_db_size
 ----------------------
-Settings for max-db-size bootparams in nscd.conf. Must be a number in bytes.
+Settings for max-db-size bootparams in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 bootparams_auto_propagate
 -------------------------
@@ -786,27 +786,27 @@ Settings for enable-cache ethers in nscd.conf. Must be 'yes' or 'no'.
 
 ethers_positive_time_to_live
 ----------------------------
-Settings for positive-time-to-live ethers in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live ethers in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 ethers_negative_time_to_live
 ----------------------------
-Settings for negative-time-to-live ethers in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live ethers in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 ethers_keep_hot_count
 ---------------------
-Settings for keep-hot-count ethers in nscd.conf. Must be a number.
+Settings for keep-hot-count ethers in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 ethers_suggested_size
 ---------------------
-Settings for suggested-size ethers in nscd.conf. Must be a number.
+Settings for suggested-size ethers in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 ethers_check_files
 ------------------
@@ -828,9 +828,9 @@ Settings for shared ethers in nscd.conf. Must be 'yes' or 'no'.
 
 ethers_max_db_size
 ------------------
-Settings for max-db-size ethers in nscd.conf. Must be a number in bytes.
+Settings for max-db-size ethers in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 ethers_auto_propagate
 ---------------------
@@ -846,27 +846,27 @@ Settings for enable-cache exec_attr in nscd.conf. Must be 'yes' or 'no'.
 
 exec_attr_positive_time_to_live
 -------------------------------
-Settings for positive-time-to-live exec_attr in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live exec_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 exec_attr_negative_time_to_live
 -------------------------------
-Settings for negative-time-to-live exec_attr in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live exec_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 exec_attr_keep_hot_count
 ------------------------
-Settings for keep-hot-count exec_attr in nscd.conf. Must be a number.
+Settings for keep-hot-count exec_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 exec_attr_suggested_size
 ------------------------
-Settings for suggested-size exec_attr in nscd.conf. Must be a number.
+Settings for suggested-size exec_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 exec_attr_check_files
 ---------------------
@@ -888,9 +888,9 @@ Settings for shared exec_attr in nscd.conf. Must be 'yes' or 'no'.
 
 exec_attr_max_db_size
 ---------------------
-Settings for max-db-size exec_attr in nscd.conf. Must be a number in bytes.
+Settings for max-db-size exec_attr in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 exec_attr_auto_propagate
 ------------------------
@@ -906,27 +906,27 @@ Settings for enable-cache ipnodes in nscd.conf. Must be 'yes' or 'no'.
 
 ipnodes_positive_time_to_live
 -----------------------------
-Settings for positive-time-to-live ipnodes in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live ipnodes in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 ipnodes_negative_time_to_live
 -----------------------------
-Settings for negative-time-to-live ipnodes in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live ipnodes in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 ipnodes_keep_hot_count
 ----------------------
-Settings for keep-hot-count ipnodes in nscd.conf. Must be a number.
+Settings for keep-hot-count ipnodes in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 ipnodes_suggested_size
 ----------------------
-Settings for suggested-size ipnodes in nscd.conf. Must be a number.
+Settings for suggested-size ipnodes in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 ipnodes_check_files
 -------------------
@@ -948,9 +948,9 @@ Settings for shared ipnodes in nscd.conf. Must be 'yes' or 'no'.
 
 ipnodes_max_db_size
 -------------------
-Settings for max-db-size ipnodes in nscd.conf. Must be a number in bytes.
+Settings for max-db-size ipnodes in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 ipnodes_auto_propagate
 ----------------------
@@ -966,27 +966,27 @@ Settings for enable-cache netmasks in nscd.conf. Must be 'yes' or 'no'.
 
 netmasks_positive_time_to_live
 ------------------------------
-Settings for positive-time-to-live netmasks in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live netmasks in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 netmasks_negative_time_to_live
 ------------------------------
-Settings for negative-time-to-live netmasks in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live netmasks in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 netmasks_keep_hot_count
 -----------------------
-Settings for keep-hot-count netmasks in nscd.conf. Must be a number.
+Settings for keep-hot-count netmasks in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 netmasks_suggested_size
 -----------------------
-Settings for suggested-size netmasks in nscd.conf. Must be a number.
+Settings for suggested-size netmasks in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 netmasks_check_files
 --------------------
@@ -1008,9 +1008,9 @@ Settings for shared netmasks in nscd.conf. Must be 'yes' or 'no'.
 
 netmasks_max_db_size
 --------------------
-Settings for max-db-size netmasks in nscd.conf. Must be a number in bytes.
+Settings for max-db-size netmasks in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 netmasks_auto_propagate
 -----------------------
@@ -1026,27 +1026,27 @@ Settings for enable-cache networks in nscd.conf. Must be 'yes' or 'no'.
 
 networks_positive_time_to_live
 ------------------------------
-Settings for positive-time-to-live networks in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live networks in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 networks_negative_time_to_live
 ------------------------------
-Settings for negative-time-to-live networks in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live networks in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 networks_keep_hot_count
 -----------------------
-Settings for keep-hot-count networks in nscd.conf. Must be a number.
+Settings for keep-hot-count networks in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 networks_suggested_size
 -----------------------
-Settings for suggested-size networks in nscd.conf. Must be a number.
+Settings for suggested-size networks in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 networks_check_files
 --------------------
@@ -1068,9 +1068,9 @@ Settings for shared networks in nscd.conf. Must be 'yes' or 'no'.
 
 networks_max_db_size
 --------------------
-Settings for max-db-size networks in nscd.conf. Must be a number in bytes.
+Settings for max-db-size networks in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 networks_auto_propagate
 -----------------------
@@ -1086,27 +1086,27 @@ Settings for enable-cache printers in nscd.conf. Must be 'yes' or 'no'.
 
 printers_positive_time_to_live
 ------------------------------
-Settings for positive-time-to-live printers in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live printers in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 printers_negative_time_to_live
 ------------------------------
-Settings for negative-time-to-live printers in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live printers in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 printers_keep_hot_count
 -----------------------
-Settings for keep-hot-count printers in nscd.conf. Must be a number.
+Settings for keep-hot-count printers in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 printers_suggested_size
 -----------------------
-Settings for suggested-size printers in nscd.conf. Must be a number.
+Settings for suggested-size printers in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 printers_check_files
 --------------------
@@ -1128,9 +1128,9 @@ Settings for shared printers in nscd.conf. Must be 'yes' or 'no'.
 
 printers_max_db_size
 --------------------
-Settings for max-db-size printers in nscd.conf. Must be a number in bytes.
+Settings for max-db-size printers in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 printers_auto_propagate
 -----------------------
@@ -1146,27 +1146,27 @@ Settings for enable-cache prof_attr in nscd.conf. Must be 'yes' or 'no'.
 
 prof_attr_positive_time_to_live
 -------------------------------
-Settings for positive-time-to-live prof_attr in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live prof_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 prof_attr_negative_time_to_live
 -------------------------------
-Settings for negative-time-to-live prof_attr in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live prof_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 prof_attr_keep_hot_count
 ------------------------
-Settings for keep-hot-count prof_attr in nscd.conf. Must be a number.
+Settings for keep-hot-count prof_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 prof_attr_suggested_size
 ------------------------
-Settings for suggested-size prof_attr in nscd.conf. Must be a number.
+Settings for suggested-size prof_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 prof_attr_check_files
 ---------------------
@@ -1188,9 +1188,9 @@ Settings for shared prof_attr in nscd.conf. Must be 'yes' or 'no'.
 
 prof_attr_max_db_size
 ---------------------
-Settings for max-db-size prof_attr in nscd.conf. Must be a number in bytes.
+Settings for max-db-size prof_attr in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 prof_attr_auto_propagate
 ------------------------
@@ -1206,27 +1206,27 @@ Settings for enable-cache project in nscd.conf. Must be 'yes' or 'no'.
 
 project_positive_time_to_live
 -----------------------------
-Settings for positive-time-to-live project in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live project in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 project_negative_time_to_live
 -----------------------------
-Settings for negative-time-to-live project in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live project in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 project_keep_hot_count
 ----------------------
-Settings for keep-hot-count project in nscd.conf. Must be a number.
+Settings for keep-hot-count project in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 project_suggested_size
 ----------------------
-Settings for suggested-size project in nscd.conf. Must be a number.
+Settings for suggested-size project in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 project_check_files
 -------------------
@@ -1248,9 +1248,9 @@ Settings for shared project in nscd.conf. Must be 'yes' or 'no'.
 
 project_max_db_size
 -------------------
-Settings for max-db-size project in nscd.conf. Must be a number in bytes.
+Settings for max-db-size project in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 project_auto_propagate
 ----------------------
@@ -1266,27 +1266,27 @@ Settings for enable-cache protocols in nscd.conf. Must be 'yes' or 'no'.
 
 protocols_positive_time_to_live
 -------------------------------
-Settings for positive-time-to-live protocols in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live protocols in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 protocols_negative_time_to_live
 -------------------------------
-Settings for negative-time-to-live protocols in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live protocols in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 protocols_keep_hot_count
 ------------------------
-Settings for keep-hot-count protocols in nscd.conf. Must be a number.
+Settings for keep-hot-count protocols in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 protocols_suggested_size
 ------------------------
-Settings for suggested-size protocols in nscd.conf. Must be a number.
+Settings for suggested-size protocols in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 protocols_check_files
 ---------------------
@@ -1308,9 +1308,9 @@ Settings for shared protocols in nscd.conf. Must be 'yes' or 'no'.
 
 protocols_max_db_size
 ---------------------
-Settings for max-db-size protocols in nscd.conf. Must be a number in bytes.
+Settings for max-db-size protocols in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 protocols_auto_propagate
 ------------------------
@@ -1326,27 +1326,27 @@ Settings for enable-cache rpc in nscd.conf. Must be 'yes' or 'no'.
 
 rpc_positive_time_to_live
 -------------------------
-Settings for positive-time-to-live rpc in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live rpc in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 rpc_negative_time_to_live
 -------------------------
-Settings for negative-time-to-live rpc in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live rpc in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 rpc_keep_hot_count
 ------------------
-Settings for keep-hot-count rpc in nscd.conf. Must be a number.
+Settings for keep-hot-count rpc in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 rpc_suggested_size
 ------------------
-Settings for suggested-size rpc in nscd.conf. Must be a number.
+Settings for suggested-size rpc in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 rpc_check_files
 ---------------
@@ -1368,9 +1368,9 @@ Settings for shared rpc in nscd.conf. Must be 'yes' or 'no'.
 
 rpc_max_db_size
 ---------------
-Settings for max-db-size rpc in nscd.conf. Must be a number in bytes.
+Settings for max-db-size rpc in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 rpc_auto_propagate
 ------------------
@@ -1386,27 +1386,27 @@ Settings for enable-cache tnrhdb in nscd.conf. Must be 'yes' or 'no'.
 
 tnrhdb_positive_time_to_live
 ----------------------------
-Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 tnrhdb_negative_time_to_live
 ----------------------------
-Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 tnrhdb_keep_hot_count
 ---------------------
-Settings for keep-hot-count tnrhdb in nscd.conf. Must be a number.
+Settings for keep-hot-count tnrhdb in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 tnrhdb_suggested_size
 ---------------------
-Settings for suggested-size tnrhdb in nscd.conf. Must be a number.
+Settings for suggested-size tnrhdb in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 tnrhdb_check_files
 ------------------
@@ -1428,9 +1428,9 @@ Settings for shared tnrhdb in nscd.conf. Must be 'yes' or 'no'.
 
 tnrhdb_max_db_size
 ------------------
-Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes.
+Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 tnrhdb_auto_propagate
 ---------------------
@@ -1446,27 +1446,27 @@ Settings for enable-cache tnrhdb in nscd.conf. Must be 'yes' or 'no'.
 
 tnrhtp_positive_time_to_live
 ----------------------------
-Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 tnrhtp_negative_time_to_live
 ----------------------------
-Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 tnrhtp_keep_hot_count
 ---------------------
-Settings for keep-hot-count tnrhdb in nscd.conf. Must be a number.
+Settings for keep-hot-count tnrhdb in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 tnrhtp_suggested_size
 ---------------------
-Settings for suggested-size tnrhdb in nscd.conf. Must be a number.
+Settings for suggested-size tnrhdb in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 tnrhtp_check_files
 ------------------
@@ -1488,9 +1488,9 @@ Settings for shared tnrhdb in nscd.conf. Must be 'yes' or 'no'.
 
 tnrhtp_max_db_size
 ------------------
-Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes.
+Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 tnrhtp_auto_propagate
 ---------------------
@@ -1506,27 +1506,27 @@ Settings for enable-cache user_attr in nscd.conf. Must be 'yes' or 'no'.
 
 user_attr_positive_time_to_live
 -------------------------------
-Settings for positive-time-to-live user_attr in nscd.conf. Must be a number in seconds.
+Settings for positive-time-to-live user_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 3600
+- *Default*: '3600'
 
 user_attr_negative_time_to_live
 -------------------------------
-Settings for negative-time-to-live user_attr in nscd.conf. Must be a number in seconds.
+Settings for negative-time-to-live user_attr in nscd.conf. Must be a number in seconds expressed as a string.
 
-- *Default*: 20
+- *Default*: '20'
 
 user_attr_keep_hot_count
 ------------------------
-Settings for keep-hot-count user_attr in nscd.conf. Must be a number.
+Settings for keep-hot-count user_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 2048
+- *Default*: '2048'
 
 user_attr_suggested_size
 ------------------------
-Settings for suggested-size user_attr in nscd.conf. Must be a number.
+Settings for suggested-size user_attr in nscd.conf. Must be a number expressed as a string.
 
-- *Default*: 211
+- *Default*: '211'
 
 user_attr_check_files
 ---------------------
@@ -1548,9 +1548,9 @@ Settings for shared user_attr in nscd.conf. Must be 'yes' or 'no'.
 
 user_attr_max_db_size
 ---------------------
-Settings for max-db-size user_attr in nscd.conf. Must be a number in bytes.
+Settings for max-db-size user_attr in nscd.conf. Must be a number in bytes expressed as a string.
 
-- *Default*: 33554432
+- *Default*: '33554432'
 
 user_attr_auto_propagate
 ------------------------
