@@ -363,7 +363,7 @@ class nscd (
         # Added for Amazon Linux support
         # Amazon Linux has 'YYYY-MM' version format
         # https://github.com/ghoneycutt/puppet-module-nscd/issues/41
-        '2015', '2016': {
+        /^201[5-7]+$/: {
           $service_provider_default          = undef
           $enable_db_passwd_default          = true
           $enable_db_group_default           = true
@@ -389,7 +389,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on EL 5, 6, 7 and Amazon linux 2015, 2016. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
+          fail("Nscd is only supported on EL 5, 6, 7 and Amazon linux 2015-2017. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
         }
       }
     }
