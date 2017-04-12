@@ -24,6 +24,7 @@ parser) and Puppet v4 on the following platforms and supports Ruby versions
 
 * Amazon Linux 2015
 * Amazon Linux 2016
+* Amazon Linux 2017
 * Debian 6
 * EL 5
 * EL 6
