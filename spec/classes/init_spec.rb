@@ -160,7 +160,7 @@ describe 'nscd' do
   ]
 
   platforms.sort.each do |_k, v|
-    describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]} with default values for all parameters" do
+    describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]}#{v[:kernelrelease]} with default values for all parameters" do
       let(:facts) do
         {
           :operatingsystemmajrelease => v[:operatingsystemmajrelease],
