@@ -399,7 +399,7 @@ describe 'nscd' do
       },
   }
 
-  services_solaris = %w(
+  services_solaris = %w[
     audit_user
     auth_attr
     bootparams
@@ -416,7 +416,7 @@ describe 'nscd' do
     tnrhdb
     tnrhtp
     user_attr
-  )
+  ]
 
   platforms.sort.each do |_k, v|
     describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]} with default values for all parameters" do
@@ -740,7 +740,7 @@ describe 'nscd' do
     end
 
     context 'as an array' do
-      let(:params) { { :package_name => %w(nscd foo) } }
+      let(:params) { { :package_name => %w[nscd foo] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it { should contain_package('nscd').with({ 'ensure' => 'present' }) }
@@ -761,7 +761,7 @@ describe 'nscd' do
 
   describe 'with package_ensure parameter' do
     context 'set to all possible valid values' do
-      %w(present installed absent).each do |ensure_value|
+      %w[present installed absent].each do |ensure_value|
         context "package_ensure => #{ensure_value}" do
           let(:params) { { :package_ensure => ensure_value } }
           let(:facts) { { :osfamily => 'Debian' } }
@@ -812,7 +812,7 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :config_owner => %w(invalid root) } }
+      let(:params) { { :config_owner => %w[invalid root] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
@@ -832,7 +832,7 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :config_group => %w(invalid root) } }
+      let(:params) { { :config_group => %w[invalid root] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
@@ -896,7 +896,7 @@ describe 'nscd' do
 
   describe 'with service_ensure parameter' do
     context 'set to all possible valid values' do
-      %w(present running absent stopped).each do |ensure_value|
+      %w[present running absent stopped].each do |ensure_value|
         context "service_ensure => #{ensure_value}" do
           let(:params) { { :service_ensure => ensure_value } }
           let(:facts) { { :osfamily => 'Debian' } }
@@ -942,7 +942,7 @@ describe 'nscd' do
     end
 
     context 'set to invalid type' do
-      let(:params) { { :service_enable => %w(invalid type) } }
+      let(:params) { { :service_enable => %w[invalid type] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
@@ -962,7 +962,7 @@ describe 'nscd' do
     end
 
     context 'as an invalid type' do
-      let(:params) { { :service_provider => %w(not a string) } }
+      let(:params) { { :service_provider => %w[not a string] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
@@ -973,7 +973,7 @@ describe 'nscd' do
     end
   end
 
-  %w(passwd group hosts services netgroup).each do |service|
+  %w[passwd group hosts services netgroup].each do |service|
     describe "with enable_db_#{service}" do
       [true, 'true', false, 'false'].each do |value|
         context "set to valid value #{value}" do
@@ -985,7 +985,7 @@ describe 'nscd' do
       end
 
       context 'set to an invalid type (non-boolean or string convertible to boolean)' do
-        let(:params) { { :"enable_db_#{service}" => %w(invalid type) } }
+        let(:params) { { :"enable_db_#{service}" => %w[invalid type] } }
         let(:facts) { { :osfamily => 'Debian' } }
 
         it 'should fail' do
@@ -1008,7 +1008,7 @@ describe 'nscd' do
     end
 
     context 'set to an invalid type (non-boolean or string convertible to boolean)' do
-      let(:params) { { :enable_opt_auto_propagate => %w(invalid type) } }
+      let(:params) { { :enable_opt_auto_propagate => %w[invalid type] } }
       let(:facts) { { :osfamily => 'Debian' } }
 
       it 'should fail' do
@@ -1220,7 +1220,7 @@ describe 'nscd' do
   end
 
   describe 'with paranoia parameter specified' do
-    %w(yes no).each do |value|
+    %w[yes no].each do |value|
       context "as valid value #{value}" do
         let(:params) { { :paranoia => value } }
         let(:facts) { { :osfamily => 'Debian' } }
@@ -1274,9 +1274,9 @@ describe 'nscd' do
     end
   end
 
-  %w(passwd group hosts services netgroup).each do |service|
+  %w[passwd group hosts services netgroup].each do |service|
     describe "with #{service}_enable_cache specified" do
-      %w(yes no).each do |value|
+      %w[yes no].each do |value|
         context "as valid value #{value}" do
           let :params do
             {
@@ -1413,7 +1413,7 @@ describe 'nscd' do
     end
 
     describe "with #{service}_check_files specified" do
-      %w(yes no).each do |value|
+      %w[yes no].each do |value|
         context "as valid value #{value}" do
           let :params do
             {
@@ -1442,7 +1442,7 @@ describe 'nscd' do
     end
 
     describe "with #{service}_persistent specified" do
-      %w(yes no).each do |value|
+      %w[yes no].each do |value|
         context "as valid value #{value}" do
           let :params do
             {
@@ -1471,7 +1471,7 @@ describe 'nscd' do
     end
 
     describe "with #{service}_shared specified" do
-      %w(yes no).each do |value|
+      %w[yes no].each do |value|
         context "as valid value #{value}" do
           let :params do
             {
@@ -1538,7 +1538,7 @@ describe 'nscd' do
     # only the passwd and group services use auto-propogate
     if service == 'passwd' || service == 'group'
       describe "with #{service}_auto_propagate specified" do
-        %w(yes no).each do |value|
+        %w[yes no].each do |value|
           context "as valid value #{value}" do
             let :params do
               {
@@ -1570,7 +1570,7 @@ describe 'nscd' do
 
   services_solaris.each do |service|
     describe "with #{service}_enable_cache specified" do
-      %w(yes no).each do |value|
+      %w[yes no].each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_enable_cache" => value } }
           let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
@@ -1656,7 +1656,7 @@ describe 'nscd' do
     end
 
     describe "with #{service}_check_files specified" do
-      %w(yes no).each do |value|
+      %w[yes no].each do |value|
         context "as valid value #{value}" do
           let(:params) { { :"#{service}_check_files" => value } }
           let(:facts) { { :osfamily => 'Solaris', :kernelrelease => '5.10' } }
