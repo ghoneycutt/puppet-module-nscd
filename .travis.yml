@@ -30,14 +30,11 @@ env:
     - PUPPET_GEM_VERSION="~> 4.9.0" CHECK=test
     - PUPPET_GEM_VERSION="~> 4.10.0" CHECK=test
     - PUPPET_GEM_VERSION="~> 4" CHECK=test
-    - PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
 
 sudo: false
 
 script: 'SPEC_OPTS="--format documentation" bundle exec rake $CHECK'
 
-# only do rubocop tests with the newest version of ruby so that we are
-# following the most up to date style requirements.
 matrix:
   fast_finish: true
   exclude:
@@ -87,14 +84,6 @@ matrix:
       env: PUPPET_GEM_VERSION="~> 4" CHECK=test
     - rvm: 2.0.0
       env: PUPPET_GEM_VERSION="~> 4" CHECK=test
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
-    - rvm: 1.9.3
-      env: PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
-    - rvm: 2.0.0
-      env: PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
-    - rvm: 2.1.9
-      env: PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
 
 notifications:
   email: false

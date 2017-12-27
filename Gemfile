@@ -30,6 +30,5 @@ gem 'puppetlabs_spec_helper', '2.0.2', :require => false    if RUBY_VERSION >= '
 gem 'puppetlabs_spec_helper', '>= 2.0.0', :require => false if RUBY_VERSION >= '1.9' # [1]
 gem 'rake', '~> 10.0', :require => false                    if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
 gem 'rspec', '~> 2.0', :require => false                    if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
-gem 'rubocop', :require => false                            if RUBY_VERSION >= '2.0.0'
 
 # [1]: Puppetlabs is dropping support for Ruby 1.8.7 in latests releases, pin to last supported version when running on Ruby 1.8.7
