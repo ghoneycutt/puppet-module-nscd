@@ -6,7 +6,6 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.0
-  - 2.3.1
 
 env:
   matrix:
@@ -96,26 +95,6 @@ matrix:
       env: PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
     - rvm: 2.1.0
       env: PUPPET_GEM_VERSION="~> 4" CHECK=rubocop
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.1.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.2.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.3.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.4.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.5.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.6.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.7.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.8.0" CHECK=test
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes" CHECK=test
-  allow_failures:
-    - rvm: 2.3.1
 
 notifications:
   email: false
