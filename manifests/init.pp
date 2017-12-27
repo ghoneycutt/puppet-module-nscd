@@ -709,7 +709,7 @@ class nscd (
     }
   }
 
-  if $enable_db_ipnodes) {
+  if $enable_db_ipnodes =~ Boolean {
     $enable_db_ipnodes_real = $enable_db_ipnodes
   } else {
     $enable_db_ipnodes_real = $enable_db_ipnodes ? {
