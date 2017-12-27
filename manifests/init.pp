@@ -619,7 +619,7 @@ class nscd (
     $service_provider_real = $service_provider
   }
 
-  if is_bool($enable_db_passwd) {
+  if $enable_db_passwd =~ Boolean {
     $enable_db_passwd_real = $enable_db_passwd
   } else {
     $enable_db_passwd_real = $enable_db_passwd ? {
@@ -628,7 +628,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_group) {
+  if $enable_db_group =~ Boolean {
     $enable_db_group_real = $enable_db_group
   } else {
     $enable_db_group_real = $enable_db_group ? {
@@ -637,7 +637,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_hosts) {
+  if $enable_db_hosts =~ Boolean {
     $enable_db_hosts_real = $enable_db_hosts
   } else {
     $enable_db_hosts_real = $enable_db_hosts ? {
@@ -646,7 +646,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_services) {
+  if $enable_db_services =~ Boolean {
     $enable_db_services_real = $enable_db_services
   } else {
     $enable_db_services_real = $enable_db_services ? {
@@ -655,7 +655,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_netgroup) {
+  if $enable_db_netgroup =~ Boolean {
     $enable_db_netgroup_real = $enable_db_netgroup
   } else {
     $enable_db_netgroup_real = $enable_db_netgroup ? {
@@ -664,7 +664,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_audit_user) {
+  if $enable_db_audit_user =~ Boolean {
     $enable_db_audit_user_real = $enable_db_audit_user
   } else {
     $enable_db_audit_user_real = $enable_db_audit_user ? {
@@ -673,7 +673,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_auth_attr) {
+  if $enable_db_auth_attr =~ Boolean {
     $enable_db_auth_attr_real = $enable_db_auth_attr
   } else {
     $enable_db_auth_attr_real = $enable_db_auth_attr ? {
@@ -682,7 +682,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_bootparams) {
+  if $enable_db_bootparams =~ Boolean {
     $enable_db_bootparams_real = $enable_db_bootparams
   } else {
     $enable_db_bootparams_real = $enable_db_bootparams ? {
@@ -691,7 +691,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_ethers) {
+  if $enable_db_ethers =~ Boolean {
     $enable_db_ethers_real = $enable_db_ethers
   } else {
     $enable_db_ethers_real = $enable_db_ethers ? {
@@ -700,7 +700,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_exec_attr) {
+  if $enable_db_exec_attr =~ Boolean {
     $enable_db_exec_attr_real = $enable_db_exec_attr
   } else {
     $enable_db_exec_attr_real = $enable_db_exec_attr ? {
@@ -709,7 +709,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_ipnodes) {
+  if $enable_db_ipnodes) {
     $enable_db_ipnodes_real = $enable_db_ipnodes
   } else {
     $enable_db_ipnodes_real = $enable_db_ipnodes ? {
@@ -718,7 +718,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_netmasks) {
+  if $enable_db_netmasks =~ Boolean {
     $enable_db_netmasks_real = $enable_db_netmasks
   } else {
     $enable_db_netmasks_real = $enable_db_netmasks ? {
@@ -727,7 +727,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_networks) {
+  if $enable_db_networks =~ Boolean {
     $enable_db_networks_real = $enable_db_networks
   } else {
     $enable_db_networks_real = $enable_db_networks ? {
@@ -736,7 +736,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_printers) {
+  if $enable_db_printers =~ Boolean {
     $enable_db_printers_real = $enable_db_printers
   } else {
     $enable_db_printers_real = $enable_db_printers ? {
@@ -745,7 +745,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_prof_attr) {
+  if $enable_db_prof_attr =~ Boolean {
     $enable_db_prof_attr_real = $enable_db_prof_attr
   } else {
     $enable_db_prof_attr_real = $enable_db_prof_attr ? {
@@ -754,7 +754,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_project) {
+  if $enable_db_project =~ Boolean {
     $enable_db_project_real = $enable_db_project
   } else {
     $enable_db_project_real = $enable_db_project ? {
@@ -763,7 +763,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_protocols) {
+  if $enable_db_protocols =~ Boolean {
     $enable_db_protocols_real = $enable_db_protocols
   } else {
     $enable_db_protocols_real = $enable_db_protocols ? {
@@ -772,7 +772,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_rpc) {
+  if $enable_db_rpc =~ Boolean {
     $enable_db_rpc_real = $enable_db_rpc
   } else {
     $enable_db_rpc_real = $enable_db_rpc ? {
@@ -781,7 +781,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_tnrhdb) {
+  if $enable_db_tnrhdb =~ Boolean {
     $enable_db_tnrhdb_real = $enable_db_tnrhdb
   } else {
     $enable_db_tnrhdb_real = $enable_db_tnrhdb ? {
@@ -790,7 +790,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_tnrhtp) {
+  if $enable_db_tnrhtp =~ Boolean {
     $enable_db_tnrhtp_real = $enable_db_tnrhtp
   } else {
     $enable_db_tnrhtp_real = $enable_db_tnrhtp ? {
@@ -799,7 +799,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_db_user_attr) {
+  if $enable_db_user_attr =~ Boolean {
     $enable_db_user_attr_real = $enable_db_user_attr
   } else {
     $enable_db_user_attr_real = $enable_db_user_attr ? {
@@ -808,7 +808,7 @@ class nscd (
     }
   }
 
-  if is_bool($enable_opt_auto_propagate) {
+  if $enable_opt_auto_propagate =~ Boolean {
     $enable_opt_auto_propagate_real = $enable_opt_auto_propagate
   } else {
     $enable_opt_auto_propagate_real = $enable_opt_auto_propagate ? {
