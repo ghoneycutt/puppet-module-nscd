@@ -454,7 +454,7 @@ class nscd (
           $enable_db_user_attr_default       = false
           $enable_opt_auto_propagate_default = true
         }
-        /^12\./, /^13\./: {
+        /^12\./, /^13\./, /^15\./: {
           $default_server_user               = 'nscd'
           $service_provider_default          = 'systemd'
           $enable_db_passwd_default          = true
@@ -481,7 +481,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on Suse 10, 11, 12 and 13. Your operatingsystemrelease is identified as <${::operatingsystemrelease}>.")
+          fail("Nscd is only supported on Suse 10, 11, 12, 13 and 15. Your operatingsystemrelease is identified as <${::operatingsystemrelease}>.")
         }
       }
     }
