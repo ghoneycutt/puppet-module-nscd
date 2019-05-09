@@ -102,6 +102,13 @@ describe 'nscd' do
         :service_provider          => 'systemd',
         :enable_db_netgroup        => true,
       }),
+      'suse15' => defaults.merge({
+        :osfamily                  => 'Suse',
+        :operatingsystemrelease    => '15.0',
+        :server_user               => 'nscd',
+        :service_provider          => 'systemd',
+        :enable_db_netgroup        => true,
+      }),
     'ubuntu12' => defaults.merge({
         :osfamily                  => 'Debian',
         :operatingsystemmajrelease => '12',
@@ -427,7 +434,7 @@ describe 'nscd' do
       it 'should fail' do
         expect do
           should contain_class('nscd')
-        end.to raise_error(Puppet::Error, /Nscd is only supported on Suse 10, 11, 12 and 13\. Your operatingsystemrelease is identified as <4\.0>\./)
+        end.to raise_error(Puppet::Error, /Nscd is only supported on Suse 10, 11, 12, 13 and 15\. Your operatingsystemrelease is identified as <4\.0>\./)
       end
     end
   end
