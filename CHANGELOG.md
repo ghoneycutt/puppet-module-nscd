@@ -1,8 +1,21 @@
 # Change Log
 
-## [Unreleased](https://github.com/ghoneycutt/puppet-module-nscd/tree/HEAD)
+## [v1.13.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.13.0)
 
-[Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.11.0...HEAD)
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.12.0...v1.13.0)
+
+**Closed issues:**
+
+- Add support for SLES 15  [\#59](https://github.com/ghoneycutt/puppet-module-nscd/issues/59)
+
+**Merged pull requests:**
+
+- Use correct ruby versions in CI [\#66](https://github.com/ghoneycutt/puppet-module-nscd/pull/66) ([ghoneycutt](https://github.com/ghoneycutt))
+- Add support for SuSE SLES 15 [\#63](https://github.com/ghoneycutt/puppet-module-nscd/pull/63) ([ghoneycutt](https://github.com/ghoneycutt))
+- Only test Puppet v3 with the latest ruby for that release \(2.1.9\) [\#61](https://github.com/ghoneycutt/puppet-module-nscd/pull/61) ([ghoneycutt](https://github.com/ghoneycutt))
+
+## [v1.12.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.12.0) (2019-01-04)
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.11.0...v1.12.0)
 
 **Merged pull requests:**
 
