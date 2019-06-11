@@ -39,7 +39,7 @@
 
 logfile           <%= @logfile_real %>
 debug-level       <%= @debug_level %>
-<% if @osfamily != 'Solaris' -%>
+<% if @facts['os']['family'] != 'Solaris' -%>
 threads           <%= @threads %>
 max-threads       <%= @max_threads %>
 <%   if   @server_user_real != nil -%>server-user       <%= @server_user_real %><% end %>
@@ -55,11 +55,11 @@ enable-cache            passwd          <%= @passwd_enable_cache %>
 positive-time-to-live   passwd          <%= @passwd_positive_time_to_live %>
 negative-time-to-live   passwd          <%= @passwd_negative_time_to_live %>
 suggested-size          passwd          <%= @passwd_suggested_size %>
-<%   if @osfamily == 'Solaris' -%>
+<%   if @facts['os']['family'] == 'Solaris' -%>
 keep-hot-count          passwd          <%= @passwd_keep_hot_count %>
 <%   end -%>
 check-files             passwd          <%= @passwd_check_files %>
-<%   if @osfamily != 'Solaris' -%>
+<%   if @facts['os']['family'] != 'Solaris' -%>
 persistent              passwd          <%= @passwd_persistent %>
 shared                  passwd          <%= @passwd_shared %>
 max-db-size             passwd          <%= @passwd_max_db_size %>
@@ -75,11 +75,11 @@ enable-cache            group           <%= @group_enable_cache %>
 positive-time-to-live   group           <%= @group_positive_time_to_live %>
 negative-time-to-live   group           <%= @group_negative_time_to_live %>
 suggested-size          group           <%= @group_suggested_size %>
-<%   if @osfamily == 'Solaris' -%>
+<%   if @facts['os']['family'] == 'Solaris' -%>
 keep-hot-count          group           <%= @group_keep_hot_count %>
 <%   end -%>
 check-files             group           <%= @group_check_files %>
-<%   if @osfamily != 'Solaris' -%>
+<%   if @facts['os']['family'] != 'Solaris' -%>
 persistent              group           <%= @group_persistent %>
 shared                  group           <%= @group_shared %>
 max-db-size             group           <%= @group_max_db_size %>
@@ -95,11 +95,11 @@ enable-cache            hosts           <%= @hosts_enable_cache %>
 positive-time-to-live   hosts           <%= @hosts_positive_time_to_live %>
 negative-time-to-live   hosts           <%= @hosts_negative_time_to_live %>
 suggested-size          hosts           <%= @hosts_suggested_size %>
-<%   if @osfamily == 'Solaris' -%>
+<%   if @facts['os']['family'] == 'Solaris' -%>
 keep-hot-count          hosts           <%= @hosts_keep_hot_count %>
 <%   end -%>
 check-files             hosts           <%= @hosts_check_files %>
-<%   if @osfamily != 'Solaris' -%>
+<%   if @facts['os']['family'] != 'Solaris' -%>
 persistent              hosts           <%= @hosts_persistent %>
 shared                  hosts           <%= @hosts_shared %>
 max-db-size             hosts           <%= @hosts_max_db_size %>
@@ -112,11 +112,11 @@ enable-cache            services        <%= @services_enable_cache %>
 positive-time-to-live   services        <%= @services_positive_time_to_live %>
 negative-time-to-live   services        <%= @services_negative_time_to_live %>
 suggested-size          services        <%= @services_suggested_size %>
-<%   if @osfamily == 'Solaris' -%>
+<%   if @facts['os']['family'] == 'Solaris' -%>
 keep-hot-count          services        <%= @services_keep_hot_count %>
 <%   end -%>
 check-files             services        <%= @services_check_files %>
-<%   if @osfamily != 'Solaris' -%>
+<%   if @facts['os']['family'] != 'Solaris' -%>
 persistent              services        <%= @services_persistent %>
 shared                  services        <%= @services_shared %>
 max-db-size             services        <%= @services_max_db_size %>
