@@ -5,19 +5,25 @@ PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.relative = true
 PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp', 'vendor/**/*.pp']
 
-desc 'Validate manifests, templates, ruby files and shell scripts'
+desc 'Validate files'
 task :validate do
-  Dir['spec/**/*.rb', 'lib/**/*.rb'].each do |ruby_file|
+  Dir['spec/**/*.rb','lib/**/*.rb'].each do |ruby_file|
     sh "ruby -c #{ruby_file}" unless ruby_file =~ /spec\/fixtures/
   end
-  Dir['files/**/*.sh'].each do |shell_script|
+
+  Dir['tests/**/*.sh'].each do |shell_script|
     sh "bash -n #{shell_script}"
   end
 end
 
-desc 'Validate that README.md documents all parameters for each class'
-task :validate_readme do
-  Dir['manifests/**/*.pp'].each do |manifest|
-    sh "ext/check_readme.sh #{manifest} README.md"
-  end
+# Puppet Strings (Documentation generation from inline comments)
+# See: https://github.com/puppetlabs/puppet-strings#rake-tasks
+require 'puppet-strings/tasks'
+
+desc 'Alias for strings:generate'
+task :doc => ['strings:generate']
+
+desc 'Generate REFERENCE.md'
+task :reference do
+  sh 'puppet strings generate --format markdown'
 end

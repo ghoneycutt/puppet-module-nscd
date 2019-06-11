@@ -1,0 +1,27 @@
+---
+logfile: '/var/log/nscd.log'
+server_user: 'nscd'
+packages: 'nscd'
+service_name: 'nscd'
+enable_db_passwd: true
+enable_db_group: true
+enable_db_hosts: true
+enable_db_services: true
+enable_db_netgroup: true
+enable_db_audit_user: false
+enable_db_auth_attr: false
+enable_db_bootparams: false
+enable_db_ethers: false
+enable_db_exec_attr: false
+enable_db_ipnodes: false
+enable_db_netmasks: false
+enable_db_networks: false
+enable_db_printers: false
+enable_db_prof_attr: false
+enable_db_project: false
+enable_db_protocols: false
+enable_db_rpc: false
+enable_db_tnrhdb: false
+enable_db_tnrhtp: false
+enable_db_user_attr: false
+enable_opt_auto_propagate: true
