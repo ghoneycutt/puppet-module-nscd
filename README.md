@@ -29,6 +29,7 @@ for the exact matrix of supported Puppet and ruby versions.
 * EL 5
 * EL 6
 * EL 7
+* EL 8
 * Solaris 10
 * Suse 10
 * Suse 11

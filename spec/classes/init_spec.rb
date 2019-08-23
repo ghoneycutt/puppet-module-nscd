@@ -78,6 +78,12 @@ describe 'nscd' do
         :server_user               => 'nscd',
         :enable_db_netgroup        => true,
       }),
+    'el8' => defaults.merge({
+        :osfamily                  => 'RedHat',
+        :operatingsystemmajrelease => '8',
+        :server_user               => 'nscd',
+        :enable_db_netgroup        => true,
+      }),
     'suse10' => defaults.merge({
          :osfamily                  => 'Suse',
          :operatingsystemrelease    => '10.1',
