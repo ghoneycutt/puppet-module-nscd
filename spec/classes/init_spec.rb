@@ -78,6 +78,12 @@ describe 'nscd' do
         :server_user               => 'nscd',
         :enable_db_netgroup        => true,
       }),
+    'el8' => defaults.merge({
+        :osfamily                  => 'RedHat',
+        :operatingsystemmajrelease => '8',
+        :server_user               => 'nscd',
+        :enable_db_netgroup        => true,
+      }),
     'suse10' => defaults.merge({
          :osfamily                  => 'Suse',
          :operatingsystemrelease    => '10.1',
@@ -418,7 +424,7 @@ describe 'nscd' do
       it 'should fail' do
         expect do
           should contain_class('nscd')
-        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6, 7 and Amazon linux 2015-2017\. Your operatingsystemmajrelease is identified as <4>\./)
+        end.to raise_error(Puppet::Error, /Nscd is only supported on EL 5, 6, 7, 8 and Amazon linux 2015-2017\. Your operatingsystemmajrelease is identified as <4>\./)
       end
     end
 
