@@ -362,11 +362,11 @@ class nscd (
         }
         '8': {
           $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
+          $enable_db_passwd_default          = false
+          $enable_db_group_default           = false
           $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = true
+          $enable_db_services_default        = false
+          $enable_db_netgroup_default        = false
           $enable_db_audit_user_default      = false
           $enable_db_auth_attr_default       = false
           $enable_db_bootparams_default      = false
