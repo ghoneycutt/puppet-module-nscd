@@ -360,6 +360,31 @@ class nscd (
           $enable_db_user_attr_default       = false
           $enable_opt_auto_propagate_default = true
         }
+        '8': {
+          $service_provider_default          = undef
+          $enable_db_passwd_default          = false
+          $enable_db_group_default           = false
+          $enable_db_hosts_default           = true
+          $enable_db_services_default        = false
+          $enable_db_netgroup_default        = false
+          $enable_db_audit_user_default      = false
+          $enable_db_auth_attr_default       = false
+          $enable_db_bootparams_default      = false
+          $enable_db_ethers_default          = false
+          $enable_db_exec_attr_default       = false
+          $enable_db_ipnodes_default         = false
+          $enable_db_netmasks_default        = false
+          $enable_db_networks_default        = false
+          $enable_db_printers_default        = false
+          $enable_db_prof_attr_default       = false
+          $enable_db_project_default         = false
+          $enable_db_protocols_default       = false
+          $enable_db_rpc_default             = false
+          $enable_db_tnrhdb_default          = false
+          $enable_db_tnrhtp_default          = false
+          $enable_db_user_attr_default       = false
+          $enable_opt_auto_propagate_default = true
+        }
         # Added for Amazon Linux support
         # Amazon Linux has 'YYYY-MM' version format
         # https://github.com/ghoneycutt/puppet-module-nscd/issues/41
@@ -389,7 +414,7 @@ class nscd (
           $enable_opt_auto_propagate_default = true
         }
         default: {
-          fail("Nscd is only supported on EL 5, 6, 7 and Amazon linux 2015-2017. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
+          fail("Nscd is only supported on EL 5, 6, 7, 8 and Amazon linux 2015-2017. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
         }
       }
     }
