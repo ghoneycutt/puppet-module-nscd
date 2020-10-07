@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.15.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.15.0) (2020-10-07)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.14.0...v1.15.0)
+
+**Merged pull requests:**
+
+- Bump stdlib dependency \< 7.0.0 to comply with the latest version [\#70](https://github.com/ghoneycutt/puppet-module-nscd/pull/70) ([mat1010](https://github.com/mat1010))
+
 ## [v1.14.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.14.0) (2020-06-16)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.13.0...v1.14.0)
@@ -151,6 +159,7 @@
 - Prep v1.2.1 [\#25](https://github.com/ghoneycutt/puppet-module-nscd/pull/25) ([ghoneycutt](https://github.com/ghoneycutt))
 - Changed outdated type-function to is\_\<type\>. [\#24](https://github.com/ghoneycutt/puppet-module-nscd/pull/24) ([ejabach](https://github.com/ejabach))
 - add hint for QAS/VAS usage to README [\#23](https://github.com/ghoneycutt/puppet-module-nscd/pull/23) ([Phil-Friderici](https://github.com/Phil-Friderici))
+- fix some default values in readme [\#16](https://github.com/ghoneycutt/puppet-module-nscd/pull/16) ([Phil-Friderici](https://github.com/Phil-Friderici))
 
 ## [v1.2.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.2.0) (2015-01-06)
 
@@ -163,10 +172,6 @@
 ## [v1.1.1](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.1.1) (2014-10-29)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.1.0...v1.1.1)
-
-**Merged pull requests:**
-
-- fix some default values in readme [\#16](https://github.com/ghoneycutt/puppet-module-nscd/pull/16) ([Phil-Friderici](https://github.com/Phil-Friderici))
 
 ## [v1.1.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v1.1.0) (2014-09-29)
 
