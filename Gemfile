@@ -29,6 +29,7 @@ gem 'json_pure', '<= 2.0.1', :require => false        if RUBY_VERSION < '2.0.0'
 gem 'metadata-json-lint',     '0.0.11'   if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
 gem 'metadata-json-lint',     '1.0.0'    if RUBY_VERSION >= '1.9' && RUBY_VERSION < '2.0'
 gem 'metadata-json-lint' if RUBY_VERSION >= '2.0'
+gem 'pathspec', '< 1.0.0' if RUBY_VERSION < '2.6'
 
 gem 'puppetlabs_spec_helper', '2.0.2',    :require => false if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
 gem 'puppetlabs_spec_helper', '>= 2.0.0', :require => false if RUBY_VERSION >= '1.9'
