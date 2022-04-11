@@ -164,6 +164,15 @@ describe 'nscd' do
         :enable_db_netgroup        => false,
         :enable_opt_auto_propagate => true,
       }),
+    'ubuntu22' => defaults.merge({
+        :osfamily                  => 'Debian',
+        :operatingsystemmajrelease => '22',
+        :server_user               => nil,
+        :service_provider          => nil,
+        :enable_db_services        => true,
+        :enable_db_netgroup        => false,
+        :enable_opt_auto_propagate => true,
+      }),
     'solaris10' => defaults.merge({
         :osfamily                  => 'Solaris',
         :kernelrelease             => '5.10',
