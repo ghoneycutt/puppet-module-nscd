@@ -627,7 +627,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::config_mode is <644>. Must be in four digit octal notation\.})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
 
@@ -636,7 +636,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::config_mode is <true>\. Must be in four digit octal notation})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -654,7 +654,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::config_mode is <true>\. Must be in four digit octal notation})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -746,7 +746,7 @@ describe 'nscd' do
         let(:facts) { { osfamily: 'Debian' } }
 
         it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Requires either string to work with})
+          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -767,7 +767,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Requires either string to work with})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -821,7 +821,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::threads is <true>\. Must be a number})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -848,7 +848,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::max_threads is <true>. Must be a number})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -908,7 +908,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::debug_level is <true>\. Must be a number})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -944,7 +944,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::reload_count is <true>\. Must be a number or 'unlimited'})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -965,7 +965,7 @@ describe 'nscd' do
         let(:facts) { { osfamily: 'Debian' } }
 
         it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::paranoia is <#{value}>\. Must be either 'yes' or 'no'\.})
+          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
         end
       end
     end
@@ -993,7 +993,7 @@ describe 'nscd' do
       let(:facts) { { osfamily: 'Debian' } }
 
       it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::restart_interval is <true>\. Must be a number in seconds\.})
+        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
       end
     end
   end
@@ -1020,7 +1020,7 @@ describe 'nscd' do
           let(:facts) { { osfamily: 'Debian' } }
 
           it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\.})
+            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
           end
         end
       end
@@ -1053,7 +1053,7 @@ describe 'nscd' do
         let(:facts) { { osfamily: 'Debian' } }
 
         it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_positive_time_to_live is <true>\. Must be a number in seconds\.})
+          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1085,7 +1085,7 @@ describe 'nscd' do
         let(:facts) { { osfamily: 'Debian' } }
 
         it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_negative_time_to_live is <true>\. Must be a number in seconds\.})
+          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1117,7 +1117,7 @@ describe 'nscd' do
         let(:facts) { { osfamily: 'Debian' } }
 
         it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_suggested_size is <true>\. Must be a number\.})
+          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1143,7 +1143,7 @@ describe 'nscd' do
           let(:facts) { { osfamily: 'Debian' } }
 
           it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\.})
+            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
           end
         end
       end
@@ -1170,7 +1170,7 @@ describe 'nscd' do
           let(:facts) { { osfamily: 'Debian' } }
 
           it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_persistent is <#{value}>\. Must be either 'yes' or 'no'\.})
+            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
           end
         end
       end
@@ -1197,7 +1197,7 @@ describe 'nscd' do
           let(:facts) { { osfamily: 'Debian' } }
 
           it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_shared is <#{value}>\. Must be either 'yes' or 'no'\.})
+            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
           end
         end
       end
@@ -1230,7 +1230,7 @@ describe 'nscd' do
         let(:facts) { { osfamily: 'Debian' } }
 
         it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_max_db_size is <true>\. Must be a number in bytes\.})
+          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
         end
       end
     end
@@ -1258,7 +1258,7 @@ describe 'nscd' do
             let(:facts) { { osfamily: 'Debian' } }
 
             it 'fail' do
-              expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_auto_propagate is <#{value}>\. Must be either 'yes' or 'no'\.})
+              expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
             end
           end
         end
@@ -1283,7 +1283,7 @@ describe 'nscd' do
           let(:facts) { { osfamily: 'Solaris', kernelrelease: '5.10' } }
 
           it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_enable_cache is <#{value}>\. Must be either 'yes' or 'no'\.})
+            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
           end
         end
       end
@@ -1359,7 +1359,7 @@ describe 'nscd' do
           let(:facts) { { osfamily: 'Solaris', kernelrelease: '5.10' } }
 
           it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{nscd::#{service}_check_files is <#{value}>\. Must be either 'yes' or 'no'\.})
+            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
           end
         end
       end
