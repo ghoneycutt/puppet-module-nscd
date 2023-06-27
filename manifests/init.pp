@@ -21,6 +21,7 @@
 #     * EL 6
 #     * EL 7
 #     * EL 8
+#     * EL 9
 #     * Solaris 10
 #     * Suse 10
 #     * Suse 11
