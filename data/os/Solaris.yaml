@@ -1,0 +1,28 @@
+---
+nscd::package_name:
+  - 'SUNWcsu'
+nscd::package_source: '/var/spool/pkg'
+nscd::service_name: 'name-service-cache'
+nscd::logfile: '/var/adm/nscd.log'
+nscd::enable_db_passwd: true
+nscd::enable_db_group: true
+nscd::enable_db_hosts: true
+nscd::enable_db_services: true
+nscd::enable_db_netgroup: false
+nscd::enable_db_audit_user: true
+nscd::enable_db_auth_attr: true
+nscd::enable_db_bootparams: true
+nscd::enable_db_ethers: true
+nscd::enable_db_exec_attr: true
+nscd::enable_db_ipnodes: true
+nscd::enable_db_netmasks: true
+nscd::enable_db_networks: true
+nscd::enable_db_printers: true
+nscd::enable_db_prof_attr: true
+nscd::enable_db_project: true
+nscd::enable_db_protocols: true
+nscd::enable_db_rpc: true
+nscd::enable_db_tnrhdb: true
+nscd::enable_db_tnrhtp: true
+nscd::enable_db_user_attr: true
+nscd::enable_opt_auto_propagate: false

@@ -1,1071 +1,1051 @@
 # == Class: nscd
+# @summary Class to manage nscd, Linuxs Name Service Cache Daemon.
 #
-# Module to manage nscd
+#   Recommend reading the man page, NSCD.CONF(5). This module allows for
+#   parameterization of all options specified in the man page.
+#
+#   The module assumes that you want to set enable-cache to true for each of the
+#   services (passwd, group, hosts, and services). If this is not the case, you can
+#   disable the cache on a per service basis.
+#
+#   To use this module simply `include ::nscd`
+#
+#   Compatibility
+#   -------------
+#   This module has been tested to work on the following systems:
+#     * Amazon Linux 2015
+#     * Amazon Linux 2016
+#     * Amazon Linux 2017
+#     * Debian 6
+#     * EL 5
+#     * EL 6
+#     * EL 7
+#     * EL 8
+#     * Solaris 10
+#     * Suse 10
+#     * Suse 11
+#     * Suse 12
+#     * Suse 15
+#     * OpenSuse 13.1
+#     * Ubuntu 12.04 LTS
+#
+#   Compatibility with Dell Authentication Services
+#   -----------------------------------------------
+#   When using nscd in combination with Dell Authentication Services (QAS/VAS) [1]
+#   it is recommended to turn off caching of passwd and groups.
+#
+#   <pre>
+#   nscd::passwd_enable_cache: 'no'
+#   nscd::group_enable_cache:  'no'
+#   </pre>
+#
+#   [1] http://software.dell.com/products/authentication-services/
+#
+# @param audit_user_auto_propagate
+#   Settings for auto-propagate audit_user in nscd.conf.
+#
+# @param audit_user_check_files
+#   Settings for check-files audit_user in nscd.conf.
+#
+# @param audit_user_enable_cache
+#   Settings for enable-cache audit_user in nscd.conf.
+#
+# @param audit_user_keep_hot_count
+#   Settings for keep-hot-count audit_user in nscd.conf.
+#
+# @param audit_user_max_db_size
+#   Settings for max-db-size audit_user in nscd.conf.
+#
+# @param audit_user_negative_time_to_live
+#   Settings for negative-time-to-live audit_user in nscd.conf.
+#
+# @param audit_user_persistent
+#   Settings for persistent audit_user in nscd.conf.
+#
+# @param audit_user_positive_time_to_live
+#   Settings for positive-time-to-live audit_user in nscd.conf.
+#
+# @param audit_user_shared
+#   Settings for shared audit_user in nscd.conf.
+#
+# @param audit_user_suggested_size
+#   Settings for suggested-size audit_user in nscd.conf.
+#
+# @param auth_attr_auto_propagate
+#   Settings for auto-propagate auth_attr in nscd.conf.
+#
+# @param auth_attr_check_files
+#   Settings for check-files auth_attr in nscd.conf.
+#
+# @param auth_attr_enable_cache
+#   Settings for enable-cache auth_attr in nscd.conf.
+#
+# @param auth_attr_keep_hot_count
+#   Settings for keep-hot-count auth_attr in nscd.conf.
+#
+# @param auth_attr_max_db_size
+#   Settings for max-db-size auth_attr in nscd.conf. Must be a number in bytes.
+#
+# @param auth_attr_negative_time_to_live
+#   Settings for negative-time-to-live auth_attr in nscd.conf. Must be a number in seconds.
+#
+# @param auth_attr_persistent
+#   Settings for persistent auth_attr in nscd.conf.
+#
+# @param auth_attr_positive_time_to_live
+#   Settings for positive-time-to-live auth_attr in nscd.conf. Must be a number in seconds.
+#
+# @param auth_attr_shared
+#   Settings for shared auth_attr in nscd.conf.
+#
+# @param auth_attr_suggested_size
+#   Settings for suggested-size auth_attr in nscd.conf.
+#
+# @param bootparams_auto_propagate
+#   Settings for auto-propagate bootparams in nscd.conf.
+#
+# @param bootparams_check_files
+#   Settings for check-files bootparams in nscd.conf.
+#
+# @param bootparams_enable_cache
+#   Settings for enable-cache bootparams in nscd.conf.
+#
+# @param bootparams_keep_hot_count
+#   Settings for keep-hot-count bootparams in nscd.conf.
+#
+# @param bootparams_max_db_size
+#   Settings for max-db-size bootparams in nscd.conf. Must be a number in bytes.
+#
+# @param bootparams_negative_time_to_live
+#   Settings for negative-time-to-live bootparams in nscd.conf. Must be a number in seconds.
+#
+# @param bootparams_persistent
+#   Settings for persistent bootparams in nscd.conf.
+#
+# @param bootparams_positive_time_to_live
+#   Settings for positive-time-to-live bootparams in nscd.conf. Must be a number in seconds.
+#
+# @param bootparams_shared
+#   Settings for shared bootparams in nscd.conf.
+#
+# @param bootparams_suggested_size
+#   Settings for suggested-size bootparams in nscd.conf.
+#
+# @param config_group
+#   Group of nscd.conf.
+#
+# @param config_mode
+#   Mode of nscd.conf.
+#
+# @param config_path
+#   Path to nscd.conf.
+#
+# @param config_owner
+#   Owner of nscd.conf.
+#
+# @param debug_level
+#   Setting for debug-level in nscd.conf.  See nscd.conf(5).
+#
+# @param enable_db_audit_user
+#   Settings for enable_db_audit_user in nscd.conf.
+#
+# @param enable_db_auth_attr
+#   Settings for enable_db_auth_attr in nscd.conf.
+#
+# @param enable_db_bootparams
+#   Settings for enable_db_bootparams in nscd.conf.
+#
+# @param enable_db_ethers
+#   Settings for enable_db_ethers in nscd.conf.
+#
+# @param enable_db_exec_attr
+#   Settings for enable_db_exec_attr in nscd.conf.
+#
+# @param enable_db_group
+#   Switch to show group section in nscd.conf.
+#
+# @param enable_db_hosts
+#   Switch to show hosts section in nscd.conf.
+#
+# @param enable_db_ipnodes
+#   Settings for enable_db_ipnodes in nscd.conf.
+#
+# @param enable_db_netgroup
+#   Switch to show netgroup section in nscd.conf.
+#
+# @param enable_db_netmasks
+#   Settings for enable_db_netmasks in nscd.conf.
+#
+# @param enable_db_networks
+#   Settings for enable_db_networks in nscd.conf.
+#
+# @param enable_db_passwd
+#   Switch to show passwd section in nscd.conf.
+#
+# @param enable_db_printers
+#   Settings for enable_db_printers in nscd.conf.
+#
+# @param enable_db_prof_attr
+#   Settings for enable_db_prof_attr in nscd.conf.
+#
+# @param enable_db_project
+#   Settings for enable_db_project in nscd.conf.
+#
+# @param enable_db_protocols
+#   Settings for enable_db_protocols in nscd.conf.
+#
+# @param enable_db_rpc
+#   Settings for enable_db_rpc in nscd.conf.
+#
+# @param enable_db_services
+#   Switch to show services section in nscd.conf.
+#
+# @param enable_db_tnrhdb
+#   Settings for enable_db_tnrhdb in nscd.conf.
+#
+# @param enable_db_tnrhtp
+#   Settings for enable_db_tnrhtp in nscd.conf.
+#
+# @param enable_db_user_attr
+#   Settings for enable_db_user_attr in nscd.conf.
+#
+# @param enable_opt_auto_propagate
+#   Settings for enable_opt_auto_propagate in nscd.conf.
+#
+# @param ethers_auto_propagate
+#   Settings for auto-propagate ethers in nscd.conf.
+#
+# @param ethers_check_files
+#   Settings for check-files ethers in nscd.conf.
+#
+# @param ethers_enable_cache
+#   Settings for enable-cache ethers in nscd.conf.
+#
+# @param ethers_keep_hot_count
+#   Settings for keep-hot-count ethers in nscd.conf.
+#
+# @param ethers_max_db_size
+#   Settings for max-db-size ethers in nscd.conf.
+#
+# @param ethers_negative_time_to_live
+#   Settings for negative-time-to-live ethers in nscd.conf.
+#
+# @param ethers_persistent
+#   Settings for persistent ethers in nscd.conf.
+#
+# @param ethers_positive_time_to_live
+#   Settings for positive-time-to-live ethers in nscd.conf. Must be a number in seconds.
+#
+# @param ethers_shared
+#   Settings for shared ethers in nscd.conf.
+#
+# @param ethers_suggested_size
+#   Settings for suggested-size ethers in nscd.conf.
+#
+# @param exec_attr_auto_propagate
+#   Settings for auto-propagate exec_attr in nscd.conf.
+#
+# @param exec_attr_check_files
+#   Settings for check-files exec_attr in nscd.conf.
+#
+# @param exec_attr_enable_cache
+#   Settings for enable-cache exec_attr in nscd.conf.
+#
+# @param exec_attr_keep_hot_count
+#   Settings for keep-hot-count exec_attr in nscd.conf.
+#
+# @param exec_attr_max_db_size
+#   Settings for max-db-size exec_attr in nscd.conf.
+#
+# @param exec_attr_negative_time_to_live
+#   Settings for negative-time-to-live exec_attr in nscd.conf.
+#
+# @param exec_attr_persistent
+#   Settings for persistent exec_attr in nscd.conf.
+#
+# @param exec_attr_positive_time_to_live
+#   Settings for positive-time-to-live exec_attr in nscd.conf. Must be a number in seconds.
+#
+# @param exec_attr_shared
+#   Settings for shared exec_attr in nscd.conf.
+#
+# @param exec_attr_suggested_size
+#   Settings for suggested-size exec_attr in nscd.conf.
+#
+# @param group_auto_propagate
+#   Settings for auto-propagate group in nscd.conf.
+#
+# @param group_check_files
+#   Settings for check-files group in nscd.conf.
+#
+# @param group_enable_cache
+#   Settings for enable-cache netgroup in nscd.conf.
+#
+# @param group_keep_hot_count
+#   Settings for keep-hot-count group in nscd.conf.
+#
+# @param group_max_db_size
+#   Settings for max-db-size group in nscd.conf.
+#
+# @param group_negative_time_to_live
+#   Settings for negative-time-to-live group in nscd.conf.
+#
+# @param group_persistent
+#   Settings for persistent group in nscd.conf.
+#
+# @param group_positive_time_to_live
+#   Settings for positive-time-to-live group in nscd.conf. Must be a number in seconds.
+#
+# @param group_shared
+#   Settings for shared group in nscd.conf.
+#
+# @param group_suggested_size
+#   Settings for suggested-size group in nscd.conf.
+#
+# @param hosts_check_files
+#   Settings for check-files hosts in nscd.conf.
+#
+# @param hosts_enable_cache
+#   Settings for enable-cache hosts in nscd.conf.
+#
+# @param hosts_keep_hot_count
+#   Settings for keep-hot-count hosts in nscd.conf.
+#
+# @param hosts_max_db_size
+#   Settings for max-db-size hosts in nscd.conf. Must be a number in bytes.
+#
+# @param hosts_negative_time_to_live
+#   Settings for negative-time-to-live hosts in nscd.conf. Must be a number in seconds.
+#
+# @param hosts_persistent
+#   Settings for persistent hosts in nscd.conf.
+#
+# @param hosts_positive_time_to_live
+#   Settings for positive-time-to-live hosts in nscd.conf. Must be a number in seconds.
+#
+# @param hosts_shared
+#   Settings for shared hosts in nscd.conf.
+#
+# @param hosts_suggested_size
+#   Settings for suggested-size hosts in nscd.conf.
+#
+# @param ipnodes_auto_propagate
+#   Settings for auto-propagate ipnodes in nscd.conf.
+#
+# @param ipnodes_check_files
+#   Settings for check-files ipnodes in nscd.conf.
+#
+# @param ipnodes_enable_cache
+#   Settings for enable-cache ipnodes in nscd.conf.
+#
+# @param ipnodes_keep_hot_count
+#   Settings for keep-hot-count ipnodes in nscd.conf.
+#
+# @param ipnodes_max_db_size
+#   Settings for max-db-size ipnodes in nscd.conf.
+#
+# @param ipnodes_negative_time_to_live
+#   Settings for negative-time-to-live ipnodes in nscd.conf. Must be a number in seconds.
+#
+# @param ipnodes_persistent
+#   Settings for persistent ipnodes in nscd.conf.
+#
+# @param ipnodes_positive_time_to_live
+#   Settings for positive-time-to-live ipnodes in nscd.conf. Must be a number in seconds.
+#
+# @param ipnodes_shared
+#   Settings for shared ipnodes in nscd.conf.
+#
+# @param ipnodes_suggested_size
+#   Settings for suggested-size ipnodes in nscd.conf.
+#
+# @param logfile
+#   Setting for logfile in nscd.conf. See nscd.conf(5).
+#
+# @param max_threads
+#   Setting for max-threads in nscd.conf. See nscd.conf(5).
+#
+# @param netgroup_check_files
+#   Settings for check-files netgroup in nscd.conf.
+#
+# @param netgroup_enable_cache
+#   Settings for enable-cache netgroup in nscd.conf.
+#
+# @param netgroup_max_db_size
+#   Settings for max-db-size netgroup in nscd.conf. Must be a number in bytes.
+#
+# @param netgroup_negative_time_to_live
+#   Settings for negative-time-to-live netgroup in nscd.conf. Must be a number in seconds.
+#
+# @param netgroup_persistent
+#   Settings for persistent netgroup in nscd.conf.
+#
+# @param netgroup_positive_time_to_live
+#   Settings for positive-time-to-live netgroup in nscd.conf. Must be a number in seconds.
+#
+# @param netgroup_shared
+#   Settings for shared netgroup in nscd.conf.
+#
+# @param netgroup_suggested_size
+#   Settings for suggested-size netgroup in nscd.conf.
+#
+# @param netmasks_auto_propagate
+#   Settings for auto-propagate netmasks in nscd.conf.
+#
+# @param netmasks_check_files
+#   Settings for check-files netmasks in nscd.conf.
+#
+# @param netmasks_enable_cache
+#   Settings for enable-cache netmasks in nscd.conf.
+#
+# @param netmasks_keep_hot_count
+#   Settings for keep-hot-count netmasks in nscd.conf.
+#
+# @param netmasks_max_db_size
+#   Settings for max-db-size netmasks in nscd.conf. Must be a number in bytes.
+#
+# @param netmasks_negative_time_to_live
+#   Settings for negative-time-to-live netmasks in nscd.conf. Must be a number in seconds.
+#
+# @param netmasks_persistent
+#   Settings for persistent netmasks in nscd.conf.
+#
+# @param netmasks_positive_time_to_live
+#   Settings for positive-time-to-live netmasks in nscd.conf. Must be a number in seconds.
+#
+# @param netmasks_shared
+#   Settings for shared netmasks in nscd.conf.
+#
+# @param netmasks_suggested_size
+#   Settings for suggested-size netmasks in nscd.conf.
+#
+# @param networks_auto_propagate
+#   Settings for auto-propagate networks in nscd.conf.
+#
+# @param networks_check_files
+#   Settings for check-files networks in nscd.conf.
+#
+# @param networks_enable_cache
+#   Settings for enable-cache networks in nscd.conf.
+#
+# @param networks_keep_hot_count
+#   Settings for keep-hot-count networks in nscd.conf.
+#
+# @param networks_max_db_size
+#   Settings for max-db-size networks in nscd.conf.
+#
+# @param networks_negative_time_to_live
+#   Settings for negative-time-to-live networks in nscd.conf. Must be a number in seconds.
+#
+# @param networks_persistent
+#   Settings for persistent networks in nscd.conf.
+#
+# @param networks_positive_time_to_live
+#   Settings for positive-time-to-live networks in nscd.conf. Must be a number in seconds.
+#
+# @param networks_shared
+#   Settings for shared networks in nscd.conf.
+#
+# @param networks_suggested_size
+#   Settings for suggested-size networks in nscd.conf.
+#
+# @param package_adminfile
+#   Solaris specific adminfile attribute of package resource.
+#
+# @param package_ensure
+#   Solaris specific source attribute of package resource.
+#
+# @param package_name
+#   Array for name of package(s).
+#
+# @param package_source
+#   Solaris specific source attribute of package resource.
+#
+# @param paranoia
+#   Setting for paranoia in nscd.conf. See nscd.conf(5).
+#
+# @param passwd_auto_propagate
+#   Settings for auto-propagate passwd in nscd.conf.
+#
+# @param passwd_check_files
+#   Settings for check-files passwd in nscd.conf.
+#
+# @param passwd_enable_cache
+#   Settings for enable-cache passwd in nscd.conf.
+#
+# @param passwd_keep_hot_count
+#   Settings for keep-hot-count passwd in nscd.conf.
+#
+# @param passwd_max_db_size
+#   Settings for max-db-size passwd in nscd.conf.
+#
+# @param passwd_negative_time_to_live
+#   Settings for negative-time-to-live passwd in nscd.conf. Must be a number in seconds.
+#
+# @param passwd_persistent
+#   Settings for persistent passwd in nscd.conf.
+#
+# @param passwd_positive_time_to_live
+#   Settings for positive-time-to-live passwd in nscd.conf. Must be a number in seconds.
+#
+# @param passwd_shared
+#   Settings for shared passwd in nscd.conf.
+#
+# @param passwd_suggested_size
+#   Settings for suggested-size passwd in nscd.conf.
+#
+# @param printers_auto_propagate
+#   Settings for auto-propagate printers in nscd.conf.
+#
+# @param printers_check_files
+#   Settings for check-files printers in nscd.conf.
+#
+# @param printers_enable_cache
+#   Settings for enable-cache printers in nscd.conf.
+#
+# @param printers_keep_hot_count
+#   Settings for keep-hot-count printers in nscd.conf.
+#
+# @param printers_max_db_size
+#   Settings for max-db-size printers in nscd.conf.
+#
+# @param printers_negative_time_to_live
+#   Settings for negative-time-to-live printers in nscd.conf. Must be a number in seconds.
+#
+# @param printers_persistent
+#   Settings for persistent printers in nscd.conf.
+#
+# @param printers_positive_time_to_live
+#   Settings for positive-time-to-live printers in nscd.conf. Must be a number in seconds.
+#
+# @param printers_shared
+#   Settings for shared printers in nscd.conf.
+#
+# @param printers_suggested_size
+#   Settings for suggested-size printers in nscd.conf.
+#
+# @param prof_attr_auto_propagate
+#   Settings for auto-propagate prof_attr in nscd.conf.
+#
+# @param prof_attr_check_files
+#   Settings for check-files prof_attr in nscd.conf.
+#
+# @param prof_attr_enable_cache
+#   Settings for enable-cache prof_attr in nscd.conf.
+#
+# @param prof_attr_keep_hot_count
+#   Settings for keep-hot-count prof_attr in nscd.conf.
+#
+# @param prof_attr_max_db_size
+#   Settings for max-db-size prof_attr in nscd.conf.
+#
+# @param prof_attr_negative_time_to_live
+#   Settings for negative-time-to-live prof_attr in nscd.conf. Must be a number in seconds.
+#
+# @param prof_attr_persistent
+#   Settings for persistent prof_attr in nscd.conf.
+#
+# @param prof_attr_positive_time_to_live
+#   Settings for positive-time-to-live prof_attr in nscd.conf. Must be a number in seconds.
+#
+# @param prof_attr_shared
+#   Settings for shared prof_attr in nscd.conf.
+#
+# @param prof_attr_suggested_size
+#   Settings for suggested-size prof_attr in nscd.conf.
+#
+# @param project_auto_propagate
+#   Settings for auto-propagate prof_attr in nscd.conf.
+#
+# @param project_check_files
+#   Settings for check-files project in nscd.conf.
+#
+# @param project_enable_cache
+#   Settings for enable-cache project in nscd.conf.
+#
+# @param project_keep_hot_count
+#   Settings for keep-hot-count project in nscd.conf.
+#
+# @param project_max_db_size
+#   Settings for max-db-size project in nscd.conf. Must be a number in bytes.
+#
+# @param project_negative_time_to_live
+#   Settings for negative-time-to-live project in nscd.conf. Must be a number in seconds.
+#
+# @param project_persistent
+#   Settings for persistent project in nscd.conf.
+#
+# @param project_positive_time_to_live
+#   Settings for positive-time-to-live project in nscd.conf. Must be a number in seconds.
+#
+# @param project_shared
+#   Settings for shared project in nscd.conf.
+#
+# @param project_suggested_size
+#   Settings for suggested-size project in nscd.conf.
+#
+# @param protocols_auto_propagate
+#   Settings for auto-propagate protocols in nscd.conf.
+#
+# @param protocols_check_files
+#   Settings for check-files protocols in nscd.conf.
+#
+# @param protocols_enable_cache
+#   Settings for enable-cache protocols in nscd.conf.
+#
+# @param protocols_keep_hot_count
+#   Settings for keep-hot-count protocols in nscd.conf.
+#
+# @param protocols_max_db_size
+#   Settings for max-db-size protocols in nscd.conf. Must be a number in bytes.
+#
+# @param protocols_negative_time_to_live
+#   Settings for negative-time-to-live protocols in nscd.conf. Must be a number in seconds.
+#
+# @param protocols_persistent
+#   Settings for persistent protocols in nscd.conf.
+#
+# @param protocols_positive_time_to_live
+#   Settings for positive-time-to-live protocols in nscd.conf. Must be a number in seconds.
+#
+# @param protocols_shared
+#   Settings for shared protocols in nscd.conf.
+#
+# @param protocols_suggested_size
+#   Settings for suggested-size protocols in nscd.conf.
+#
+# @param reload_count
+#   Settings for reload-count in nscd.conf. See nscd.conf(5).
+#
+# @param restart_interval
+#   Setting for restart-interval in nscd.conf. See nscd.conf(5).
+#
+# @param rpc_auto_propagate
+#   Settings for auto-propagate rpc in nscd.conf.
+#
+# @param rpc_check_files
+#   Settings for check-files rpc in nscd.conf.
+#
+# @param rpc_enable_cache
+#   Settings for enable-cache rpc in nscd.conf.
+#
+# @param rpc_keep_hot_count
+#   Settings for keep-hot-count rpc in nscd.conf.
+#
+# @param rpc_max_db_size
+#   Settings for max-db-size rpc in nscd.conf.
+#
+# @param rpc_negative_time_to_live
+#   Settings for negative-time-to-live rpc in nscd.conf. Must be a number in seconds.
+#
+# @param rpc_persistent
+#   Settings for persistent rpc in nscd.conf.
+#
+# @param rpc_positive_time_to_live
+#   Settings for positive-time-to-live rpc in nscd.conf. Must be a number in seconds.
+#
+# @param rpc_shared
+#   Settings for shared rpc in nscd.conf.
+#
+# @param rpc_suggested_size
+#   Settings for suggested-size rpc in nscd.conf.
+#
+# @param server_user
+#   Setting for server-user in nscd.conf. See nscd.conf(5).
+#
+# @param service_enable
+#   Value of enable attribute of nscd service.
+#   This determines if the service will start at boot or not.
+#
+# @param service_ensure
+#   Value of ensure attribute of nscd service.
+#
+# @param service_name
+#   Name of service(s)
+#
+# @param service_provider
+#   String for value of the provider attribute of nscd service.
+#   Specifying here will allow you to change the platforms default.
+#
+# @param services_check_files
+#   Settings for check-files services in nscd.conf.
+#
+# @param services_enable_cache
+#   Settings for enable-cache services in nscd.conf.
+#
+# @param services_keep_hot_count
+#   Settings for keep-hot-count services in nscd.conf.
+#
+# @param services_max_db_size
+#   Settings for max-db-size servicess in nscd.conf. Must be a number in bytes.
+#
+# @param services_negative_time_to_live
+#   Settings for negative-time-to-live services in nscd.conf. Must be a number in seconds.
+#
+# @param services_persistent
+#   Settings for persistent services in nscd.conf.
+#
+# @param services_positive_time_to_live
+#   Settings for positive-time-to-live services in nscd.conf. Must be a number in seconds.
+#
+# @param services_shared
+#   Settings for shared services in nscd.conf.
+#
+# @param services_suggested_size
+#   Settings for suggested-size services in nscd.conf.
+#
+# @param stat_user
+#   Setting for stat-user in nscd.conf. See nscd.conf(5).
+#
+# @param threads
+#   Setting for threads in nscd.conf. See nscd.conf(5).
+#
+# @param tnrhdb_auto_propagate
+#   Settings for auto-propagate tnrhdb in nscd.conf.
+#
+# @param tnrhdb_check_files
+#   Settings for check-files tnrhdb in nscd.conf.
+#
+# @param tnrhdb_enable_cache
+#   Settings for enable-cache tnrhdb in nscd.conf.
+#
+# @param tnrhdb_keep_hot_count
+#   Settings for keep-hot-count tnrhdb in nscd.conf.
+#
+# @param tnrhdb_max_db_size
+#   Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes.
+#
+# @param tnrhdb_negative_time_to_live
+#   Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+#
+# @param tnrhdb_persistent
+#   Settings for persistent tnrhdb in nscd.conf.
+#
+# @param tnrhdb_positive_time_to_live
+#   Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+#
+# @param tnrhdb_shared
+#   Settings for shared tnrhdb in nscd.conf.
+#
+# @param tnrhdb_suggested_size
+#   Settings for suggested-size tnrhdb in nscd.conf.
+#
+# @param tnrhtp_auto_propagate
+#   Settings for auto-propagate tnrhdb in nscd.conf.
+#
+# @param tnrhtp_check_files
+#   Settings for check-files tnrhdb in nscd.conf.
+#
+# @param tnrhtp_enable_cache
+#   Settings for enable-cache tnrhdb in nscd.conf.
+#
+# @param tnrhtp_keep_hot_count
+#   Settings for keep-hot-count tnrhdb in nscd.conf.
+#
+# @param tnrhtp_max_db_size
+#   ettings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes.
+#
+# @param tnrhtp_negative_time_to_live
+#   Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+#
+# @param tnrhtp_persistent
+#   Settings for persistent tnrhdb in nscd.conf.
+#
+# @param tnrhtp_positive_time_to_live
+#   Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
+#
+# @param tnrhtp_shared
+#   Settings for shared tnrhdb in nscd.conf.
+#
+# @param tnrhtp_suggested_size
+#   Settings for suggested-size tnrhdb in nscd.conf.
+#
+# @param user_attr_auto_propagate
+#   Settings for auto-propagate user_attr in nscd.conf.
+#
+# @param user_attr_check_files
+#   Settings for check-files user_attr in nscd.conf.
+#
+# @param user_attr_enable_cache
+#   Settings for enable-cache user_attr in nscd.conf.
+#
+# @param user_attr_keep_hot_count
+#   Settings for keep-hot-count user_attr in nscd.conf.
+#
+# @param user_attr_max_db_size
+#   Settings for max-db-size user_attr in nscd.conf. Must be a number in bytes.
+#
+# @param user_attr_negative_time_to_live
+#   Settings for negative-time-to-live user_attr in nscd.conf. Must be a number in seconds.
+#
+# @param user_attr_persistent
+#   Settings for persistent user_attr in nscd.conf.
+#
+# @param user_attr_positive_time_to_live
+#   Settings for positive-time-to-live user_attr in nscd.conf. Must be a number in seconds.
+#
+# @param user_attr_shared
+#   Settings for check-files user_attr in nscd.conf.
+#
+# @param user_attr_suggested_size
+#   Settings for suggested-size user_attr in nscd.conf.
 #
 class nscd (
-  $package_name                     = 'USE_DEFAULTS',
-  $package_ensure                   = 'present',
-  $package_source                   = 'USE_DEFAULTS',
-  $package_adminfile                = 'USE_DEFAULTS',
-  $config_path                      = '/etc/nscd.conf',
-  $config_owner                     = 'root',
-  $config_group                     = 'root',
-  $config_mode                      = '0644',
-  $service_name                     = 'USE_DEFAULTS',
-  $service_ensure                   = 'running',
-  $service_enable                   = true,
-  $service_provider                 = 'USE_DEFAULTS',
-  $logfile                          = 'USE_DEFAULTS',
-  $threads                          = '5',
-  $max_threads                      = '32',
-  $server_user                      = 'USE_DEFAULTS',
-  $stat_user                        = 'root',
-  $debug_level                      = '0',
-  $reload_count                     = '5',
-  Enum['yes', 'no'] $paranoia                         = 'no',
-  $restart_interval                 = '3600',
-  $enable_db_passwd                 = 'USE_DEFAULTS',
-  $enable_db_group                  = 'USE_DEFAULTS',
-  $enable_db_hosts                  = 'USE_DEFAULTS',
-  $enable_db_services               = 'USE_DEFAULTS',
-  $enable_db_netgroup               = 'USE_DEFAULTS',
-  $enable_db_audit_user             = 'USE_DEFAULTS',
-  $enable_db_auth_attr              = 'USE_DEFAULTS',
-  $enable_db_bootparams             = 'USE_DEFAULTS',
-  $enable_db_ethers                 = 'USE_DEFAULTS',
-  $enable_db_exec_attr              = 'USE_DEFAULTS',
-  $enable_db_ipnodes                = 'USE_DEFAULTS',
-  $enable_db_netmasks               = 'USE_DEFAULTS',
-  $enable_db_networks               = 'USE_DEFAULTS',
-  $enable_db_printers               = 'USE_DEFAULTS',
-  $enable_db_prof_attr              = 'USE_DEFAULTS',
-  $enable_db_project                = 'USE_DEFAULTS',
-  $enable_db_protocols              = 'USE_DEFAULTS',
-  $enable_db_rpc                    = 'USE_DEFAULTS',
-  $enable_db_tnrhdb                 = 'USE_DEFAULTS',
-  $enable_db_tnrhtp                 = 'USE_DEFAULTS',
-  $enable_db_user_attr              = 'USE_DEFAULTS',
-  $enable_opt_auto_propagate        = 'USE_DEFAULTS',
-  Enum['yes', 'no'] $passwd_enable_cache              = 'yes',
-  $passwd_positive_time_to_live     = '600',
-  $passwd_negative_time_to_live     = '20',
-  $passwd_keep_hot_count            = '2048',
-  $passwd_suggested_size            = '211',
-  Enum['yes', 'no'] $passwd_check_files               = 'yes',
-  Enum['yes', 'no'] $passwd_persistent                = 'yes',
-  Enum['yes', 'no'] $passwd_shared                    = 'yes',
-  $passwd_max_db_size               = '33554432',
-  Enum['yes', 'no'] $passwd_auto_propagate            = 'yes',
-  Enum['yes', 'no'] $group_enable_cache               = 'yes',
-  $group_positive_time_to_live      = '3600',
-  $group_negative_time_to_live      = '60',
-  $group_keep_hot_count             = '2048',
-  $group_suggested_size             = '211',
-  Enum['yes', 'no'] $group_check_files                = 'yes',
-  Enum['yes', 'no'] $group_persistent                 = 'yes',
-  Enum['yes', 'no'] $group_shared                     = 'yes',
-  $group_max_db_size                = '33554432',
-  Enum['yes', 'no'] $group_auto_propagate             = 'yes',
-  Enum['yes', 'no'] $hosts_enable_cache               = 'yes',
-  $hosts_positive_time_to_live      = '3600',
-  $hosts_negative_time_to_live      = '20',
-  $hosts_keep_hot_count             = '2048',
-  $hosts_suggested_size             = '211',
-  Enum['yes', 'no'] $hosts_check_files                = 'yes',
-  Enum['yes', 'no'] $hosts_persistent                 = 'yes',
-  Enum['yes', 'no'] $hosts_shared                     = 'yes',
-  $hosts_max_db_size                = '33554432',
-  Enum['yes', 'no'] $services_enable_cache            = 'yes',
-  $services_positive_time_to_live   = '28800',
-  $services_negative_time_to_live   = '20',
-  $services_keep_hot_count          = '2048',
-  $services_suggested_size          = '211',
-  Enum['yes', 'no'] $services_check_files             = 'yes',
-  Enum['yes', 'no'] $services_persistent              = 'yes',
-  Enum['yes', 'no'] $services_shared                  = 'yes',
-  $services_max_db_size             = '33554432',
-  Enum['yes', 'no'] $netgroup_enable_cache            = 'yes',
-  $netgroup_positive_time_to_live   = '28800',
-  $netgroup_negative_time_to_live   = '20',
-  $netgroup_suggested_size          = '211',
-  Enum['yes', 'no'] $netgroup_check_files             = 'yes',
-  Enum['yes', 'no'] $netgroup_persistent              = 'yes',
-  Enum['yes', 'no'] $netgroup_shared                  = 'yes',
-  $netgroup_max_db_size             = '33554432',
-  Enum['yes', 'no'] $audit_user_enable_cache          = 'yes',
-  $audit_user_positive_time_to_live = '3600',
-  $audit_user_negative_time_to_live = '20',
-  $audit_user_keep_hot_count        = '2048',
-  $audit_user_suggested_size        = '211',
-  Enum['yes', 'no'] $audit_user_check_files           = 'yes',
-  Enum['yes', 'no'] $audit_user_persistent            = 'yes',
-  Enum['yes', 'no'] $audit_user_shared                = 'yes',
-  $audit_user_max_db_size           = '33554432',
-  Enum['yes', 'no'] $audit_user_auto_propagate        = 'yes',
-  Enum['yes', 'no'] $auth_attr_enable_cache           = 'yes',
-  $auth_attr_positive_time_to_live  = '3600',
-  $auth_attr_negative_time_to_live  = '20',
-  $auth_attr_keep_hot_count         = '2048',
-  $auth_attr_suggested_size         = '211',
-  Enum['yes', 'no'] $auth_attr_check_files            = 'yes',
-  Enum['yes', 'no'] $auth_attr_persistent             = 'yes',
-  Enum['yes', 'no'] $auth_attr_shared                 = 'yes',
-  $auth_attr_max_db_size            = '33554432',
-  Enum['yes', 'no'] $auth_attr_auto_propagate         = 'yes',
-  Enum['yes', 'no'] $bootparams_enable_cache          = 'yes',
-  $bootparams_positive_time_to_live = '3600',
-  $bootparams_negative_time_to_live = '20',
-  $bootparams_keep_hot_count        = '2048',
-  $bootparams_suggested_size        = '211',
-  Enum['yes', 'no'] $bootparams_check_files           = 'yes',
-  Enum['yes', 'no'] $bootparams_persistent            = 'yes',
-  Enum['yes', 'no'] $bootparams_shared                = 'yes',
-  $bootparams_max_db_size           = '33554432',
-  Enum['yes', 'no'] $bootparams_auto_propagate        = 'yes',
-  Enum['yes', 'no'] $ethers_enable_cache              = 'yes',
-  $ethers_positive_time_to_live     = '3600',
-  $ethers_negative_time_to_live     = '20',
-  $ethers_keep_hot_count            = '2048',
-  $ethers_suggested_size            = '211',
-  Enum['yes', 'no'] $ethers_check_files               = 'yes',
-  Enum['yes', 'no'] $ethers_persistent                = 'yes',
-  Enum['yes', 'no'] $ethers_shared                    = 'yes',
-  $ethers_max_db_size               = '33554432',
-  Enum['yes', 'no'] $ethers_auto_propagate            = 'yes',
-  Enum['yes', 'no'] $exec_attr_enable_cache           = 'yes',
-  $exec_attr_positive_time_to_live  = '3600',
-  $exec_attr_negative_time_to_live  = '20',
-  $exec_attr_keep_hot_count         = '2048',
-  $exec_attr_suggested_size         = '211',
-  Enum['yes', 'no'] $exec_attr_check_files            = 'yes',
-  Enum['yes', 'no'] $exec_attr_persistent             = 'yes',
-  Enum['yes', 'no'] $exec_attr_shared                 = 'yes',
-  $exec_attr_max_db_size            = '33554432',
-  Enum['yes', 'no'] $exec_attr_auto_propagate         = 'yes',
-  Enum['yes', 'no'] $ipnodes_enable_cache             = 'yes',
-  $ipnodes_positive_time_to_live    = '3600',
-  $ipnodes_negative_time_to_live    = '20',
-  $ipnodes_keep_hot_count           = '2048',
-  $ipnodes_suggested_size           = '211',
-  Enum['yes', 'no'] $ipnodes_check_files              = 'yes',
-  Enum['yes', 'no'] $ipnodes_persistent               = 'yes',
-  Enum['yes', 'no'] $ipnodes_shared                   = 'yes',
-  $ipnodes_max_db_size              = '33554432',
-  Enum['yes', 'no'] $ipnodes_auto_propagate           = 'yes',
-  Enum['yes', 'no'] $netmasks_enable_cache            = 'yes',
-  $netmasks_positive_time_to_live   = '3600',
-  $netmasks_negative_time_to_live   = '20',
-  $netmasks_keep_hot_count          = '2048',
-  $netmasks_suggested_size          = '211',
-  Enum['yes', 'no'] $netmasks_check_files             = 'yes',
-  Enum['yes', 'no'] $netmasks_persistent              = 'yes',
-  Enum['yes', 'no'] $netmasks_shared                  = 'yes',
-  $netmasks_max_db_size             = '33554432',
-  Enum['yes', 'no'] $netmasks_auto_propagate          = 'yes',
-  Enum['yes', 'no'] $networks_enable_cache            = 'yes',
-  $networks_positive_time_to_live   = '3600',
-  $networks_negative_time_to_live   = '20',
-  $networks_keep_hot_count          = '2048',
-  $networks_suggested_size          = '211',
-  Enum['yes', 'no'] $networks_check_files             = 'yes',
-  Enum['yes', 'no'] $networks_persistent              = 'yes',
-  Enum['yes', 'no'] $networks_shared                  = 'yes',
-  $networks_max_db_size             = '33554432',
-  Enum['yes', 'no'] $networks_auto_propagate          = 'yes',
-  Enum['yes', 'no'] $printers_enable_cache            = 'yes',
-  $printers_positive_time_to_live   = '3600',
-  $printers_negative_time_to_live   = '20',
-  $printers_keep_hot_count          = '2048',
-  $printers_suggested_size          = '211',
-  Enum['yes', 'no'] $printers_check_files             = 'yes',
-  Enum['yes', 'no'] $printers_persistent              = 'yes',
-  Enum['yes', 'no'] $printers_shared                  = 'yes',
-  $printers_max_db_size             = '33554432',
-  Enum['yes', 'no'] $printers_auto_propagate          = 'yes',
-  Enum['yes', 'no'] $prof_attr_enable_cache           = 'yes',
-  $prof_attr_positive_time_to_live  = '3600',
-  $prof_attr_negative_time_to_live  = '20',
-  $prof_attr_keep_hot_count         = '2048',
-  $prof_attr_suggested_size         = '211',
-  Enum['yes', 'no'] $prof_attr_check_files            = 'yes',
-  Enum['yes', 'no'] $prof_attr_persistent             = 'yes',
-  Enum['yes', 'no'] $prof_attr_shared                 = 'yes',
-  $prof_attr_max_db_size            = '33554432',
-  Enum['yes', 'no'] $prof_attr_auto_propagate         = 'yes',
-  Enum['yes', 'no'] $project_enable_cache             = 'yes',
-  $project_positive_time_to_live    = '3600',
-  $project_negative_time_to_live    = '20',
-  $project_keep_hot_count           = '2048',
-  $project_suggested_size           = '211',
-  Enum['yes', 'no'] $project_check_files              = 'yes',
-  Enum['yes', 'no'] $project_persistent               = 'yes',
-  Enum['yes', 'no'] $project_shared                   = 'yes',
-  $project_max_db_size              = '33554432',
-  Enum['yes', 'no'] $project_auto_propagate           = 'yes',
-  Enum['yes', 'no'] $protocols_enable_cache           = 'yes',
-  $protocols_positive_time_to_live  = '3600',
-  $protocols_negative_time_to_live  = '20',
-  $protocols_keep_hot_count         = '2048',
-  $protocols_suggested_size         = '211',
-  Enum['yes', 'no'] $protocols_check_files            = 'yes',
-  Enum['yes', 'no'] $protocols_persistent             = 'yes',
-  Enum['yes', 'no'] $protocols_shared                 = 'yes',
-  $protocols_max_db_size            = '33554432',
-  Enum['yes', 'no'] $protocols_auto_propagate         = 'yes',
-  Enum['yes', 'no'] $rpc_enable_cache                 = 'yes',
-  $rpc_positive_time_to_live        = '3600',
-  $rpc_negative_time_to_live        = '20',
-  $rpc_keep_hot_count               = '2048',
-  $rpc_suggested_size               = '211',
-  Enum['yes', 'no'] $rpc_check_files                  = 'yes',
-  Enum['yes', 'no'] $rpc_persistent                   = 'yes',
-  Enum['yes', 'no'] $rpc_shared                       = 'yes',
-  $rpc_max_db_size                  = '33554432',
-  Enum['yes', 'no'] $rpc_auto_propagate               = 'yes',
-  Enum['yes', 'no'] $tnrhdb_enable_cache              = 'yes',
-  $tnrhdb_positive_time_to_live     = '3600',
-  $tnrhdb_negative_time_to_live     = '20',
-  $tnrhdb_keep_hot_count            = '2048',
-  $tnrhdb_suggested_size            = '211',
-  Enum['yes', 'no'] $tnrhdb_check_files               = 'yes',
-  Enum['yes', 'no'] $tnrhdb_persistent                = 'yes',
-  Enum['yes', 'no'] $tnrhdb_shared                    = 'yes',
-  $tnrhdb_max_db_size               = '33554432',
-  Enum['yes', 'no'] $tnrhdb_auto_propagate            = 'yes',
-  Enum['yes', 'no'] $tnrhtp_enable_cache              = 'yes',
-  $tnrhtp_positive_time_to_live     = '3600',
-  $tnrhtp_negative_time_to_live     = '20',
-  $tnrhtp_keep_hot_count            = '2048',
-  $tnrhtp_suggested_size            = '211',
-  Enum['yes', 'no'] $tnrhtp_check_files               = 'yes',
-  Enum['yes', 'no'] $tnrhtp_persistent                = 'yes',
-  Enum['yes', 'no'] $tnrhtp_shared                    = 'yes',
-  $tnrhtp_max_db_size               = '33554432',
-  Enum['yes', 'no'] $tnrhtp_auto_propagate            = 'yes',
-  Enum['yes', 'no'] $user_attr_enable_cache           = 'yes',
-  $user_attr_positive_time_to_live  = '3600',
-  $user_attr_negative_time_to_live  = '20',
-  $user_attr_keep_hot_count         = '2048',
-  $user_attr_suggested_size         = '211',
-  Enum['yes', 'no'] $user_attr_check_files            = 'yes',
-  Enum['yes', 'no'] $user_attr_persistent             = 'yes',
-  Enum['yes', 'no'] $user_attr_shared                 = 'yes',
-  $user_attr_max_db_size            = '33554432',
-  Enum['yes', 'no'] $user_attr_auto_propagate         = 'yes',
+  Array                                  $package_name                     = ['nscd'],
+  Enum['present', 'installed', 'absent'] $package_ensure                   = 'present',
+  Optional[Stdlib::Absolutepath]         $package_source                   = undef,
+  Optional[Stdlib::Absolutepath]         $package_adminfile                = undef,
+  Stdlib::Absolutepath                   $config_path                      = '/etc/nscd.conf',
+  String[1]                              $config_owner                     = 'root',
+  String[1]                              $config_group                     = 'root',
+  Stdlib::Filemode                       $config_mode                      = '0644',
+  String[1]                              $service_name                     = 'nscd',
+  Stdlib::Ensure::Service                $service_ensure                   = 'running',
+  Boolean                                $service_enable                   = true,
+  Optional[String[1]]                    $service_provider                 = undef,
+  Stdlib::Absolutepath                   $logfile                          = '/var/log/nscd.log',
+  Integer                                $threads                          = 5,
+  Integer                                $max_threads                      = 32,
+  Optional[String[1]]                    $server_user                      = undef,
+  String[1]                              $stat_user                        = 'root',
+  Integer                                $debug_level                      = 0,
+  Variant[Integer, Enum['unlimited']]    $reload_count                     = 5,
+  Enum['yes', 'no']                      $paranoia                         = 'no',
+  Integer                                $restart_interval                 = 3600,
+  Boolean                                $enable_db_passwd                 = false,
+  Boolean                                $enable_db_group                  = false,
+  Boolean                                $enable_db_hosts                  = false,
+  Boolean                                $enable_db_services               = false,
+  Boolean                                $enable_db_netgroup               = false,
+  Boolean                                $enable_db_audit_user             = false,
+  Boolean                                $enable_db_auth_attr              = false,
+  Boolean                                $enable_db_bootparams             = false,
+  Boolean                                $enable_db_ethers                 = false,
+  Boolean                                $enable_db_exec_attr              = false,
+  Boolean                                $enable_db_ipnodes                = false,
+  Boolean                                $enable_db_netmasks               = false,
+  Boolean                                $enable_db_networks               = false,
+  Boolean                                $enable_db_printers               = false,
+  Boolean                                $enable_db_prof_attr              = false,
+  Boolean                                $enable_db_project                = false,
+  Boolean                                $enable_db_protocols              = false,
+  Boolean                                $enable_db_rpc                    = false,
+  Boolean                                $enable_db_tnrhdb                 = false,
+  Boolean                                $enable_db_tnrhtp                 = false,
+  Boolean                                $enable_db_user_attr              = false,
+  Boolean                                $enable_opt_auto_propagate        = false,
+  Enum['yes', 'no']                      $passwd_enable_cache              = 'yes',
+  Integer                                $passwd_positive_time_to_live     = 600,
+  Integer                                $passwd_negative_time_to_live     = 20,
+  Integer                                $passwd_keep_hot_count            = 2048,
+  Integer                                $passwd_suggested_size            = 211,
+  Enum['yes', 'no']                      $passwd_check_files               = 'yes',
+  Enum['yes', 'no']                      $passwd_persistent                = 'yes',
+  Enum['yes', 'no']                      $passwd_shared                    = 'yes',
+  Integer                                $passwd_max_db_size               = 33554432,
+  Enum['yes', 'no']                      $passwd_auto_propagate            = 'yes',
+  Enum['yes', 'no']                      $group_enable_cache               = 'yes',
+  Integer                                $group_positive_time_to_live      = 3600,
+  Integer                                $group_negative_time_to_live      = 60,
+  Integer                                $group_keep_hot_count             = 2048,
+  Integer                                $group_suggested_size             = 211,
+  Enum['yes', 'no']                      $group_check_files                = 'yes',
+  Enum['yes', 'no']                      $group_persistent                 = 'yes',
+  Enum['yes', 'no']                      $group_shared                     = 'yes',
+  Integer                                $group_max_db_size                = 33554432,
+  Enum['yes', 'no']                      $group_auto_propagate             = 'yes',
+  Enum['yes', 'no']                      $hosts_enable_cache               = 'yes',
+  Integer                                $hosts_positive_time_to_live      = 3600,
+  Integer                                $hosts_negative_time_to_live      = 20,
+  Integer                                $hosts_keep_hot_count             = 2048,
+  Integer                                $hosts_suggested_size             = 211,
+  Enum['yes', 'no']                      $hosts_check_files                = 'yes',
+  Enum['yes', 'no']                      $hosts_persistent                 = 'yes',
+  Enum['yes', 'no']                      $hosts_shared                     = 'yes',
+  Integer                                $hosts_max_db_size                = 33554432,
+  Enum['yes', 'no']                      $services_enable_cache            = 'yes',
+  Integer                                $services_positive_time_to_live   = 28800,
+  Integer                                $services_negative_time_to_live   = 20,
+  Integer                                $services_keep_hot_count          = 2048,
+  Integer                                $services_suggested_size          = 211,
+  Enum['yes', 'no']                      $services_check_files             = 'yes',
+  Enum['yes', 'no']                      $services_persistent              = 'yes',
+  Enum['yes', 'no']                      $services_shared                  = 'yes',
+  Integer                                $services_max_db_size             = 33554432,
+  Enum['yes', 'no']                      $netgroup_enable_cache            = 'yes',
+  Integer                                $netgroup_positive_time_to_live   = 28800,
+  Integer                                $netgroup_negative_time_to_live   = 20,
+  Integer                                $netgroup_suggested_size          = 211,
+  Enum['yes', 'no']                      $netgroup_check_files             = 'yes',
+  Enum['yes', 'no']                      $netgroup_persistent              = 'yes',
+  Enum['yes', 'no']                      $netgroup_shared                  = 'yes',
+  Integer                                $netgroup_max_db_size             = 33554432,
+  Enum['yes', 'no']                      $audit_user_enable_cache          = 'yes',
+  Integer                                $audit_user_positive_time_to_live = 3600,
+  Integer                                $audit_user_negative_time_to_live = 20,
+  Integer                                $audit_user_keep_hot_count        = 2048,
+  Integer                                $audit_user_suggested_size        = 211,
+  Enum['yes', 'no']                      $audit_user_check_files           = 'yes',
+  Enum['yes', 'no']                      $audit_user_persistent            = 'yes',
+  Enum['yes', 'no']                      $audit_user_shared                = 'yes',
+  Integer                                $audit_user_max_db_size           = 33554432,
+  Enum['yes', 'no']                      $audit_user_auto_propagate        = 'yes',
+  Enum['yes', 'no']                      $auth_attr_enable_cache           = 'yes',
+  Integer                                $auth_attr_positive_time_to_live  = 3600,
+  Integer                                $auth_attr_negative_time_to_live  = 20,
+  Integer                                $auth_attr_keep_hot_count         = 2048,
+  Integer                                $auth_attr_suggested_size         = 211,
+  Enum['yes', 'no']                      $auth_attr_check_files            = 'yes',
+  Enum['yes', 'no']                      $auth_attr_persistent             = 'yes',
+  Enum['yes', 'no']                      $auth_attr_shared                 = 'yes',
+  Integer                                $auth_attr_max_db_size            = 33554432,
+  Enum['yes', 'no']                      $auth_attr_auto_propagate         = 'yes',
+  Enum['yes', 'no']                      $bootparams_enable_cache          = 'yes',
+  Integer                                $bootparams_positive_time_to_live = 3600,
+  Integer                                $bootparams_negative_time_to_live = 20,
+  Integer                                $bootparams_keep_hot_count        = 2048,
+  Integer                                $bootparams_suggested_size        = 211,
+  Enum['yes', 'no']                      $bootparams_check_files           = 'yes',
+  Enum['yes', 'no']                      $bootparams_persistent            = 'yes',
+  Enum['yes', 'no']                      $bootparams_shared                = 'yes',
+  Integer                                $bootparams_max_db_size           = 33554432,
+  Enum['yes', 'no']                      $bootparams_auto_propagate        = 'yes',
+  Enum['yes', 'no']                      $ethers_enable_cache              = 'yes',
+  Integer                                $ethers_positive_time_to_live     = 3600,
+  Integer                                $ethers_negative_time_to_live     = 20,
+  Integer                                $ethers_keep_hot_count            = 2048,
+  Integer                                $ethers_suggested_size            = 211,
+  Enum['yes', 'no']                      $ethers_check_files               = 'yes',
+  Enum['yes', 'no']                      $ethers_persistent                = 'yes',
+  Enum['yes', 'no']                      $ethers_shared                    = 'yes',
+  Integer                                $ethers_max_db_size               = 33554432,
+  Enum['yes', 'no']                      $ethers_auto_propagate            = 'yes',
+  Enum['yes', 'no']                      $exec_attr_enable_cache           = 'yes',
+  Integer                                $exec_attr_positive_time_to_live  = 3600,
+  Integer                                $exec_attr_negative_time_to_live  = 20,
+  Integer                                $exec_attr_keep_hot_count         = 2048,
+  Integer                                $exec_attr_suggested_size         = 211,
+  Enum['yes', 'no']                      $exec_attr_check_files            = 'yes',
+  Enum['yes', 'no']                      $exec_attr_persistent             = 'yes',
+  Enum['yes', 'no']                      $exec_attr_shared                 = 'yes',
+  Integer                                $exec_attr_max_db_size            = 33554432,
+  Enum['yes', 'no']                      $exec_attr_auto_propagate         = 'yes',
+  Enum['yes', 'no']                      $ipnodes_enable_cache             = 'yes',
+  Integer                                $ipnodes_positive_time_to_live    = 3600,
+  Integer                                $ipnodes_negative_time_to_live    = 20,
+  Integer                                $ipnodes_keep_hot_count           = 2048,
+  Integer                                $ipnodes_suggested_size           = 211,
+  Enum['yes', 'no']                      $ipnodes_check_files              = 'yes',
+  Enum['yes', 'no']                      $ipnodes_persistent               = 'yes',
+  Enum['yes', 'no']                      $ipnodes_shared                   = 'yes',
+  Integer                                $ipnodes_max_db_size              = 33554432,
+  Enum['yes', 'no']                      $ipnodes_auto_propagate           = 'yes',
+  Enum['yes', 'no']                      $netmasks_enable_cache            = 'yes',
+  Integer                                $netmasks_positive_time_to_live   = 3600,
+  Integer                                $netmasks_negative_time_to_live   = 20,
+  Integer                                $netmasks_keep_hot_count          = 2048,
+  Integer                                $netmasks_suggested_size          = 211,
+  Enum['yes', 'no']                      $netmasks_check_files             = 'yes',
+  Enum['yes', 'no']                      $netmasks_persistent              = 'yes',
+  Enum['yes', 'no']                      $netmasks_shared                  = 'yes',
+  Integer                                $netmasks_max_db_size             = 33554432,
+  Enum['yes', 'no']                      $netmasks_auto_propagate          = 'yes',
+  Enum['yes', 'no']                      $networks_enable_cache            = 'yes',
+  Integer                                $networks_positive_time_to_live   = 3600,
+  Integer                                $networks_negative_time_to_live   = 20,
+  Integer                                $networks_keep_hot_count          = 2048,
+  Integer                                $networks_suggested_size          = 211,
+  Enum['yes', 'no']                      $networks_check_files             = 'yes',
+  Enum['yes', 'no']                      $networks_persistent              = 'yes',
+  Enum['yes', 'no']                      $networks_shared                  = 'yes',
+  Integer                                $networks_max_db_size             = 33554432,
+  Enum['yes', 'no']                      $networks_auto_propagate          = 'yes',
+  Enum['yes', 'no']                      $printers_enable_cache            = 'yes',
+  Integer                                $printers_positive_time_to_live   = 3600,
+  Integer                                $printers_negative_time_to_live   = 20,
+  Integer                                $printers_keep_hot_count          = 2048,
+  Integer                                $printers_suggested_size          = 211,
+  Enum['yes', 'no']                      $printers_check_files             = 'yes',
+  Enum['yes', 'no']                      $printers_persistent              = 'yes',
+  Enum['yes', 'no']                      $printers_shared                  = 'yes',
+  Integer                                $printers_max_db_size             = 33554432,
+  Enum['yes', 'no']                      $printers_auto_propagate          = 'yes',
+  Enum['yes', 'no']                      $prof_attr_enable_cache           = 'yes',
+  Integer                                $prof_attr_positive_time_to_live  = 3600,
+  Integer                                $prof_attr_negative_time_to_live  = 20,
+  Integer                                $prof_attr_keep_hot_count         = 2048,
+  Integer                                $prof_attr_suggested_size         = 211,
+  Enum['yes', 'no']                      $prof_attr_check_files            = 'yes',
+  Enum['yes', 'no']                      $prof_attr_persistent             = 'yes',
+  Enum['yes', 'no']                      $prof_attr_shared                 = 'yes',
+  Integer                                $prof_attr_max_db_size            = 33554432,
+  Enum['yes', 'no']                      $prof_attr_auto_propagate         = 'yes',
+  Enum['yes', 'no']                      $project_enable_cache             = 'yes',
+  Integer                                $project_positive_time_to_live    = 3600,
+  Integer                                $project_negative_time_to_live    = 20,
+  Integer                                $project_keep_hot_count           = 2048,
+  Integer                                $project_suggested_size           = 211,
+  Enum['yes', 'no']                      $project_check_files              = 'yes',
+  Enum['yes', 'no']                      $project_persistent               = 'yes',
+  Enum['yes', 'no']                      $project_shared                   = 'yes',
+  Integer                                $project_max_db_size              = 33554432,
+  Enum['yes', 'no']                      $project_auto_propagate           = 'yes',
+  Enum['yes', 'no']                      $protocols_enable_cache           = 'yes',
+  Integer                                $protocols_positive_time_to_live  = 3600,
+  Integer                                $protocols_negative_time_to_live  = 20,
+  Integer                                $protocols_keep_hot_count         = 2048,
+  Integer                                $protocols_suggested_size         = 211,
+  Enum['yes', 'no']                      $protocols_check_files            = 'yes',
+  Enum['yes', 'no']                      $protocols_persistent             = 'yes',
+  Enum['yes', 'no']                      $protocols_shared                 = 'yes',
+  Integer                                $protocols_max_db_size            = 33554432,
+  Enum['yes', 'no']                      $protocols_auto_propagate         = 'yes',
+  Enum['yes', 'no']                      $rpc_enable_cache                 = 'yes',
+  Integer                                $rpc_positive_time_to_live        = 3600,
+  Integer                                $rpc_negative_time_to_live        = 20,
+  Integer                                $rpc_keep_hot_count               = 2048,
+  Integer                                $rpc_suggested_size               = 211,
+  Enum['yes', 'no']                      $rpc_check_files                  = 'yes',
+  Enum['yes', 'no']                      $rpc_persistent                   = 'yes',
+  Enum['yes', 'no']                      $rpc_shared                       = 'yes',
+  Integer                                $rpc_max_db_size                  = 33554432,
+  Enum['yes', 'no']                      $rpc_auto_propagate               = 'yes',
+  Enum['yes', 'no']                      $tnrhdb_enable_cache              = 'yes',
+  Integer                                $tnrhdb_positive_time_to_live     = 3600,
+  Integer                                $tnrhdb_negative_time_to_live     = 20,
+  Integer                                $tnrhdb_keep_hot_count            = 2048,
+  Integer                                $tnrhdb_suggested_size            = 211,
+  Enum['yes', 'no']                      $tnrhdb_check_files               = 'yes',
+  Enum['yes', 'no']                      $tnrhdb_persistent                = 'yes',
+  Enum['yes', 'no']                      $tnrhdb_shared                    = 'yes',
+  Integer                                $tnrhdb_max_db_size               = 33554432,
+  Enum['yes', 'no']                      $tnrhdb_auto_propagate            = 'yes',
+  Enum['yes', 'no']                      $tnrhtp_enable_cache              = 'yes',
+  Integer                                $tnrhtp_positive_time_to_live     = 3600,
+  Integer                                $tnrhtp_negative_time_to_live     = 20,
+  Integer                                $tnrhtp_keep_hot_count            = 2048,
+  Integer                                $tnrhtp_suggested_size            = 211,
+  Enum['yes', 'no']                      $tnrhtp_check_files               = 'yes',
+  Enum['yes', 'no']                      $tnrhtp_persistent                = 'yes',
+  Enum['yes', 'no']                      $tnrhtp_shared                    = 'yes',
+  Integer                                $tnrhtp_max_db_size               = 33554432,
+  Enum['yes', 'no']                      $tnrhtp_auto_propagate            = 'yes',
+  Enum['yes', 'no']                      $user_attr_enable_cache           = 'yes',
+  Integer                                $user_attr_positive_time_to_live  = 3600,
+  Integer                                $user_attr_negative_time_to_live  = 20,
+  Integer                                $user_attr_keep_hot_count         = 2048,
+  Integer                                $user_attr_suggested_size         = 211,
+  Enum['yes', 'no']                      $user_attr_check_files            = 'yes',
+  Enum['yes', 'no']                      $user_attr_persistent             = 'yes',
+  Enum['yes', 'no']                      $user_attr_shared                 = 'yes',
+  Integer                                $user_attr_max_db_size            = 33554432,
+  Enum['yes', 'no']                      $user_attr_auto_propagate         = 'yes',
 ) {
-
-  validate_re($package_ensure, '^(present)|(installed)|(absent)$',
-    'nscd::package_ensure is invalid and does not match the regex.')
-  validate_absolute_path($config_path)
-  validate_string($config_owner)
-  validate_string($config_group)
-  validate_re($config_mode, '^(\d){4}$',
-    "nscd::config_mode is <${config_mode}>. Must be in four digit octal notation.")
-  validate_re($service_ensure, '^(present)|(running)|(absent)|(stopped)$',
-    'nscd::service_ensure is invalid and does not match the regex.')
-
-  if is_string($service_enable) {
-    $service_enable_real = str2bool($service_enable)
-  } else {
-    $service_enable_real = $service_enable
-  }
-  validate_bool($service_enable_real)
-
-  validate_re($threads, '^(\d)+$',
-    "nscd::threads is <${threads}>. Must be a number.")
-  validate_re($max_threads, '^(\d)+$',
-    "nscd::max_threads is <${max_threads}>. Must be a number.")
-
-  case $::osfamily {
-    'RedHat': {
-      $default_logfile           = '/var/log/nscd.log'
-      $default_server_user       = 'nscd'
-      $package_adminfile_default = undef
-      $package_name_default      = 'nscd'
-      $package_source_default    = undef
-      $service_name_default      = 'nscd'
-      case $::operatingsystemmajrelease {
-        '5': {
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = false
-          $enable_db_netgroup_default        = false
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        '6': {
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = false
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        '7': {
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = true
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        '8': {
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = false
-          $enable_db_group_default           = false
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = false
-          $enable_db_netgroup_default        = false
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        # Added for Amazon Linux support
-        # Amazon Linux has 'YYYY-MM' version format
-        # https://github.com/ghoneycutt/puppet-module-nscd/issues/41
-        /^201[5-7]+$/: {
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = true
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        default: {
-          fail("Nscd is only supported on EL 5, 6, 7, 8 and Amazon linux 2015-2017. Your operatingsystemmajrelease is identified as <${::operatingsystemmajrelease}>.")
-        }
-      }
-    }
-    'Suse': {
-      $default_logfile           = '/var/log/nscd.log'
-      $package_adminfile_default = undef
-      $package_name_default      = 'nscd'
-      $package_source_default    = undef
-      $service_name_default      = 'nscd'
-      # Suse sadly do not support $::operatingsystemmajrelease.
-      # Alternative approach is to use $::operatingsystemrelease and use regex to ignore the minor number
-      case $::operatingsystemrelease {
-        /^10\./: {
-          $default_server_user               = undef
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = false
-          $enable_db_netgroup_default        = false
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = false
-        }
-        /^11\./: {
-          $default_server_user               = undef
-          $service_provider_default          = undef
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = false
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        /^12\./, /^13\./, /^15\./: {
-          $default_server_user               = 'nscd'
-          $service_provider_default          = 'systemd'
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = true
-          $enable_db_audit_user_default      = false
-          $enable_db_auth_attr_default       = false
-          $enable_db_bootparams_default      = false
-          $enable_db_ethers_default          = false
-          $enable_db_exec_attr_default       = false
-          $enable_db_ipnodes_default         = false
-          $enable_db_netmasks_default        = false
-          $enable_db_networks_default        = false
-          $enable_db_printers_default        = false
-          $enable_db_prof_attr_default       = false
-          $enable_db_project_default         = false
-          $enable_db_protocols_default       = false
-          $enable_db_rpc_default             = false
-          $enable_db_tnrhdb_default          = false
-          $enable_db_tnrhtp_default          = false
-          $enable_db_user_attr_default       = false
-          $enable_opt_auto_propagate_default = true
-        }
-        default: {
-          fail("Nscd is only supported on Suse 10, 11, 12, 13 and 15. Your operatingsystemrelease is identified as <${::operatingsystemrelease}>.")
-        }
-      }
-    }
-    'Debian': {
-      $default_logfile                   = '/var/log/nscd.log'
-      $default_server_user               = undef
-      $service_provider_default          = undef
-      $enable_db_passwd_default          = true
-      $enable_db_group_default           = true
-      $enable_db_hosts_default           = true
-      $enable_db_services_default        = true
-      $enable_db_netgroup_default        = false
-      $enable_db_audit_user_default      = false
-      $enable_db_auth_attr_default       = false
-      $enable_db_bootparams_default      = false
-      $enable_db_ethers_default          = false
-      $enable_db_exec_attr_default       = false
-      $enable_db_ipnodes_default         = false
-      $enable_db_netmasks_default        = false
-      $enable_db_networks_default        = false
-      $enable_db_printers_default        = false
-      $enable_db_prof_attr_default       = false
-      $enable_db_project_default         = false
-      $enable_db_protocols_default       = false
-      $enable_db_rpc_default             = false
-      $enable_db_tnrhdb_default          = false
-      $enable_db_tnrhtp_default          = false
-      $enable_db_user_attr_default       = false
-      $enable_opt_auto_propagate_default = true
-      $package_adminfile_default         = undef
-      $package_name_default              = 'nscd'
-      $package_source_default            = undef
-      $service_name_default              = 'nscd'
-    }
-    'Solaris': {
-      $default_logfile           = '/var/adm/nscd.log'
-      $default_server_user       = undef
-      $package_adminfile_default = undef
-      $package_name_default      = 'SUNWcsu'
-      $package_source_default    = '/var/spool/pkg'
-      $service_provider_default  = undef
-      $service_name_default      = 'name-service-cache'
-      case $::kernelrelease {
-        '5.10': {
-          $enable_db_passwd_default          = true
-          $enable_db_group_default           = true
-          $enable_db_hosts_default           = true
-          $enable_db_services_default        = true
-          $enable_db_netgroup_default        = false
-          $enable_db_audit_user_default      = true
-          $enable_db_auth_attr_default       = true
-          $enable_db_bootparams_default      = true
-          $enable_db_ethers_default          = true
-          $enable_db_exec_attr_default       = true
-          $enable_db_ipnodes_default         = true
-          $enable_db_netmasks_default        = true
-          $enable_db_networks_default        = true
-          $enable_db_printers_default        = true
-          $enable_db_prof_attr_default       = true
-          $enable_db_project_default         = true
-          $enable_db_protocols_default       = true
-          $enable_db_rpc_default             = true
-          $enable_db_tnrhdb_default          = true
-          $enable_db_tnrhtp_default          = true
-          $enable_db_user_attr_default       = true
-          $enable_opt_auto_propagate_default = false
-        }
-        default: {
-          fail("Nscd is only supported on Solaris 5.10. Your kernelrelease is identified as <${::kernelrelease}>.")
-        }
-      }
-    }
-    default: {
-      fail("Nscd supports osfamilies Debian, RedHat, Suse and Solaris. Detected osfamily is <${::osfamily}>.")
-    }
-  }
-
-  if $logfile == 'USE_DEFAULTS' {
-    $logfile_real = $default_logfile
-  } else {
-    $logfile_real = $logfile
-  }
-  validate_absolute_path($logfile_real)
-
-  if $package_adminfile == 'USE_DEFAULTS' {
-    $package_adminfile_real = $package_adminfile_default
-  } else {
-    $package_adminfile_real = $package_adminfile
-  }
-
-  if !is_string($package_adminfile_real) {
-    fail('nscd::package_adminfile must be a string.')
-  }
-
-  if $package_name == 'USE_DEFAULTS' {
-    $package_name_real = $package_name_default
-  } else {
-    $package_name_real = $package_name
-  }
-
-  if !is_string($package_name_real) and !is_array($package_name_real) {
-    fail('nscd::package_name must be a string or an array.')
-  }
-
-  if $package_source == 'USE_DEFAULTS' {
-    $package_source_real = $package_source_default
-  } else {
-    $package_source_real = $package_source
-  }
-
-  if !is_string($package_source_real) {
-    fail('nscd::package_source must be a string.')
-  }
-
-  if $server_user == 'USE_DEFAULTS' {
-    $server_user_real = $default_server_user
-  } else {
-    $server_user_real = $server_user
-  }
-
-  if $service_name == 'USE_DEFAULTS' {
-    $service_name_real = $service_name_default
-  } else {
-    $service_name_real = $service_name
-  }
-
-  validate_string($service_name_real)
-
-  if $service_provider == 'USE_DEFAULTS' {
-    $service_provider_real = $service_provider_default
-  } else {
-    if $service_provider != undef {
-      validate_string($service_provider)
-    }
-    $service_provider_real = $service_provider
-  }
-
-  if is_bool($enable_db_passwd) {
-    $enable_db_passwd_real = $enable_db_passwd
-  } else {
-    $enable_db_passwd_real = $enable_db_passwd ? {
-      'USE_DEFAULTS' => $enable_db_passwd_default,
-      default        => str2bool($enable_db_passwd)
-    }
-  }
-
-  if is_bool($enable_db_group) {
-    $enable_db_group_real = $enable_db_group
-  } else {
-    $enable_db_group_real = $enable_db_group ? {
-      'USE_DEFAULTS' => $enable_db_group_default,
-      default        => str2bool($enable_db_group)
-    }
-  }
-
-  if is_bool($enable_db_hosts) {
-    $enable_db_hosts_real = $enable_db_hosts
-  } else {
-    $enable_db_hosts_real = $enable_db_hosts ? {
-      'USE_DEFAULTS' => $enable_db_hosts_default,
-      default        => str2bool($enable_db_hosts)
-    }
-  }
-
-  if is_bool($enable_db_services) {
-    $enable_db_services_real = $enable_db_services
-  } else {
-    $enable_db_services_real = $enable_db_services ? {
-      'USE_DEFAULTS' => $enable_db_services_default,
-      default        => str2bool($enable_db_services)
-    }
-  }
-
-  if is_bool($enable_db_netgroup) {
-    $enable_db_netgroup_real = $enable_db_netgroup
-  } else {
-    $enable_db_netgroup_real = $enable_db_netgroup ? {
-      'USE_DEFAULTS' => $enable_db_netgroup_default,
-      default        => str2bool($enable_db_netgroup)
-    }
-  }
-
-  if is_bool($enable_db_audit_user) {
-    $enable_db_audit_user_real = $enable_db_audit_user
-  } else {
-    $enable_db_audit_user_real = $enable_db_audit_user ? {
-      'USE_DEFAULTS' => $enable_db_audit_user_default,
-      default        => str2bool($enable_db_audit_user)
-    }
-  }
-
-  if is_bool($enable_db_auth_attr) {
-    $enable_db_auth_attr_real = $enable_db_auth_attr
-  } else {
-    $enable_db_auth_attr_real = $enable_db_auth_attr ? {
-      'USE_DEFAULTS' => $enable_db_auth_attr_default,
-      default        => str2bool($enable_db_auth_attr)
-    }
-  }
-
-  if is_bool($enable_db_bootparams) {
-    $enable_db_bootparams_real = $enable_db_bootparams
-  } else {
-    $enable_db_bootparams_real = $enable_db_bootparams ? {
-      'USE_DEFAULTS' => $enable_db_bootparams_default,
-      default        => str2bool($enable_db_bootparams)
-    }
-  }
-
-  if is_bool($enable_db_ethers) {
-    $enable_db_ethers_real = $enable_db_ethers
-  } else {
-    $enable_db_ethers_real = $enable_db_ethers ? {
-      'USE_DEFAULTS' => $enable_db_ethers_default,
-      default        => str2bool($enable_db_ethers)
-    }
-  }
-
-  if is_bool($enable_db_exec_attr) {
-    $enable_db_exec_attr_real = $enable_db_exec_attr
-  } else {
-    $enable_db_exec_attr_real = $enable_db_exec_attr ? {
-      'USE_DEFAULTS' => $enable_db_exec_attr_default,
-      default        => str2bool($enable_db_exec_attr)
-    }
-  }
-
-  if is_bool($enable_db_ipnodes) {
-    $enable_db_ipnodes_real = $enable_db_ipnodes
-  } else {
-    $enable_db_ipnodes_real = $enable_db_ipnodes ? {
-      'USE_DEFAULTS' => $enable_db_ipnodes_default,
-      default        => str2bool($enable_db_ipnodes)
-    }
-  }
-
-  if is_bool($enable_db_netmasks) {
-    $enable_db_netmasks_real = $enable_db_netmasks
-  } else {
-    $enable_db_netmasks_real = $enable_db_netmasks ? {
-      'USE_DEFAULTS' => $enable_db_netmasks_default,
-      default        => str2bool($enable_db_netmasks)
-    }
-  }
-
-  if is_bool($enable_db_networks) {
-    $enable_db_networks_real = $enable_db_networks
-  } else {
-    $enable_db_networks_real = $enable_db_networks ? {
-      'USE_DEFAULTS' => $enable_db_networks_default,
-      default        => str2bool($enable_db_networks)
-    }
-  }
-
-  if is_bool($enable_db_printers) {
-    $enable_db_printers_real = $enable_db_printers
-  } else {
-    $enable_db_printers_real = $enable_db_printers ? {
-      'USE_DEFAULTS' => $enable_db_printers_default,
-      default        => str2bool($enable_db_printers)
-    }
-  }
-
-  if is_bool($enable_db_prof_attr) {
-    $enable_db_prof_attr_real = $enable_db_prof_attr
-  } else {
-    $enable_db_prof_attr_real = $enable_db_prof_attr ? {
-      'USE_DEFAULTS' => $enable_db_prof_attr_default,
-      default        => str2bool($enable_db_prof_attr)
-    }
-  }
-
-  if is_bool($enable_db_project) {
-    $enable_db_project_real = $enable_db_project
-  } else {
-    $enable_db_project_real = $enable_db_project ? {
-      'USE_DEFAULTS' => $enable_db_project_default,
-      default        => str2bool($enable_db_project)
-    }
-  }
-
-  if is_bool($enable_db_protocols) {
-    $enable_db_protocols_real = $enable_db_protocols
-  } else {
-    $enable_db_protocols_real = $enable_db_protocols ? {
-      'USE_DEFAULTS' => $enable_db_protocols_default,
-      default        => str2bool($enable_db_protocols)
-    }
-  }
-
-  if is_bool($enable_db_rpc) {
-    $enable_db_rpc_real = $enable_db_rpc
-  } else {
-    $enable_db_rpc_real = $enable_db_rpc ? {
-      'USE_DEFAULTS' => $enable_db_rpc_default,
-      default        => str2bool($enable_db_rpc)
-    }
-  }
-
-  if is_bool($enable_db_tnrhdb) {
-    $enable_db_tnrhdb_real = $enable_db_tnrhdb
-  } else {
-    $enable_db_tnrhdb_real = $enable_db_tnrhdb ? {
-      'USE_DEFAULTS' => $enable_db_tnrhdb_default,
-      default        => str2bool($enable_db_tnrhdb)
-    }
-  }
-
-  if is_bool($enable_db_tnrhtp) {
-    $enable_db_tnrhtp_real = $enable_db_tnrhtp
-  } else {
-    $enable_db_tnrhtp_real = $enable_db_tnrhtp ? {
-      'USE_DEFAULTS' => $enable_db_tnrhtp_default,
-      default        => str2bool($enable_db_tnrhtp)
-    }
-  }
-
-  if is_bool($enable_db_user_attr) {
-    $enable_db_user_attr_real = $enable_db_user_attr
-  } else {
-    $enable_db_user_attr_real = $enable_db_user_attr ? {
-      'USE_DEFAULTS' => $enable_db_user_attr_default,
-      default        => str2bool($enable_db_user_attr)
-    }
-  }
-
-  if is_bool($enable_opt_auto_propagate) {
-    $enable_opt_auto_propagate_real = $enable_opt_auto_propagate
-  } else {
-    $enable_opt_auto_propagate_real = $enable_opt_auto_propagate ? {
-      'USE_DEFAULTS' => $enable_opt_auto_propagate_default,
-      default        => str2bool($enable_opt_auto_propagate)
-    }
-  }
-
-  validate_string($stat_user)
-  validate_re($debug_level, '^(\d)+$',
-    "nscd::debug_level is <${debug_level}>. Must be a number.")
-  validate_re($reload_count, '^(\d)+|(unlimited)$',
-    "nscd::reload_count is <${reload_count}>. Must be a number or 'unlimited'.")
-  validate_re($restart_interval, '^(\d)+$',
-    "nscd::restart_interval is <${restart_interval}>. Must be a number in seconds.")
-
-  validate_re($passwd_positive_time_to_live, '^(\d)+$',
-    "nscd::passwd_positive_time_to_live is <${passwd_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($passwd_negative_time_to_live, '^(\d)+$',
-    "nscd::passwd_negative_time_to_live is <${passwd_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($passwd_suggested_size, '^(\d)+$',
-    "nscd::passwd_suggested_size is <${passwd_suggested_size}>. Must be a number.")
-  validate_re($passwd_max_db_size, '^(\d)+$',
-    "nscd::passwd_max_db_size is <${passwd_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($group_positive_time_to_live, '^(\d)+$',
-    "nscd::group_positive_time_to_live is <${group_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($group_negative_time_to_live, '^(\d)+$',
-    "nscd::group_negative_time_to_live is <${group_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($group_suggested_size, '^(\d)+$',
-    "nscd::group_suggested_size is <${group_suggested_size}>. Must be a number.")
-  validate_re($group_max_db_size, '^(\d)+$',
-    "nscd::group_max_db_size is <${group_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($hosts_positive_time_to_live, '^(\d)+$',
-    "nscd::hosts_positive_time_to_live is <${hosts_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($hosts_negative_time_to_live, '^(\d)+$',
-    "nscd::hosts_negative_time_to_live is <${hosts_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($hosts_suggested_size, '^(\d)+$',
-    "nscd::hosts_suggested_size is <${hosts_suggested_size}>. Must be a number.")
-  validate_re($hosts_max_db_size, '^(\d)+$',
-    "nscd::hosts_max_db_size is <${hosts_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($services_positive_time_to_live, '^(\d)+$',
-    "nscd::services_positive_time_to_live is <${services_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($services_negative_time_to_live, '^(\d)+$',
-    "nscd::services_negative_time_to_live is <${services_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($services_suggested_size, '^(\d)+$',
-    "nscd::services_suggested_size is <${services_suggested_size}>. Must be a number.")
-  validate_re($services_max_db_size, '^(\d)+$',
-    "nscd::services_max_db_size is <${services_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($netgroup_positive_time_to_live, '^(\d)+$',
-    "nscd::netgroup_positive_time_to_live is <${netgroup_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($netgroup_negative_time_to_live, '^(\d)+$',
-    "nscd::netgroup_negative_time_to_live is <${netgroup_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($netgroup_suggested_size, '^(\d)+$',
-    "nscd::netgroup_suggested_size is <${netgroup_suggested_size}>. Must be a number.")
-  validate_re($netgroup_max_db_size, '^(\d)+$',
-    "nscd::netgroup_max_db_size is <${netgroup_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($audit_user_positive_time_to_live, '^(\d)+$',
-    "nscd::audit_user_positive_time_to_live is <${audit_user_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($audit_user_negative_time_to_live, '^(\d)+$',
-    "nscd::audit_user_negative_time_to_live is <${audit_user_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($audit_user_suggested_size, '^(\d)+$',
-    "nscd::audit_user_suggested_size is <${audit_user_suggested_size}>. Must be a number.")
-  validate_re($audit_user_max_db_size, '^(\d)+$',
-    "nscd::audit_user_max_db_size is <${audit_user_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($auth_attr_positive_time_to_live, '^(\d)+$',
-    "nscd::auth_attr_positive_time_to_live is <${auth_attr_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($auth_attr_negative_time_to_live, '^(\d)+$',
-    "nscd::auth_attr_negative_time_to_live is <${auth_attr_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($auth_attr_suggested_size, '^(\d)+$',
-    "nscd::auth_attr_suggested_size is <${auth_attr_suggested_size}>. Must be a number.")
-  validate_re($auth_attr_max_db_size, '^(\d)+$',
-    "nscd::auth_attr_max_db_size is <${auth_attr_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($bootparams_positive_time_to_live, '^(\d)+$',
-    "nscd::bootparams_positive_time_to_live is <${bootparams_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($bootparams_negative_time_to_live, '^(\d)+$',
-    "nscd::bootparams_negative_time_to_live is <${bootparams_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($bootparams_suggested_size, '^(\d)+$',
-    "nscd::bootparams_suggested_size is <${bootparams_suggested_size}>. Must be a number.")
-  validate_re($bootparams_max_db_size, '^(\d)+$',
-    "nscd::bootparams_max_db_size is <${bootparams_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($ethers_positive_time_to_live, '^(\d)+$',
-    "nscd::ethers_positive_time_to_live is <${ethers_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($ethers_negative_time_to_live, '^(\d)+$',
-    "nscd::ethers_negative_time_to_live is <${ethers_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($ethers_suggested_size, '^(\d)+$',
-    "nscd::ethers_suggested_size is <${ethers_suggested_size}>. Must be a number.")
-  validate_re($ethers_max_db_size, '^(\d)+$',
-    "nscd::ethers_max_db_size is <${ethers_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($exec_attr_positive_time_to_live, '^(\d)+$',
-    "nscd::exec_attr_positive_time_to_live is <${exec_attr_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($exec_attr_negative_time_to_live, '^(\d)+$',
-    "nscd::exec_attr_negative_time_to_live is <${exec_attr_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($exec_attr_suggested_size, '^(\d)+$',
-    "nscd::exec_attr_suggested_size is <${exec_attr_suggested_size}>. Must be a number.")
-  validate_re($exec_attr_max_db_size, '^(\d)+$',
-    "nscd::exec_attr_max_db_size is <${exec_attr_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($ipnodes_positive_time_to_live, '^(\d)+$',
-    "nscd::ipnodes_positive_time_to_live is <${ipnodes_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($ipnodes_negative_time_to_live, '^(\d)+$',
-    "nscd::ipnodes_negative_time_to_live is <${ipnodes_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($ipnodes_suggested_size, '^(\d)+$',
-    "nscd::ipnodes_suggested_size is <${ipnodes_suggested_size}>. Must be a number.")
-  validate_re($ipnodes_max_db_size, '^(\d)+$',
-    "nscd::ipnodes_max_db_size is <${ipnodes_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($netmasks_positive_time_to_live, '^(\d)+$',
-    "nscd::netmasks_positive_time_to_live is <${netmasks_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($netmasks_negative_time_to_live, '^(\d)+$',
-    "nscd::netmasks_negative_time_to_live is <${netmasks_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($netmasks_suggested_size, '^(\d)+$',
-    "nscd::netmasks_suggested_size is <${netmasks_suggested_size}>. Must be a number.")
-  validate_re($netmasks_max_db_size, '^(\d)+$',
-    "nscd::netmasks_max_db_size is <${netmasks_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($networks_positive_time_to_live, '^(\d)+$',
-    "nscd::networks_positive_time_to_live is <${networks_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($networks_negative_time_to_live, '^(\d)+$',
-    "nscd::networks_negative_time_to_live is <${networks_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($networks_suggested_size, '^(\d)+$',
-    "nscd::networks_suggested_size is <${networks_suggested_size}>. Must be a number.")
-  validate_re($networks_max_db_size, '^(\d)+$',
-    "nscd::networks_max_db_size is <${networks_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($printers_positive_time_to_live, '^(\d)+$',
-    "nscd::printers_positive_time_to_live is <${printers_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($printers_negative_time_to_live, '^(\d)+$',
-    "nscd::printers_negative_time_to_live is <${printers_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($printers_suggested_size, '^(\d)+$',
-    "nscd::printers_suggested_size is <${printers_suggested_size}>. Must be a number.")
-  validate_re($printers_max_db_size, '^(\d)+$',
-    "nscd::printers_max_db_size is <${printers_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($prof_attr_positive_time_to_live, '^(\d)+$',
-    "nscd::prof_attr_positive_time_to_live is <${prof_attr_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($prof_attr_negative_time_to_live, '^(\d)+$',
-    "nscd::prof_attr_negative_time_to_live is <${prof_attr_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($prof_attr_suggested_size, '^(\d)+$',
-    "nscd::prof_attr_suggested_size is <${prof_attr_suggested_size}>. Must be a number.")
-  validate_re($prof_attr_max_db_size, '^(\d)+$',
-    "nscd::prof_attr_max_db_size is <${prof_attr_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($project_positive_time_to_live, '^(\d)+$',
-    "nscd::project_positive_time_to_live is <${project_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($project_negative_time_to_live, '^(\d)+$',
-    "nscd::project_negative_time_to_live is <${project_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($project_suggested_size, '^(\d)+$',
-    "nscd::project_suggested_size is <${project_suggested_size}>. Must be a number.")
-  validate_re($project_max_db_size, '^(\d)+$',
-    "nscd::project_max_db_size is <${project_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($protocols_positive_time_to_live, '^(\d)+$',
-    "nscd::protocols_positive_time_to_live is <${protocols_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($protocols_negative_time_to_live, '^(\d)+$',
-    "nscd::protocols_negative_time_to_live is <${protocols_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($protocols_suggested_size, '^(\d)+$',
-    "nscd::protocols_suggested_size is <${protocols_suggested_size}>. Must be a number.")
-  validate_re($protocols_max_db_size, '^(\d)+$',
-    "nscd::protocols_max_db_size is <${protocols_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($rpc_positive_time_to_live, '^(\d)+$',
-    "nscd::rpc_positive_time_to_live is <${rpc_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($rpc_negative_time_to_live, '^(\d)+$',
-    "nscd::rpc_negative_time_to_live is <${rpc_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($rpc_suggested_size, '^(\d)+$',
-    "nscd::rpc_suggested_size is <${rpc_suggested_size}>. Must be a number.")
-  validate_re($rpc_max_db_size, '^(\d)+$',
-    "nscd::rpc_max_db_size is <${rpc_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($tnrhdb_positive_time_to_live, '^(\d)+$',
-    "nscd::tnrhdb_positive_time_to_live is <${tnrhdb_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($tnrhdb_negative_time_to_live, '^(\d)+$',
-    "nscd::tnrhdb_negative_time_to_live is <${tnrhdb_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($tnrhdb_suggested_size, '^(\d)+$',
-    "nscd::tnrhdb_suggested_size is <${tnrhdb_suggested_size}>. Must be a number.")
-  validate_re($tnrhdb_max_db_size, '^(\d)+$',
-    "nscd::tnrhdb_max_db_size is <${tnrhdb_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($tnrhtp_positive_time_to_live, '^(\d)+$',
-    "nscd::tnrhtp_positive_time_to_live is <${tnrhtp_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($tnrhtp_negative_time_to_live, '^(\d)+$',
-    "nscd::tnrhtp_negative_time_to_live is <${tnrhtp_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($tnrhtp_suggested_size, '^(\d)+$',
-    "nscd::tnrhtp_suggested_size is <${tnrhtp_suggested_size}>. Must be a number.")
-  validate_re($tnrhtp_max_db_size, '^(\d)+$',
-    "nscd::tnrhtp_max_db_size is <${tnrhtp_max_db_size}>. Must be a number in bytes.")
-
-  validate_re($user_attr_positive_time_to_live, '^(\d)+$',
-    "nscd::user_attr_positive_time_to_live is <${user_attr_positive_time_to_live}>. Must be a number in seconds.")
-  validate_re($user_attr_negative_time_to_live, '^(\d)+$',
-    "nscd::user_attr_negative_time_to_live is <${user_attr_negative_time_to_live}>. Must be a number in seconds.")
-  validate_re($user_attr_suggested_size, '^(\d)+$',
-    "nscd::user_attr_suggested_size is <${user_attr_suggested_size}>. Must be a number.")
-  validate_re($user_attr_max_db_size, '^(\d)+$',
-    "nscd::user_attr_max_db_size is <${user_attr_max_db_size}>. Must be a number in bytes.")
-
-  validate_bool($enable_db_passwd_real)
-  validate_bool($enable_db_group_real)
-  validate_bool($enable_db_hosts_real)
-  validate_bool($enable_db_services_real)
-  validate_bool($enable_db_netgroup_real)
-  validate_bool($enable_db_audit_user_real)
-  validate_bool($enable_db_auth_attr_real)
-  validate_bool($enable_db_bootparams_real)
-  validate_bool($enable_db_ethers_real)
-  validate_bool($enable_db_exec_attr_real)
-  validate_bool($enable_db_ipnodes_real)
-  validate_bool($enable_db_netmasks_real)
-  validate_bool($enable_db_networks_real)
-  validate_bool($enable_db_printers_real)
-  validate_bool($enable_db_prof_attr_real)
-  validate_bool($enable_db_project_real)
-  validate_bool($enable_db_protocols_real)
-  validate_bool($enable_db_rpc_real)
-  validate_bool($enable_db_tnrhdb_real)
-  validate_bool($enable_db_tnrhtp_real)
-  validate_bool($enable_db_user_attr_real)
-  validate_bool($enable_opt_auto_propagate_real)
-
-  package { $package_name_real:
+  package { $package_name:
     ensure    => $package_ensure,
-    source    => $package_source_real,
-    adminfile => $package_adminfile_real,
+    source    => $package_source,
+    adminfile => $package_adminfile,
+    before    => File['nscd_config'],
   }
 
   file { 'nscd_config':
@@ -1075,14 +1055,13 @@ class nscd (
     owner   => $config_owner,
     group   => $config_group,
     mode    => $config_mode,
-    require => Package[$package_name_real],
   }
 
   service { 'nscd_service':
     ensure    => $service_ensure,
-    name      => $service_name_real,
-    enable    => $service_enable_real,
-    provider  => $service_provider_real,
+    name      => $service_name,
+    enable    => $service_enable,
+    provider  => $service_provider,
     subscribe => File['nscd_config'],
   }
 }
