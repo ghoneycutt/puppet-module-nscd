@@ -58,36 +58,21 @@ nscd::group_enable_cache:  'no'
 
 The following parameters are available in the `nscd` class:
 
-* [`audit_user_auto_propagate`](#-nscd--audit_user_auto_propagate)
 * [`audit_user_check_files`](#-nscd--audit_user_check_files)
 * [`audit_user_enable_cache`](#-nscd--audit_user_enable_cache)
 * [`audit_user_keep_hot_count`](#-nscd--audit_user_keep_hot_count)
-* [`audit_user_max_db_size`](#-nscd--audit_user_max_db_size)
 * [`audit_user_negative_time_to_live`](#-nscd--audit_user_negative_time_to_live)
-* [`audit_user_persistent`](#-nscd--audit_user_persistent)
 * [`audit_user_positive_time_to_live`](#-nscd--audit_user_positive_time_to_live)
-* [`audit_user_shared`](#-nscd--audit_user_shared)
-* [`audit_user_suggested_size`](#-nscd--audit_user_suggested_size)
-* [`auth_attr_auto_propagate`](#-nscd--auth_attr_auto_propagate)
 * [`auth_attr_check_files`](#-nscd--auth_attr_check_files)
 * [`auth_attr_enable_cache`](#-nscd--auth_attr_enable_cache)
 * [`auth_attr_keep_hot_count`](#-nscd--auth_attr_keep_hot_count)
-* [`auth_attr_max_db_size`](#-nscd--auth_attr_max_db_size)
 * [`auth_attr_negative_time_to_live`](#-nscd--auth_attr_negative_time_to_live)
-* [`auth_attr_persistent`](#-nscd--auth_attr_persistent)
 * [`auth_attr_positive_time_to_live`](#-nscd--auth_attr_positive_time_to_live)
-* [`auth_attr_shared`](#-nscd--auth_attr_shared)
-* [`auth_attr_suggested_size`](#-nscd--auth_attr_suggested_size)
-* [`bootparams_auto_propagate`](#-nscd--bootparams_auto_propagate)
 * [`bootparams_check_files`](#-nscd--bootparams_check_files)
 * [`bootparams_enable_cache`](#-nscd--bootparams_enable_cache)
 * [`bootparams_keep_hot_count`](#-nscd--bootparams_keep_hot_count)
-* [`bootparams_max_db_size`](#-nscd--bootparams_max_db_size)
 * [`bootparams_negative_time_to_live`](#-nscd--bootparams_negative_time_to_live)
-* [`bootparams_persistent`](#-nscd--bootparams_persistent)
 * [`bootparams_positive_time_to_live`](#-nscd--bootparams_positive_time_to_live)
-* [`bootparams_shared`](#-nscd--bootparams_shared)
-* [`bootparams_suggested_size`](#-nscd--bootparams_suggested_size)
 * [`config_group`](#-nscd--config_group)
 * [`config_mode`](#-nscd--config_mode)
 * [`config_path`](#-nscd--config_path)
@@ -115,26 +100,16 @@ The following parameters are available in the `nscd` class:
 * [`enable_db_tnrhtp`](#-nscd--enable_db_tnrhtp)
 * [`enable_db_user_attr`](#-nscd--enable_db_user_attr)
 * [`enable_opt_auto_propagate`](#-nscd--enable_opt_auto_propagate)
-* [`ethers_auto_propagate`](#-nscd--ethers_auto_propagate)
 * [`ethers_check_files`](#-nscd--ethers_check_files)
 * [`ethers_enable_cache`](#-nscd--ethers_enable_cache)
 * [`ethers_keep_hot_count`](#-nscd--ethers_keep_hot_count)
-* [`ethers_max_db_size`](#-nscd--ethers_max_db_size)
 * [`ethers_negative_time_to_live`](#-nscd--ethers_negative_time_to_live)
-* [`ethers_persistent`](#-nscd--ethers_persistent)
 * [`ethers_positive_time_to_live`](#-nscd--ethers_positive_time_to_live)
-* [`ethers_shared`](#-nscd--ethers_shared)
-* [`ethers_suggested_size`](#-nscd--ethers_suggested_size)
-* [`exec_attr_auto_propagate`](#-nscd--exec_attr_auto_propagate)
 * [`exec_attr_check_files`](#-nscd--exec_attr_check_files)
 * [`exec_attr_enable_cache`](#-nscd--exec_attr_enable_cache)
 * [`exec_attr_keep_hot_count`](#-nscd--exec_attr_keep_hot_count)
-* [`exec_attr_max_db_size`](#-nscd--exec_attr_max_db_size)
 * [`exec_attr_negative_time_to_live`](#-nscd--exec_attr_negative_time_to_live)
-* [`exec_attr_persistent`](#-nscd--exec_attr_persistent)
 * [`exec_attr_positive_time_to_live`](#-nscd--exec_attr_positive_time_to_live)
-* [`exec_attr_shared`](#-nscd--exec_attr_shared)
-* [`exec_attr_suggested_size`](#-nscd--exec_attr_suggested_size)
 * [`group_auto_propagate`](#-nscd--group_auto_propagate)
 * [`group_check_files`](#-nscd--group_check_files)
 * [`group_enable_cache`](#-nscd--group_enable_cache)
@@ -154,16 +129,11 @@ The following parameters are available in the `nscd` class:
 * [`hosts_positive_time_to_live`](#-nscd--hosts_positive_time_to_live)
 * [`hosts_shared`](#-nscd--hosts_shared)
 * [`hosts_suggested_size`](#-nscd--hosts_suggested_size)
-* [`ipnodes_auto_propagate`](#-nscd--ipnodes_auto_propagate)
 * [`ipnodes_check_files`](#-nscd--ipnodes_check_files)
 * [`ipnodes_enable_cache`](#-nscd--ipnodes_enable_cache)
 * [`ipnodes_keep_hot_count`](#-nscd--ipnodes_keep_hot_count)
-* [`ipnodes_max_db_size`](#-nscd--ipnodes_max_db_size)
 * [`ipnodes_negative_time_to_live`](#-nscd--ipnodes_negative_time_to_live)
-* [`ipnodes_persistent`](#-nscd--ipnodes_persistent)
 * [`ipnodes_positive_time_to_live`](#-nscd--ipnodes_positive_time_to_live)
-* [`ipnodes_shared`](#-nscd--ipnodes_shared)
-* [`ipnodes_suggested_size`](#-nscd--ipnodes_suggested_size)
 * [`logfile`](#-nscd--logfile)
 * [`max_threads`](#-nscd--max_threads)
 * [`netgroup_check_files`](#-nscd--netgroup_check_files)
@@ -174,26 +144,16 @@ The following parameters are available in the `nscd` class:
 * [`netgroup_positive_time_to_live`](#-nscd--netgroup_positive_time_to_live)
 * [`netgroup_shared`](#-nscd--netgroup_shared)
 * [`netgroup_suggested_size`](#-nscd--netgroup_suggested_size)
-* [`netmasks_auto_propagate`](#-nscd--netmasks_auto_propagate)
 * [`netmasks_check_files`](#-nscd--netmasks_check_files)
 * [`netmasks_enable_cache`](#-nscd--netmasks_enable_cache)
 * [`netmasks_keep_hot_count`](#-nscd--netmasks_keep_hot_count)
-* [`netmasks_max_db_size`](#-nscd--netmasks_max_db_size)
 * [`netmasks_negative_time_to_live`](#-nscd--netmasks_negative_time_to_live)
-* [`netmasks_persistent`](#-nscd--netmasks_persistent)
 * [`netmasks_positive_time_to_live`](#-nscd--netmasks_positive_time_to_live)
-* [`netmasks_shared`](#-nscd--netmasks_shared)
-* [`netmasks_suggested_size`](#-nscd--netmasks_suggested_size)
-* [`networks_auto_propagate`](#-nscd--networks_auto_propagate)
 * [`networks_check_files`](#-nscd--networks_check_files)
 * [`networks_enable_cache`](#-nscd--networks_enable_cache)
 * [`networks_keep_hot_count`](#-nscd--networks_keep_hot_count)
-* [`networks_max_db_size`](#-nscd--networks_max_db_size)
 * [`networks_negative_time_to_live`](#-nscd--networks_negative_time_to_live)
-* [`networks_persistent`](#-nscd--networks_persistent)
 * [`networks_positive_time_to_live`](#-nscd--networks_positive_time_to_live)
-* [`networks_shared`](#-nscd--networks_shared)
-* [`networks_suggested_size`](#-nscd--networks_suggested_size)
 * [`package_adminfile`](#-nscd--package_adminfile)
 * [`package_ensure`](#-nscd--package_ensure)
 * [`package_name`](#-nscd--package_name)
@@ -209,58 +169,33 @@ The following parameters are available in the `nscd` class:
 * [`passwd_positive_time_to_live`](#-nscd--passwd_positive_time_to_live)
 * [`passwd_shared`](#-nscd--passwd_shared)
 * [`passwd_suggested_size`](#-nscd--passwd_suggested_size)
-* [`printers_auto_propagate`](#-nscd--printers_auto_propagate)
 * [`printers_check_files`](#-nscd--printers_check_files)
 * [`printers_enable_cache`](#-nscd--printers_enable_cache)
 * [`printers_keep_hot_count`](#-nscd--printers_keep_hot_count)
-* [`printers_max_db_size`](#-nscd--printers_max_db_size)
 * [`printers_negative_time_to_live`](#-nscd--printers_negative_time_to_live)
-* [`printers_persistent`](#-nscd--printers_persistent)
 * [`printers_positive_time_to_live`](#-nscd--printers_positive_time_to_live)
-* [`printers_shared`](#-nscd--printers_shared)
-* [`printers_suggested_size`](#-nscd--printers_suggested_size)
-* [`prof_attr_auto_propagate`](#-nscd--prof_attr_auto_propagate)
 * [`prof_attr_check_files`](#-nscd--prof_attr_check_files)
 * [`prof_attr_enable_cache`](#-nscd--prof_attr_enable_cache)
 * [`prof_attr_keep_hot_count`](#-nscd--prof_attr_keep_hot_count)
-* [`prof_attr_max_db_size`](#-nscd--prof_attr_max_db_size)
 * [`prof_attr_negative_time_to_live`](#-nscd--prof_attr_negative_time_to_live)
-* [`prof_attr_persistent`](#-nscd--prof_attr_persistent)
 * [`prof_attr_positive_time_to_live`](#-nscd--prof_attr_positive_time_to_live)
-* [`prof_attr_shared`](#-nscd--prof_attr_shared)
-* [`prof_attr_suggested_size`](#-nscd--prof_attr_suggested_size)
-* [`project_auto_propagate`](#-nscd--project_auto_propagate)
 * [`project_check_files`](#-nscd--project_check_files)
 * [`project_enable_cache`](#-nscd--project_enable_cache)
 * [`project_keep_hot_count`](#-nscd--project_keep_hot_count)
-* [`project_max_db_size`](#-nscd--project_max_db_size)
 * [`project_negative_time_to_live`](#-nscd--project_negative_time_to_live)
-* [`project_persistent`](#-nscd--project_persistent)
 * [`project_positive_time_to_live`](#-nscd--project_positive_time_to_live)
-* [`project_shared`](#-nscd--project_shared)
-* [`project_suggested_size`](#-nscd--project_suggested_size)
-* [`protocols_auto_propagate`](#-nscd--protocols_auto_propagate)
 * [`protocols_check_files`](#-nscd--protocols_check_files)
 * [`protocols_enable_cache`](#-nscd--protocols_enable_cache)
 * [`protocols_keep_hot_count`](#-nscd--protocols_keep_hot_count)
-* [`protocols_max_db_size`](#-nscd--protocols_max_db_size)
 * [`protocols_negative_time_to_live`](#-nscd--protocols_negative_time_to_live)
-* [`protocols_persistent`](#-nscd--protocols_persistent)
 * [`protocols_positive_time_to_live`](#-nscd--protocols_positive_time_to_live)
-* [`protocols_shared`](#-nscd--protocols_shared)
-* [`protocols_suggested_size`](#-nscd--protocols_suggested_size)
 * [`reload_count`](#-nscd--reload_count)
 * [`restart_interval`](#-nscd--restart_interval)
-* [`rpc_auto_propagate`](#-nscd--rpc_auto_propagate)
 * [`rpc_check_files`](#-nscd--rpc_check_files)
 * [`rpc_enable_cache`](#-nscd--rpc_enable_cache)
 * [`rpc_keep_hot_count`](#-nscd--rpc_keep_hot_count)
-* [`rpc_max_db_size`](#-nscd--rpc_max_db_size)
 * [`rpc_negative_time_to_live`](#-nscd--rpc_negative_time_to_live)
-* [`rpc_persistent`](#-nscd--rpc_persistent)
 * [`rpc_positive_time_to_live`](#-nscd--rpc_positive_time_to_live)
-* [`rpc_shared`](#-nscd--rpc_shared)
-* [`rpc_suggested_size`](#-nscd--rpc_suggested_size)
 * [`server_user`](#-nscd--server_user)
 * [`service_enable`](#-nscd--service_enable)
 * [`service_ensure`](#-nscd--service_ensure)
@@ -277,44 +212,21 @@ The following parameters are available in the `nscd` class:
 * [`services_suggested_size`](#-nscd--services_suggested_size)
 * [`stat_user`](#-nscd--stat_user)
 * [`threads`](#-nscd--threads)
-* [`tnrhdb_auto_propagate`](#-nscd--tnrhdb_auto_propagate)
 * [`tnrhdb_check_files`](#-nscd--tnrhdb_check_files)
 * [`tnrhdb_enable_cache`](#-nscd--tnrhdb_enable_cache)
 * [`tnrhdb_keep_hot_count`](#-nscd--tnrhdb_keep_hot_count)
-* [`tnrhdb_max_db_size`](#-nscd--tnrhdb_max_db_size)
 * [`tnrhdb_negative_time_to_live`](#-nscd--tnrhdb_negative_time_to_live)
-* [`tnrhdb_persistent`](#-nscd--tnrhdb_persistent)
 * [`tnrhdb_positive_time_to_live`](#-nscd--tnrhdb_positive_time_to_live)
-* [`tnrhdb_shared`](#-nscd--tnrhdb_shared)
-* [`tnrhdb_suggested_size`](#-nscd--tnrhdb_suggested_size)
-* [`tnrhtp_auto_propagate`](#-nscd--tnrhtp_auto_propagate)
 * [`tnrhtp_check_files`](#-nscd--tnrhtp_check_files)
 * [`tnrhtp_enable_cache`](#-nscd--tnrhtp_enable_cache)
 * [`tnrhtp_keep_hot_count`](#-nscd--tnrhtp_keep_hot_count)
-* [`tnrhtp_max_db_size`](#-nscd--tnrhtp_max_db_size)
 * [`tnrhtp_negative_time_to_live`](#-nscd--tnrhtp_negative_time_to_live)
-* [`tnrhtp_persistent`](#-nscd--tnrhtp_persistent)
 * [`tnrhtp_positive_time_to_live`](#-nscd--tnrhtp_positive_time_to_live)
-* [`tnrhtp_shared`](#-nscd--tnrhtp_shared)
-* [`tnrhtp_suggested_size`](#-nscd--tnrhtp_suggested_size)
-* [`user_attr_auto_propagate`](#-nscd--user_attr_auto_propagate)
 * [`user_attr_check_files`](#-nscd--user_attr_check_files)
 * [`user_attr_enable_cache`](#-nscd--user_attr_enable_cache)
 * [`user_attr_keep_hot_count`](#-nscd--user_attr_keep_hot_count)
-* [`user_attr_max_db_size`](#-nscd--user_attr_max_db_size)
 * [`user_attr_negative_time_to_live`](#-nscd--user_attr_negative_time_to_live)
-* [`user_attr_persistent`](#-nscd--user_attr_persistent)
 * [`user_attr_positive_time_to_live`](#-nscd--user_attr_positive_time_to_live)
-* [`user_attr_shared`](#-nscd--user_attr_shared)
-* [`user_attr_suggested_size`](#-nscd--user_attr_suggested_size)
-
-##### <a name="-nscd--audit_user_auto_propagate"></a>`audit_user_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate audit_user in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--audit_user_check_files"></a>`audit_user_check_files`
 
@@ -340,14 +252,6 @@ Settings for keep-hot-count audit_user in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--audit_user_max_db_size"></a>`audit_user_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size audit_user in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--audit_user_negative_time_to_live"></a>`audit_user_negative_time_to_live`
 
 Data type: `Integer`
@@ -356,14 +260,6 @@ Settings for negative-time-to-live audit_user in nscd.conf.
 
 Default value: `20`
 
-##### <a name="-nscd--audit_user_persistent"></a>`audit_user_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent audit_user in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--audit_user_positive_time_to_live"></a>`audit_user_positive_time_to_live`
 
 Data type: `Integer`
@@ -371,30 +267,6 @@ Data type: `Integer`
 Settings for positive-time-to-live audit_user in nscd.conf.
 
 Default value: `3600`
-
-##### <a name="-nscd--audit_user_shared"></a>`audit_user_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared audit_user in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--audit_user_suggested_size"></a>`audit_user_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size audit_user in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--auth_attr_auto_propagate"></a>`auth_attr_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate auth_attr in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--auth_attr_check_files"></a>`auth_attr_check_files`
 
@@ -420,14 +292,6 @@ Settings for keep-hot-count auth_attr in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--auth_attr_max_db_size"></a>`auth_attr_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size auth_attr in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--auth_attr_negative_time_to_live"></a>`auth_attr_negative_time_to_live`
 
 Data type: `Integer`
@@ -436,14 +300,6 @@ Settings for negative-time-to-live auth_attr in nscd.conf. Must be a number in s
 
 Default value: `20`
 
-##### <a name="-nscd--auth_attr_persistent"></a>`auth_attr_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent auth_attr in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--auth_attr_positive_time_to_live"></a>`auth_attr_positive_time_to_live`
 
 Data type: `Integer`
@@ -451,30 +307,6 @@ Data type: `Integer`
 Settings for positive-time-to-live auth_attr in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--auth_attr_shared"></a>`auth_attr_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared auth_attr in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--auth_attr_suggested_size"></a>`auth_attr_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size auth_attr in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--bootparams_auto_propagate"></a>`bootparams_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate bootparams in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--bootparams_check_files"></a>`bootparams_check_files`
 
@@ -500,14 +332,6 @@ Settings for keep-hot-count bootparams in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--bootparams_max_db_size"></a>`bootparams_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size bootparams in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--bootparams_negative_time_to_live"></a>`bootparams_negative_time_to_live`
 
 Data type: `Integer`
@@ -516,14 +340,6 @@ Settings for negative-time-to-live bootparams in nscd.conf. Must be a number in 
 
 Default value: `20`
 
-##### <a name="-nscd--bootparams_persistent"></a>`bootparams_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent bootparams in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--bootparams_positive_time_to_live"></a>`bootparams_positive_time_to_live`
 
 Data type: `Integer`
@@ -531,22 +347,6 @@ Data type: `Integer`
 Settings for positive-time-to-live bootparams in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--bootparams_shared"></a>`bootparams_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared bootparams in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--bootparams_suggested_size"></a>`bootparams_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size bootparams in nscd.conf.
-
-Default value: `211`
 
 ##### <a name="-nscd--config_group"></a>`config_group`
 
@@ -764,14 +564,6 @@ Settings for enable_opt_auto_propagate in nscd.conf.
 
 Default value: `false`
 
-##### <a name="-nscd--ethers_auto_propagate"></a>`ethers_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate ethers in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--ethers_check_files"></a>`ethers_check_files`
 
 Data type: `Enum['yes', 'no']`
@@ -796,14 +588,6 @@ Settings for keep-hot-count ethers in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--ethers_max_db_size"></a>`ethers_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size ethers in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--ethers_negative_time_to_live"></a>`ethers_negative_time_to_live`
 
 Data type: `Integer`
@@ -812,14 +596,6 @@ Settings for negative-time-to-live ethers in nscd.conf.
 
 Default value: `20`
 
-##### <a name="-nscd--ethers_persistent"></a>`ethers_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent ethers in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--ethers_positive_time_to_live"></a>`ethers_positive_time_to_live`
 
 Data type: `Integer`
@@ -827,30 +603,6 @@ Data type: `Integer`
 Settings for positive-time-to-live ethers in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--ethers_shared"></a>`ethers_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared ethers in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--ethers_suggested_size"></a>`ethers_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size ethers in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--exec_attr_auto_propagate"></a>`exec_attr_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate exec_attr in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--exec_attr_check_files"></a>`exec_attr_check_files`
 
@@ -876,14 +628,6 @@ Settings for keep-hot-count exec_attr in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--exec_attr_max_db_size"></a>`exec_attr_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size exec_attr in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--exec_attr_negative_time_to_live"></a>`exec_attr_negative_time_to_live`
 
 Data type: `Integer`
@@ -892,14 +636,6 @@ Settings for negative-time-to-live exec_attr in nscd.conf.
 
 Default value: `20`
 
-##### <a name="-nscd--exec_attr_persistent"></a>`exec_attr_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent exec_attr in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--exec_attr_positive_time_to_live"></a>`exec_attr_positive_time_to_live`
 
 Data type: `Integer`
@@ -907,22 +643,6 @@ Data type: `Integer`
 Settings for positive-time-to-live exec_attr in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--exec_attr_shared"></a>`exec_attr_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared exec_attr in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--exec_attr_suggested_size"></a>`exec_attr_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size exec_attr in nscd.conf.
-
-Default value: `211`
 
 ##### <a name="-nscd--group_auto_propagate"></a>`group_auto_propagate`
 
@@ -1076,14 +796,6 @@ Settings for suggested-size hosts in nscd.conf.
 
 Default value: `211`
 
-##### <a name="-nscd--ipnodes_auto_propagate"></a>`ipnodes_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate ipnodes in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--ipnodes_check_files"></a>`ipnodes_check_files`
 
 Data type: `Enum['yes', 'no']`
@@ -1108,14 +820,6 @@ Settings for keep-hot-count ipnodes in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--ipnodes_max_db_size"></a>`ipnodes_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size ipnodes in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--ipnodes_negative_time_to_live"></a>`ipnodes_negative_time_to_live`
 
 Data type: `Integer`
@@ -1124,14 +828,6 @@ Settings for negative-time-to-live ipnodes in nscd.conf. Must be a number in sec
 
 Default value: `20`
 
-##### <a name="-nscd--ipnodes_persistent"></a>`ipnodes_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent ipnodes in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--ipnodes_positive_time_to_live"></a>`ipnodes_positive_time_to_live`
 
 Data type: `Integer`
@@ -1139,22 +835,6 @@ Data type: `Integer`
 Settings for positive-time-to-live ipnodes in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--ipnodes_shared"></a>`ipnodes_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared ipnodes in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--ipnodes_suggested_size"></a>`ipnodes_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size ipnodes in nscd.conf.
-
-Default value: `211`
 
 ##### <a name="-nscd--logfile"></a>`logfile`
 
@@ -1236,14 +916,6 @@ Settings for suggested-size netgroup in nscd.conf.
 
 Default value: `211`
 
-##### <a name="-nscd--netmasks_auto_propagate"></a>`netmasks_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate netmasks in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--netmasks_check_files"></a>`netmasks_check_files`
 
 Data type: `Enum['yes', 'no']`
@@ -1268,14 +940,6 @@ Settings for keep-hot-count netmasks in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--netmasks_max_db_size"></a>`netmasks_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size netmasks in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--netmasks_negative_time_to_live"></a>`netmasks_negative_time_to_live`
 
 Data type: `Integer`
@@ -1284,14 +948,6 @@ Settings for negative-time-to-live netmasks in nscd.conf. Must be a number in se
 
 Default value: `20`
 
-##### <a name="-nscd--netmasks_persistent"></a>`netmasks_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent netmasks in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--netmasks_positive_time_to_live"></a>`netmasks_positive_time_to_live`
 
 Data type: `Integer`
@@ -1299,30 +955,6 @@ Data type: `Integer`
 Settings for positive-time-to-live netmasks in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--netmasks_shared"></a>`netmasks_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared netmasks in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--netmasks_suggested_size"></a>`netmasks_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size netmasks in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--networks_auto_propagate"></a>`networks_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate networks in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--networks_check_files"></a>`networks_check_files`
 
@@ -1348,14 +980,6 @@ Settings for keep-hot-count networks in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--networks_max_db_size"></a>`networks_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size networks in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--networks_negative_time_to_live"></a>`networks_negative_time_to_live`
 
 Data type: `Integer`
@@ -1364,14 +988,6 @@ Settings for negative-time-to-live networks in nscd.conf. Must be a number in se
 
 Default value: `20`
 
-##### <a name="-nscd--networks_persistent"></a>`networks_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent networks in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--networks_positive_time_to_live"></a>`networks_positive_time_to_live`
 
 Data type: `Integer`
@@ -1379,22 +995,6 @@ Data type: `Integer`
 Settings for positive-time-to-live networks in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--networks_shared"></a>`networks_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared networks in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--networks_suggested_size"></a>`networks_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size networks in nscd.conf.
-
-Default value: `211`
 
 ##### <a name="-nscd--package_adminfile"></a>`package_adminfile`
 
@@ -1516,14 +1116,6 @@ Settings for suggested-size passwd in nscd.conf.
 
 Default value: `211`
 
-##### <a name="-nscd--printers_auto_propagate"></a>`printers_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate printers in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--printers_check_files"></a>`printers_check_files`
 
 Data type: `Enum['yes', 'no']`
@@ -1548,14 +1140,6 @@ Settings for keep-hot-count printers in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--printers_max_db_size"></a>`printers_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size printers in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--printers_negative_time_to_live"></a>`printers_negative_time_to_live`
 
 Data type: `Integer`
@@ -1564,14 +1148,6 @@ Settings for negative-time-to-live printers in nscd.conf. Must be a number in se
 
 Default value: `20`
 
-##### <a name="-nscd--printers_persistent"></a>`printers_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent printers in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--printers_positive_time_to_live"></a>`printers_positive_time_to_live`
 
 Data type: `Integer`
@@ -1579,30 +1155,6 @@ Data type: `Integer`
 Settings for positive-time-to-live printers in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--printers_shared"></a>`printers_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared printers in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--printers_suggested_size"></a>`printers_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size printers in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--prof_attr_auto_propagate"></a>`prof_attr_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate prof_attr in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--prof_attr_check_files"></a>`prof_attr_check_files`
 
@@ -1628,14 +1180,6 @@ Settings for keep-hot-count prof_attr in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--prof_attr_max_db_size"></a>`prof_attr_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size prof_attr in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--prof_attr_negative_time_to_live"></a>`prof_attr_negative_time_to_live`
 
 Data type: `Integer`
@@ -1644,14 +1188,6 @@ Settings for negative-time-to-live prof_attr in nscd.conf. Must be a number in s
 
 Default value: `20`
 
-##### <a name="-nscd--prof_attr_persistent"></a>`prof_attr_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent prof_attr in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--prof_attr_positive_time_to_live"></a>`prof_attr_positive_time_to_live`
 
 Data type: `Integer`
@@ -1659,30 +1195,6 @@ Data type: `Integer`
 Settings for positive-time-to-live prof_attr in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--prof_attr_shared"></a>`prof_attr_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared prof_attr in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--prof_attr_suggested_size"></a>`prof_attr_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size prof_attr in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--project_auto_propagate"></a>`project_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate prof_attr in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--project_check_files"></a>`project_check_files`
 
@@ -1708,14 +1220,6 @@ Settings for keep-hot-count project in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--project_max_db_size"></a>`project_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size project in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--project_negative_time_to_live"></a>`project_negative_time_to_live`
 
 Data type: `Integer`
@@ -1724,14 +1228,6 @@ Settings for negative-time-to-live project in nscd.conf. Must be a number in sec
 
 Default value: `20`
 
-##### <a name="-nscd--project_persistent"></a>`project_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent project in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--project_positive_time_to_live"></a>`project_positive_time_to_live`
 
 Data type: `Integer`
@@ -1739,30 +1235,6 @@ Data type: `Integer`
 Settings for positive-time-to-live project in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--project_shared"></a>`project_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared project in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--project_suggested_size"></a>`project_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size project in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--protocols_auto_propagate"></a>`protocols_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate protocols in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--protocols_check_files"></a>`protocols_check_files`
 
@@ -1788,14 +1260,6 @@ Settings for keep-hot-count protocols in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--protocols_max_db_size"></a>`protocols_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size protocols in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--protocols_negative_time_to_live"></a>`protocols_negative_time_to_live`
 
 Data type: `Integer`
@@ -1804,14 +1268,6 @@ Settings for negative-time-to-live protocols in nscd.conf. Must be a number in s
 
 Default value: `20`
 
-##### <a name="-nscd--protocols_persistent"></a>`protocols_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent protocols in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--protocols_positive_time_to_live"></a>`protocols_positive_time_to_live`
 
 Data type: `Integer`
@@ -1819,22 +1275,6 @@ Data type: `Integer`
 Settings for positive-time-to-live protocols in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--protocols_shared"></a>`protocols_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared protocols in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--protocols_suggested_size"></a>`protocols_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size protocols in nscd.conf.
-
-Default value: `211`
 
 ##### <a name="-nscd--reload_count"></a>`reload_count`
 
@@ -1851,14 +1291,6 @@ Data type: `Integer`
 Setting for restart-interval in nscd.conf. See nscd.conf(5).
 
 Default value: `3600`
-
-##### <a name="-nscd--rpc_auto_propagate"></a>`rpc_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate rpc in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--rpc_check_files"></a>`rpc_check_files`
 
@@ -1884,14 +1316,6 @@ Settings for keep-hot-count rpc in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--rpc_max_db_size"></a>`rpc_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size rpc in nscd.conf.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--rpc_negative_time_to_live"></a>`rpc_negative_time_to_live`
 
 Data type: `Integer`
@@ -1900,14 +1324,6 @@ Settings for negative-time-to-live rpc in nscd.conf. Must be a number in seconds
 
 Default value: `20`
 
-##### <a name="-nscd--rpc_persistent"></a>`rpc_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent rpc in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--rpc_positive_time_to_live"></a>`rpc_positive_time_to_live`
 
 Data type: `Integer`
@@ -1915,22 +1331,6 @@ Data type: `Integer`
 Settings for positive-time-to-live rpc in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--rpc_shared"></a>`rpc_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared rpc in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--rpc_suggested_size"></a>`rpc_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size rpc in nscd.conf.
-
-Default value: `211`
 
 ##### <a name="-nscd--server_user"></a>`server_user`
 
@@ -2062,14 +1462,6 @@ Setting for threads in nscd.conf. See nscd.conf(5).
 
 Default value: `5`
 
-##### <a name="-nscd--tnrhdb_auto_propagate"></a>`tnrhdb_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate tnrhdb in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--tnrhdb_check_files"></a>`tnrhdb_check_files`
 
 Data type: `Enum['yes', 'no']`
@@ -2094,14 +1486,6 @@ Settings for keep-hot-count tnrhdb in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--tnrhdb_max_db_size"></a>`tnrhdb_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--tnrhdb_negative_time_to_live"></a>`tnrhdb_negative_time_to_live`
 
 Data type: `Integer`
@@ -2110,14 +1494,6 @@ Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seco
 
 Default value: `20`
 
-##### <a name="-nscd--tnrhdb_persistent"></a>`tnrhdb_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent tnrhdb in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--tnrhdb_positive_time_to_live"></a>`tnrhdb_positive_time_to_live`
 
 Data type: `Integer`
@@ -2125,30 +1501,6 @@ Data type: `Integer`
 Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--tnrhdb_shared"></a>`tnrhdb_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared tnrhdb in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--tnrhdb_suggested_size"></a>`tnrhdb_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size tnrhdb in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--tnrhtp_auto_propagate"></a>`tnrhtp_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate tnrhdb in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--tnrhtp_check_files"></a>`tnrhtp_check_files`
 
@@ -2174,14 +1526,6 @@ Settings for keep-hot-count tnrhdb in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--tnrhtp_max_db_size"></a>`tnrhtp_max_db_size`
-
-Data type: `Integer`
-
-ettings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--tnrhtp_negative_time_to_live"></a>`tnrhtp_negative_time_to_live`
 
 Data type: `Integer`
@@ -2190,14 +1534,6 @@ Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seco
 
 Default value: `20`
 
-##### <a name="-nscd--tnrhtp_persistent"></a>`tnrhtp_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent tnrhdb in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--tnrhtp_positive_time_to_live"></a>`tnrhtp_positive_time_to_live`
 
 Data type: `Integer`
@@ -2205,30 +1541,6 @@ Data type: `Integer`
 Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--tnrhtp_shared"></a>`tnrhtp_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for shared tnrhdb in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--tnrhtp_suggested_size"></a>`tnrhtp_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size tnrhdb in nscd.conf.
-
-Default value: `211`
-
-##### <a name="-nscd--user_attr_auto_propagate"></a>`user_attr_auto_propagate`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for auto-propagate user_attr in nscd.conf.
-
-Default value: `'yes'`
 
 ##### <a name="-nscd--user_attr_check_files"></a>`user_attr_check_files`
 
@@ -2254,14 +1566,6 @@ Settings for keep-hot-count user_attr in nscd.conf.
 
 Default value: `2048`
 
-##### <a name="-nscd--user_attr_max_db_size"></a>`user_attr_max_db_size`
-
-Data type: `Integer`
-
-Settings for max-db-size user_attr in nscd.conf. Must be a number in bytes.
-
-Default value: `33554432`
-
 ##### <a name="-nscd--user_attr_negative_time_to_live"></a>`user_attr_negative_time_to_live`
 
 Data type: `Integer`
@@ -2270,14 +1574,6 @@ Settings for negative-time-to-live user_attr in nscd.conf. Must be a number in s
 
 Default value: `20`
 
-##### <a name="-nscd--user_attr_persistent"></a>`user_attr_persistent`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for persistent user_attr in nscd.conf.
-
-Default value: `'yes'`
-
 ##### <a name="-nscd--user_attr_positive_time_to_live"></a>`user_attr_positive_time_to_live`
 
 Data type: `Integer`
@@ -2285,20 +1581,4 @@ Data type: `Integer`
 Settings for positive-time-to-live user_attr in nscd.conf. Must be a number in seconds.
 
 Default value: `3600`
-
-##### <a name="-nscd--user_attr_shared"></a>`user_attr_shared`
-
-Data type: `Enum['yes', 'no']`
-
-Settings for check-files user_attr in nscd.conf.
-
-Default value: `'yes'`
-
-##### <a name="-nscd--user_attr_suggested_size"></a>`user_attr_suggested_size`
-
-Data type: `Integer`
-
-Settings for suggested-size user_attr in nscd.conf.
-
-Default value: `211`
 
