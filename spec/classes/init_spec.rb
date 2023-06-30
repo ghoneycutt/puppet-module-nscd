@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe 'nscd' do
   defaults = {
+    kernel:                    'Linux',
     osfamily:                  nil,
     package_adminfile:         nil,
     package_name:              ['nscd'],
@@ -163,6 +164,7 @@ describe 'nscd' do
     ),
     'solaris10' => defaults.merge(
       {
+        kernel:                    'SunOS',
         osfamily:                  'Solaris',
         kernelrelease:             '5.10',
         package_name:              ['SUNWcsu'],
@@ -217,6 +219,7 @@ describe 'nscd' do
           operatingsystemmajrelease: v[:operatingsystemmajrelease],
           operatingsystemrelease:    v[:operatingsystemrelease],
           kernelrelease:             v[:kernelrelease],
+          kernel:                    v[:kernel],
           osfamily:                  v[:osfamily],
           os: {
             family:                  v[:osfamily],
@@ -455,14 +458,14 @@ describe 'nscd' do
   describe 'with package_adminfile parameter specified' do
     context 'as an absolute path' do
       let(:params) { { package_adminfile: '/my/adminfile' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_package('nscd').with({ 'adminfile' => '/my/adminfile' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { package_adminfile: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -473,14 +476,14 @@ describe 'nscd' do
   describe 'with package_source parameter specified' do
     context 'as an absolute path' do
       let(:params) { { package_source: '/my/source' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_package('nscd').with({ 'source' => '/my/source' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { package_source: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -491,7 +494,7 @@ describe 'nscd' do
   describe 'with package_name parameter specified' do
     context 'as an array' do
       let(:params) { { package_name: ['nscd', 'foo'] } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_package('nscd').with({ 'ensure' => 'present' }) }
       it { is_expected.to contain_package('foo').with({ 'ensure' => 'present' }) }
@@ -499,7 +502,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { package_name: 'string' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -512,7 +515,7 @@ describe 'nscd' do
       ['present', 'installed', 'absent'].each do |ensure_value|
         context "package_ensure => #{ensure_value}" do
           let(:params) { { package_ensure: ensure_value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_package('nscd').with({ 'ensure' => ensure_value.to_s }) }
         end
@@ -521,7 +524,7 @@ describe 'nscd' do
 
     context 'set to invalid value' do
       let(:params) { { package_ensure: 'invalid' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum})
@@ -532,14 +535,14 @@ describe 'nscd' do
   describe 'with config_path parameter specified' do
     context 'as a valid path' do
       let(:params) { { config_path: '/usr/local/etc/nscd.conf' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with({ 'path' => '/usr/local/etc/nscd.conf' }) }
     end
 
     context 'as an invalid value' do
       let(:params) { { config_path: 'invalid/path' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Stdlib::Absolutepath})
@@ -550,14 +553,14 @@ describe 'nscd' do
   describe 'with config_owner parameter specified' do
     context 'as a valid string' do
       let(:params) { { config_owner: 'root' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with({ 'owner' => 'root' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { config_owner: ['invalid', 'root'] } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a String})
@@ -568,14 +571,14 @@ describe 'nscd' do
   describe 'with config_group parameter specified' do
     context 'as a valid string' do
       let(:params) { { config_group: 'root' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with({ 'group' => 'root' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { config_group: ['invalid', 'root'] } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a String})
@@ -586,14 +589,14 @@ describe 'nscd' do
   describe 'with config_mode parameter specified' do
     context 'with valid value' do
       let(:params) { { config_mode: '0644' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with({ 'mode' => '0644' }) }
     end
 
     context 'with invalid value' do
       let(:params) { { config_mode: '0844' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -602,7 +605,7 @@ describe 'nscd' do
 
     context 'with invalid type' do
       let(:params) { { config_mode: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -613,14 +616,14 @@ describe 'nscd' do
   describe 'with service_name parameter specified' do
     context 'as a valid string' do
       let(:params) { { service_name: 'mynscd' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_service('nscd_service').with({ 'name' => 'mynscd' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { service_name: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -633,7 +636,7 @@ describe 'nscd' do
       ['running', 'stopped'].each do |ensure_value|
         context "service_ensure => #{ensure_value}" do
           let(:params) { { service_ensure: ensure_value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_service('nscd_service').with({ 'ensure' => ensure_value.to_s }) }
         end
@@ -642,7 +645,7 @@ describe 'nscd' do
 
     context 'set to invalid value' do
       let(:params) { { service_ensure: 'invalid' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -655,7 +658,7 @@ describe 'nscd' do
       [true, false].each do |enable_value|
         context "service_enable => #{enable_value}" do
           let(:params) { { service_enable: enable_value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_service('nscd_service').with({ 'enable' => enable_value }) }
         end
@@ -664,7 +667,7 @@ describe 'nscd' do
 
     context 'set to invalid value' do
       let(:params) { { service_enable: 'invalid' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -673,7 +676,7 @@ describe 'nscd' do
 
     context 'set to invalid type' do
       let(:params) { { service_enable: ['invalid', 'type'] } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -684,14 +687,14 @@ describe 'nscd' do
   describe 'with service_provider parameter specified' do
     context 'as a valid string' do
       let(:params) { { service_provider: 'myprovider' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_service('nscd_service').with({ 'provider' => 'myprovider' }) }
     end
 
     context 'as an invalid type' do
       let(:params) { { service_provider: ['not', 'a', 'string'] } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -704,7 +707,7 @@ describe 'nscd' do
       [true, false].each do |value|
         context "set to valid value #{value}" do
           let(:params) { { "enable_db_#{service}": value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_class('nscd') }
         end
@@ -712,7 +715,7 @@ describe 'nscd' do
 
       context 'set to an invalid type (non-boolean or string convertible to boolean)' do
         let(:params) { { "enable_db_#{service}": ['invalid', 'type'] } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -725,7 +728,7 @@ describe 'nscd' do
     [true, false].each do |value|
       context "set to valid value #{value}" do
         let(:params) { { enable_opt_auto_propagate: value } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it { is_expected.to contain_class('nscd') }
       end
@@ -733,7 +736,7 @@ describe 'nscd' do
 
     context 'set to an invalid type (non-boolean or string convertible to boolean)' do
       let(:params) { { enable_opt_auto_propagate: ['invalid', 'type'] } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -744,14 +747,14 @@ describe 'nscd' do
   describe 'with logfile parameter specified' do
     context 'with a valid path' do
       let(:params) { { logfile: '/path/to/nscd.log' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^logfile\ +/path/to/nscd\.log$}) }
     end
 
     context 'as an invalid path' do
       let(:params) { { logfile: 'invalid/path' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -760,7 +763,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { logfile: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
@@ -771,14 +774,14 @@ describe 'nscd' do
   describe 'with threads parameter specified' do
     context 'as a valid number' do
       let(:params) { { threads: 23 } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^threads\ +23$}) }
     end
 
     context 'as an invalid value' do
       let(:params) { { threads: 'x' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -787,7 +790,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { threads: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -798,14 +801,14 @@ describe 'nscd' do
   describe 'with max_threads parameter specified' do
     context 'as a valid number' do
       let(:params) { { max_threads: 42 } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^max-threads\ +42$}) }
     end
 
     context 'as an invalid value' do
       let(:params) { { max_threads: 'x' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -814,7 +817,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { max_threads: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -825,13 +828,13 @@ describe 'nscd' do
   describe 'with server_user parameter' do
     context 'specified as a valid string' do
       let(:params) { { server_user: 'root' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^server-user\ +root$}) }
     end
 
     context 'not specified' do
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*server-user}) }
     end
@@ -840,14 +843,14 @@ describe 'nscd' do
   describe 'with stat_user parameter' do
     context 'specified as a valid string' do
       let(:params) { { stat_user: 'lmcdtre' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^stat-user\ +lmcdtre$}) }
     end
 
     context 'as an invalid type' do
       let(:params) { { stat_user: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a String})
@@ -858,14 +861,14 @@ describe 'nscd' do
   describe 'with debug_level parameter specified' do
     context 'as a valid integer' do
       let(:params) { { debug_level: 5 } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^debug-level\ +5$}) }
     end
 
     context 'as an invalid value' do
       let(:params) { { debug_level: 'x' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -874,7 +877,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { debug_level: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -885,14 +888,14 @@ describe 'nscd' do
   describe 'with reload_count parameter specified' do
     context 'as a valid integer' do
       let(:params) { { reload_count: 5 } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^reload-count\ +5$}) }
     end
 
     context 'as \'unlimited\'' do
       let(:params) { { reload_count: 'unlimited' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^reload-count\ +unlimited$}) }
     end
@@ -900,7 +903,7 @@ describe 'nscd' do
     ['unlimitedd', 'invalid', '-1'].each do |value|
       context "as invalid value #{value}" do
         let(:params) { { reload_count: value } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Integer or Enum})
@@ -910,7 +913,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { reload_count: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Integer or Enum})
@@ -922,7 +925,7 @@ describe 'nscd' do
     ['yes', 'no'].each do |value|
       context "as valid value #{value}" do
         let(:params) { { paranoia: value } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^paranoia\ +#{value}$}) }
       end
@@ -931,7 +934,7 @@ describe 'nscd' do
     ['yess', 'nooo', '-1', true].each do |value|
       context "as invalid value #{value}" do
         let(:params) { { paranoia: value } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -943,14 +946,14 @@ describe 'nscd' do
   describe 'with restart_interval parameter specified' do
     context 'as a valid number' do
       let(:params) { { restart_interval: 31_415 } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it { is_expected.to contain_file('nscd_config').with_content(%r{^restart-interval\ +31415$}) }
     end
 
     context 'as an invalid value' do
       let(:params) { { restart_interval: 'x' } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -959,7 +962,7 @@ describe 'nscd' do
 
     context 'as an invalid type' do
       let(:params) { { restart_interval: true } }
-      let(:facts) { { osfamily: 'Debian' } }
+      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
       it 'fail' do
         expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -977,7 +980,7 @@ describe 'nscd' do
               "#{service}_enable_cache": value,
             }
           end
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +#{service}\ +#{value}$}) }
         end
@@ -986,7 +989,7 @@ describe 'nscd' do
       ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { "#{service}_enable_cache": value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it 'fail' do
             expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -1003,14 +1006,14 @@ describe 'nscd' do
             "#{service}_positive_time_to_live": 31_415,
           }
         end
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +#{service}\ +31415$}) }
       end
 
       context 'as an invalid value' do
         let(:params) { { "#{service}_positive_time_to_live": 'x' } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1019,7 +1022,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { "#{service}_positive_time_to_live": true } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1035,14 +1038,14 @@ describe 'nscd' do
             "#{service}_negative_time_to_live": 23,
           }
         end
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +#{service}\ +23$}) }
       end
 
       context 'as an invalid value' do
         let(:params) { { "#{service}_negative_time_to_live": 'x' } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1051,7 +1054,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { "#{service}_negative_time_to_live": true } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1067,14 +1070,14 @@ describe 'nscd' do
             "#{service}_suggested_size": 411,
           }
         end
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +#{service}\ +411$}) }
       end
 
       context 'as an invalid value' do
         let(:params) { { "#{service}_suggested_size": 'x' } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1083,7 +1086,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { "#{service}_suggested_size": true } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1100,7 +1103,7 @@ describe 'nscd' do
               "#{service}_check_files": value,
             }
           end
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +#{service}\ +#{value}$}) }
         end
@@ -1109,7 +1112,7 @@ describe 'nscd' do
       ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { "#{service}_check_files": value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it 'fail' do
             expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -1127,7 +1130,7 @@ describe 'nscd' do
               "#{service}_persistent": value,
             }
           end
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +#{service}\ +#{value}$}) }
         end
@@ -1136,7 +1139,7 @@ describe 'nscd' do
       ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { "#{service}_persistent": value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it 'fail' do
             expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -1154,7 +1157,7 @@ describe 'nscd' do
               "#{service}_shared":    value,
             }
           end
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +#{service}\ +#{value}$}) }
         end
@@ -1163,7 +1166,7 @@ describe 'nscd' do
       ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { "#{service}_shared": value } }
-          let(:facts) { { osfamily: 'Debian' } }
+          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
           it 'fail' do
             expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -1180,14 +1183,14 @@ describe 'nscd' do
             "#{service}_max_db_size": 1_000_000,
           }
         end
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +#{service}\ +1000000$}) }
       end
 
       context 'as an invalid value' do
         let(:params) { { "#{service}_max_db_size": 'x' } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1196,7 +1199,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { "#{service}_max_db_size": true } }
-        let(:facts) { { osfamily: 'Debian' } }
+        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1215,7 +1218,7 @@ describe 'nscd' do
                 "#{service}_auto_propagate": value,
               }
             end
-            let(:facts) { { osfamily: 'Debian', os: { family: 'Debian' } } }
+            let(:facts) { { osfamily: 'Debian', os: { family: 'Debian' }, kernel: 'Linux' } }
 
             it { is_expected.to contain_file('nscd_config').with_content(%r{^auto-propagate\ +#{service}\ +#{value}$}) }
           end
@@ -1224,7 +1227,7 @@ describe 'nscd' do
         ['yess', 'nooo', '-1', true].each do |value|
           context "as invalid value #{value}" do
             let(:params) { { "#{service}_auto_propagate": value } }
-            let(:facts) { { osfamily: 'Debian' } }
+            let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
 
             it 'fail' do
               expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -1240,7 +1243,7 @@ describe 'nscd' do
       ['yes', 'no'].each do |value|
         context "as valid value #{value}" do
           let(:params) { { "#{service}_enable_cache": value } }
-          let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
           it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +#{service}\ +#{value}$}) }
         end
@@ -1249,7 +1252,7 @@ describe 'nscd' do
       ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { "#{service}_enable_cache": value } }
-          let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
           it 'fail' do
             expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
@@ -1261,14 +1264,14 @@ describe 'nscd' do
     describe "with #{service}_positive_time_to_live specified" do
       context 'as a valid number' do
         let(:params) { { "#{service}_positive_time_to_live": 31_415 } }
-        let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +#{service}\ +31415$}) }
       end
 
       context 'as an invalid value' do
         let(:params) { { "#{service}_positive_time_to_live": 'x' } }
-        let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1277,7 +1280,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { "#{service}_positive_time_to_live": true } }
-        let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1288,14 +1291,14 @@ describe 'nscd' do
     describe "with #{service}_negative_time_to_live specified" do
       context 'as a valid number' do
         let(:params) { { "#{service}_negative_time_to_live": 23 } }
-        let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
         it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +#{service}\ +23$}) }
       end
 
       context 'as an invalid value' do
         let(:params) { { "#{service}_negative_time_to_live": 'x' } }
-        let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1304,7 +1307,7 @@ describe 'nscd' do
 
       context 'as an invalid type' do
         let(:params) { { "#{service}_negative_time_to_live": true } }
-        let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
         it 'fail' do
           expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
@@ -1316,7 +1319,7 @@ describe 'nscd' do
       ['yes', 'no'].each do |value|
         context "as valid value #{value}" do
           let(:params) { { "#{service}_check_files": value } }
-          let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
           it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +#{service}\ +#{value}$}) }
         end
@@ -1325,7 +1328,7 @@ describe 'nscd' do
       ['yess', 'nooo', '-1', true].each do |value|
         context "as invalid value #{value}" do
           let(:params) { { "#{service}_check_files": value } }
-          let(:facts) { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10' } }
+          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
 
           it 'fail' do
             expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
