@@ -1,0 +1,23 @@
+---
+nscd::enable_db_passwd: true
+nscd::enable_db_group: true
+nscd::enable_db_hosts: true
+nscd::enable_db_services: true
+nscd::enable_db_netgroup: true
+nscd::enable_db_audit_user: false
+nscd::enable_db_auth_attr: false
+nscd::enable_db_bootparams: false
+nscd::enable_db_ethers: false
+nscd::enable_db_exec_attr: false
+nscd::enable_db_ipnodes: false
+nscd::enable_db_netmasks: false
+nscd::enable_db_networks: false
+nscd::enable_db_printers: false
+nscd::enable_db_prof_attr: false
+nscd::enable_db_project: false
+nscd::enable_db_protocols: false
+nscd::enable_db_rpc: false
+nscd::enable_db_tnrhdb: false
+nscd::enable_db_tnrhtp: false
+nscd::enable_db_user_attr: false
+nscd::enable_opt_auto_propagate: true

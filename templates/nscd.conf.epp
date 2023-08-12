@@ -1,0 +1,440 @@
+<%-|
+      Stdlib::Absolutepath                $logfile,
+      Integer                             $debug_level,
+      Integer                             $threads,
+      Integer                             $max_threads,
+      Optional[String[1]]                 $server_user,
+      String[1]                           $stat_user,
+      Variant[Integer, Enum['unlimited']] $reload_count,
+      Enum['yes', 'no']                   $paranoia,
+      Integer                             $restart_interval,
+      Boolean                             $enable_opt_auto_propagate,
+      Boolean                             $enable_db_passwd,
+      Enum['yes', 'no']                   $passwd_enable_cache,
+      Integer                             $passwd_positive_time_to_live,
+      Integer                             $passwd_negative_time_to_live,
+      Integer                             $passwd_keep_hot_count,
+      Integer                             $passwd_suggested_size,
+      Enum['yes', 'no']                   $passwd_check_files,
+      Enum['yes', 'no']                   $passwd_persistent,
+      Enum['yes', 'no']                   $passwd_shared,
+      Integer                             $passwd_max_db_size,
+      Enum['yes', 'no']                   $passwd_auto_propagate,
+      Boolean                             $enable_db_group,
+      Enum['yes', 'no']                   $group_enable_cache,
+      Integer                             $group_positive_time_to_live,
+      Integer                             $group_negative_time_to_live,
+      Integer                             $group_keep_hot_count,
+      Integer                             $group_suggested_size,
+      Enum['yes', 'no']                   $group_check_files,
+      Enum['yes', 'no']                   $group_persistent,
+      Enum['yes', 'no']                   $group_shared,
+      Integer                             $group_max_db_size,
+      Enum['yes', 'no']                   $group_auto_propagate,
+      Boolean                             $enable_db_hosts,
+      Enum['yes', 'no']                   $hosts_enable_cache,
+      Integer                             $hosts_positive_time_to_live,
+      Integer                             $hosts_negative_time_to_live,
+      Integer                             $hosts_keep_hot_count,
+      Integer                             $hosts_suggested_size,
+      Enum['yes', 'no']                   $hosts_check_files,
+      Enum['yes', 'no']                   $hosts_persistent,
+      Enum['yes', 'no']                   $hosts_shared,
+      Integer                             $hosts_max_db_size,
+      Boolean                             $enable_db_services,
+      Enum['yes', 'no']                   $services_enable_cache,
+      Integer                             $services_positive_time_to_live,
+      Integer                             $services_negative_time_to_live,
+      Integer                             $services_keep_hot_count,
+      Integer                             $services_suggested_size,
+      Enum['yes', 'no']                   $services_check_files,
+      Enum['yes', 'no']                   $services_persistent,
+      Enum['yes', 'no']                   $services_shared,
+      Integer                             $services_max_db_size,
+      Boolean                             $enable_db_netgroup,
+      Enum['yes', 'no']                   $netgroup_enable_cache,
+      Integer                             $netgroup_positive_time_to_live,
+      Integer                             $netgroup_negative_time_to_live,
+      Integer                             $netgroup_suggested_size,
+      Enum['yes', 'no']                   $netgroup_check_files,
+      Enum['yes', 'no']                   $netgroup_persistent,
+      Enum['yes', 'no']                   $netgroup_shared,
+      Integer                             $netgroup_max_db_size,
+      Boolean                             $enable_db_audit_user,
+      Enum['yes', 'no']                   $audit_user_enable_cache,
+      Integer                             $audit_user_positive_time_to_live,
+      Integer                             $audit_user_negative_time_to_live,
+      Integer                             $audit_user_keep_hot_count,
+      Enum['yes', 'no']                   $audit_user_check_files,
+      Boolean                             $enable_db_auth_attr,
+      Enum['yes', 'no']                   $auth_attr_enable_cache,
+      Integer                             $auth_attr_positive_time_to_live,
+      Integer                             $auth_attr_negative_time_to_live,
+      Integer                             $auth_attr_keep_hot_count,
+      Enum['yes', 'no']                   $auth_attr_check_files,
+      Boolean                             $enable_db_bootparams,
+      Enum['yes', 'no']                   $bootparams_enable_cache,
+      Integer                             $bootparams_positive_time_to_live,
+      Integer                             $bootparams_negative_time_to_live,
+      Integer                             $bootparams_keep_hot_count,
+      Enum['yes', 'no']                   $bootparams_check_files,
+      Boolean                             $enable_db_ethers,
+      Enum['yes', 'no']                   $ethers_enable_cache,
+      Integer                             $ethers_positive_time_to_live,
+      Integer                             $ethers_negative_time_to_live,
+      Integer                             $ethers_keep_hot_count,
+      Enum['yes', 'no']                   $ethers_check_files,
+      Boolean                             $enable_db_exec_attr,
+      Enum['yes', 'no']                   $exec_attr_enable_cache,
+      Integer                             $exec_attr_positive_time_to_live,
+      Integer                             $exec_attr_negative_time_to_live,
+      Integer                             $exec_attr_keep_hot_count,
+      Enum['yes', 'no']                   $exec_attr_check_files,
+      Boolean                             $enable_db_ipnodes,
+      Enum['yes', 'no']                   $ipnodes_enable_cache,
+      Integer                             $ipnodes_positive_time_to_live,
+      Integer                             $ipnodes_negative_time_to_live,
+      Integer                             $ipnodes_keep_hot_count,
+      Enum['yes', 'no']                   $ipnodes_check_files,
+      Boolean                             $enable_db_netmasks,
+      Enum['yes', 'no']                   $netmasks_enable_cache,
+      Integer                             $netmasks_positive_time_to_live,
+      Integer                             $netmasks_negative_time_to_live,
+      Integer                             $netmasks_keep_hot_count,
+      Enum['yes', 'no']                   $netmasks_check_files,
+      Boolean                             $enable_db_networks,
+      Enum['yes', 'no']                   $networks_enable_cache,
+      Integer                             $networks_positive_time_to_live,
+      Integer                             $networks_negative_time_to_live,
+      Integer                             $networks_keep_hot_count,
+      Enum['yes', 'no']                   $networks_check_files,
+      Boolean                             $enable_db_printers,
+      Enum['yes', 'no']                   $printers_enable_cache,
+      Integer                             $printers_positive_time_to_live,
+      Integer                             $printers_negative_time_to_live,
+      Integer                             $printers_keep_hot_count,
+      Enum['yes', 'no']                   $printers_check_files,
+      Boolean                             $enable_db_prof_attr,
+      Enum['yes', 'no']                   $prof_attr_enable_cache,
+      Integer                             $prof_attr_positive_time_to_live,
+      Integer                             $prof_attr_negative_time_to_live,
+      Integer                             $prof_attr_keep_hot_count,
+      Enum['yes', 'no']                   $prof_attr_check_files,
+      Boolean                             $enable_db_project,
+      Enum['yes', 'no']                   $project_enable_cache,
+      Integer                             $project_positive_time_to_live,
+      Integer                             $project_negative_time_to_live,
+      Integer                             $project_keep_hot_count,
+      Enum['yes', 'no']                   $project_check_files,
+      Boolean                             $enable_db_protocols,
+      Enum['yes', 'no']                   $protocols_enable_cache,
+      Integer                             $protocols_positive_time_to_live,
+      Integer                             $protocols_negative_time_to_live,
+      Integer                             $protocols_keep_hot_count,
+      Enum['yes', 'no']                   $protocols_check_files,
+      Boolean                             $enable_db_rpc,
+      Enum['yes', 'no']                   $rpc_enable_cache,
+      Integer                             $rpc_positive_time_to_live,
+      Integer                             $rpc_negative_time_to_live,
+      Integer                             $rpc_keep_hot_count,
+      Enum['yes', 'no']                   $rpc_check_files,
+      Boolean                             $enable_db_tnrhdb,
+      Enum['yes', 'no']                   $tnrhdb_enable_cache,
+      Integer                             $tnrhdb_positive_time_to_live,
+      Integer                             $tnrhdb_negative_time_to_live,
+      Integer                             $tnrhdb_keep_hot_count,
+      Enum['yes', 'no']                   $tnrhdb_check_files,
+      Boolean                             $enable_db_tnrhtp,
+      Enum['yes', 'no']                   $tnrhtp_enable_cache,
+      Integer                             $tnrhtp_positive_time_to_live,
+      Integer                             $tnrhtp_negative_time_to_live,
+      Integer                             $tnrhtp_keep_hot_count,
+      Enum['yes', 'no']                   $tnrhtp_check_files,
+      Boolean                             $enable_db_user_attr,
+      Enum['yes', 'no']                   $user_attr_enable_cache,
+      Integer                             $user_attr_positive_time_to_live,
+      Integer                             $user_attr_negative_time_to_live,
+      Integer                             $user_attr_keep_hot_count,
+      Enum['yes', 'no']                   $user_attr_check_files,
+
+| -%>
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# /etc/nscd.conf
+#
+# An example Name Service Cache config file.  This file is needed by nscd.
+#
+# Legal entries are:
+#
+# logfile           <file>
+# debug-level       <level>
+# threads           <initial #threads to use>
+# max-threads       <maximum #threads to use>
+# server-user       <user to run server as instead of root>
+#     server-user is ignored if nscd is started with -S parameters
+# stat-user         <user who is allowed to request statistics>
+# reload-count      unlimited|<number>
+# paranoia          <yes|no>
+# restart-interval  <time in seconds>
+#
+# enable-cache          <service> <yes|no>
+# positive-time-to-live <service> <time in seconds>
+# negative-time-to-live <service> <time in seconds>
+# suggested-size        <service> <prime number>
+# check-files           <service> <yes|no>
+# persistent            <service> <yes|no>
+# shared                <service> <yes|no>
+# max-db-size           <service> <number bytes>
+# auto-propagate        <service> <yes|no>
+#
+# Currently supported cache names (services): passwd, group, hosts, services
+#
+# Currently supported cache names for Solaris (services):
+#               audit_user, auth_attr, bootparams, ethers
+#               exec_attr, group, hosts, ipnodes, netmasks
+#               networks, passwd, printers, prof_attr, project
+#               protocols, rpc, services, tnrhdb, tnrhtp, user_attr
+#
+
+logfile           <%= $logfile %>
+debug-level       <%= $debug_level %>
+<%- if $facts['kernel'] == 'Linux' { -%>
+threads           <%= $threads %>
+max-threads       <%= $max_threads %>
+<%-   if $server_user { -%>server-user       <%= $server_user %><% } %>
+stat-user         <%= $stat_user %>
+reload-count      <%= $reload_count %>
+paranoia          <%= $paranoia %>
+restart-interval  <%= $restart_interval %>
+<%- } -%>
+<%- if $enable_db_passwd == true { -%>
+
+# passwd
+enable-cache            passwd          <%= $passwd_enable_cache %>
+positive-time-to-live   passwd          <%= $passwd_positive_time_to_live %>
+negative-time-to-live   passwd          <%= $passwd_negative_time_to_live %>
+suggested-size          passwd          <%= $passwd_suggested_size %>
+<%-   if $facts['kernel'] == 'SunOS' { -%>
+keep-hot-count          passwd          <%= $passwd_keep_hot_count %>
+<%-   } -%>
+check-files             passwd          <%= $passwd_check_files %>
+<%-   if $facts['kernel'] == 'Linux' { -%>
+persistent              passwd          <%= $passwd_persistent %>
+shared                  passwd          <%= $passwd_shared %>
+max-db-size             passwd          <%= $passwd_max_db_size %>
+<%-     if $enable_opt_auto_propagate == true { -%>
+auto-propagate          passwd          <%= $passwd_auto_propagate %>
+<%-     } -%>
+<%-   } -%>
+<%- } -%>
+<%- if $enable_db_group == true { -%>
+
+# group
+enable-cache            group           <%= $group_enable_cache %>
+positive-time-to-live   group           <%= $group_positive_time_to_live %>
+negative-time-to-live   group           <%= $group_negative_time_to_live %>
+suggested-size          group           <%= $group_suggested_size %>
+<%-   if $facts['kernel'] == 'SunOS' { -%>
+keep-hot-count          group           <%= $group_keep_hot_count %>
+<%-   } -%>
+check-files             group           <%= $group_check_files %>
+<%-   if $facts['kernel'] == 'Linux' { -%>
+persistent              group           <%= $group_persistent %>
+shared                  group           <%= $group_shared %>
+max-db-size             group           <%= $group_max_db_size %>
+<%-     if $enable_opt_auto_propagate == true { -%>
+auto-propagate          group           <%= $group_auto_propagate %>
+<%-     } -%>
+<%-   } -%>
+<%- } -%>
+<%- if $enable_db_hosts == true { -%>
+
+# hosts
+enable-cache            hosts           <%= $hosts_enable_cache %>
+positive-time-to-live   hosts           <%= $hosts_positive_time_to_live %>
+negative-time-to-live   hosts           <%= $hosts_negative_time_to_live %>
+suggested-size          hosts           <%= $hosts_suggested_size %>
+<%-   if $facts['kernel'] == 'SunOS' { -%>
+keep-hot-count          hosts           <%= $hosts_keep_hot_count %>
+<%-   } -%>
+check-files             hosts           <%= $hosts_check_files %>
+<%-   if $facts['kernel'] == 'Linux' { -%>
+persistent              hosts           <%= $hosts_persistent %>
+shared                  hosts           <%= $hosts_shared %>
+max-db-size             hosts           <%= $hosts_max_db_size %>
+<%-   } -%>
+<%- } -%>
+<%- if $enable_db_services == true { -%>
+
+# services
+enable-cache            services        <%= $services_enable_cache %>
+positive-time-to-live   services        <%= $services_positive_time_to_live %>
+negative-time-to-live   services        <%= $services_negative_time_to_live %>
+suggested-size          services        <%= $services_suggested_size %>
+<%-   if $facts['kernel'] == 'SunOS' { -%>
+keep-hot-count          services        <%= $services_keep_hot_count %>
+<%-   } -%>
+check-files             services        <%= $services_check_files %>
+<%-   if $facts['kernel'] == 'Linux' { -%>
+persistent              services        <%= $services_persistent %>
+shared                  services        <%= $services_shared %>
+max-db-size             services        <%= $services_max_db_size %>
+<%-   } -%>
+<%- } -%>
+<%- if $enable_db_audit_user == true { -%>
+
+# audit_user
+enable-cache            audit_user      <%= $audit_user_enable_cache %>
+positive-time-to-live   audit_user      <%= $audit_user_positive_time_to_live %>
+negative-time-to-live   audit_user      <%= $audit_user_negative_time_to_live %>
+keep-hot-count          audit_user      <%= $audit_user_keep_hot_count %>
+check-files             audit_user      <%= $audit_user_check_files %>
+<%- } -%>
+<%- if $enable_db_auth_attr == true { -%>
+
+# auth_attr
+enable-cache            auth_attr       <%= $auth_attr_enable_cache %>
+positive-time-to-live   auth_attr       <%= $auth_attr_positive_time_to_live %>
+negative-time-to-live   auth_attr       <%= $auth_attr_negative_time_to_live %>
+keep-hot-count          auth_attr       <%= $auth_attr_keep_hot_count %>
+check-files             auth_attr       <%= $auth_attr_check_files %>
+<%- } -%>
+<%- if $enable_db_bootparams == true { -%>
+
+# bootparams
+enable-cache            bootparams      <%= $bootparams_enable_cache %>
+positive-time-to-live   bootparams      <%= $bootparams_positive_time_to_live %>
+negative-time-to-live   bootparams      <%= $bootparams_negative_time_to_live %>
+keep-hot-count          bootparams      <%= $bootparams_keep_hot_count %>
+check-files             bootparams      <%= $bootparams_check_files %>
+<%- } -%>
+<%- if $enable_db_ethers == true { -%>
+
+# ethers
+enable-cache            ethers          <%= $ethers_enable_cache %>
+positive-time-to-live   ethers          <%= $ethers_positive_time_to_live %>
+negative-time-to-live   ethers          <%= $ethers_negative_time_to_live %>
+keep-hot-count          ethers          <%= $ethers_keep_hot_count %>
+check-files             ethers          <%= $ethers_check_files %>
+<%- } -%>
+<%- if $enable_db_exec_attr == true { -%>
+
+# exec_attr
+enable-cache            exec_attr       <%= $exec_attr_enable_cache %>
+positive-time-to-live   exec_attr       <%= $exec_attr_positive_time_to_live %>
+negative-time-to-live   exec_attr       <%= $exec_attr_negative_time_to_live %>
+keep-hot-count          exec_attr       <%= $exec_attr_keep_hot_count %>
+check-files             exec_attr       <%= $exec_attr_check_files %>
+<%- } -%>
+<%- if $enable_db_ipnodes == true { -%>
+
+# ipnodes
+enable-cache            ipnodes         <%= $ipnodes_enable_cache %>
+positive-time-to-live   ipnodes         <%= $ipnodes_positive_time_to_live %>
+negative-time-to-live   ipnodes         <%= $ipnodes_negative_time_to_live %>
+keep-hot-count          ipnodes         <%= $ipnodes_keep_hot_count %>
+check-files             ipnodes         <%= $ipnodes_check_files %>
+<%- } -%>
+<%- if $enable_db_netmasks == true { -%>
+
+# netmasks
+enable-cache            netmasks        <%= $netmasks_enable_cache %>
+positive-time-to-live   netmasks        <%= $netmasks_positive_time_to_live %>
+negative-time-to-live   netmasks        <%= $netmasks_negative_time_to_live %>
+keep-hot-count          netmasks        <%= $netmasks_keep_hot_count %>
+check-files             netmasks        <%= $netmasks_check_files %>
+<%- } -%>
+<%- if $enable_db_networks == true { -%>
+
+# networks
+enable-cache            networks        <%= $networks_enable_cache %>
+positive-time-to-live   networks        <%= $networks_positive_time_to_live %>
+negative-time-to-live   networks        <%= $networks_negative_time_to_live %>
+keep-hot-count          networks        <%= $networks_keep_hot_count %>
+check-files             networks        <%= $networks_check_files %>
+<%- } -%>
+<%- if $enable_db_printers == true { -%>
+
+# printers
+enable-cache            printers        <%= $printers_enable_cache %>
+positive-time-to-live   printers        <%= $printers_positive_time_to_live %>
+negative-time-to-live   printers        <%= $printers_negative_time_to_live %>
+keep-hot-count          printers        <%= $printers_keep_hot_count %>
+check-files             printers        <%= $printers_check_files %>
+<%- } -%>
+<%- if $enable_db_prof_attr == true { -%>
+
+# prof_attr
+enable-cache            prof_attr       <%= $prof_attr_enable_cache %>
+positive-time-to-live   prof_attr       <%= $prof_attr_positive_time_to_live %>
+negative-time-to-live   prof_attr       <%= $prof_attr_negative_time_to_live %>
+keep-hot-count          prof_attr       <%= $prof_attr_keep_hot_count %>
+check-files             prof_attr       <%= $prof_attr_check_files %>
+<%- } -%>
+<%- if $enable_db_project == true { -%>
+
+# project
+enable-cache            project         <%= $project_enable_cache %>
+positive-time-to-live   project         <%= $project_positive_time_to_live %>
+negative-time-to-live   project         <%= $project_negative_time_to_live %>
+keep-hot-count          project         <%= $project_keep_hot_count %>
+check-files             project         <%= $project_check_files %>
+<%- } -%>
+<%- if $enable_db_protocols == true { -%>
+
+# protocols
+enable-cache            protocols       <%= $protocols_enable_cache %>
+positive-time-to-live   protocols       <%= $protocols_positive_time_to_live %>
+negative-time-to-live   protocols       <%= $protocols_negative_time_to_live %>
+keep-hot-count          protocols       <%= $protocols_keep_hot_count %>
+check-files             protocols       <%= $protocols_check_files %>
+<%- } -%>
+<%- if $enable_db_rpc == true { -%>
+
+# rpc
+enable-cache            rpc             <%= $rpc_enable_cache %>
+positive-time-to-live   rpc             <%= $rpc_positive_time_to_live %>
+negative-time-to-live   rpc             <%= $rpc_negative_time_to_live %>
+keep-hot-count          rpc             <%= $rpc_keep_hot_count %>
+check-files             rpc             <%= $rpc_check_files %>
+<%- } -%>
+<%- if $enable_db_tnrhdb == true { -%>
+
+# tnrhdb
+enable-cache            tnrhdb          <%= $tnrhdb_enable_cache %>
+positive-time-to-live   tnrhdb          <%= $tnrhdb_positive_time_to_live %>
+negative-time-to-live   tnrhdb          <%= $tnrhdb_negative_time_to_live %>
+keep-hot-count          tnrhdb          <%= $tnrhdb_keep_hot_count %>
+check-files             tnrhdb          <%= $tnrhdb_check_files %>
+<%- } -%>
+<%- if $enable_db_tnrhtp == true { -%>
+
+# tnrhtp
+enable-cache            tnrhtp          <%= $tnrhtp_enable_cache %>
+positive-time-to-live   tnrhtp          <%= $tnrhtp_positive_time_to_live %>
+negative-time-to-live   tnrhtp          <%= $tnrhtp_negative_time_to_live %>
+keep-hot-count          tnrhtp          <%= $tnrhtp_keep_hot_count %>
+check-files             tnrhtp          <%= $tnrhtp_check_files %>
+<%- } -%>
+<%- if $enable_db_user_attr == true { -%>
+
+# user_attr
+enable-cache            user_attr       <%= $user_attr_enable_cache %>
+positive-time-to-live   user_attr       <%= $user_attr_positive_time_to_live %>
+negative-time-to-live   user_attr       <%= $user_attr_negative_time_to_live %>
+keep-hot-count          user_attr       <%= $user_attr_keep_hot_count %>
+check-files             user_attr       <%= $user_attr_check_files %>
+<%- } -%>
+<%- if $enable_db_netgroup == true { -%>
+
+# netgroup
+enable-cache            netgroup        <%= $netgroup_enable_cache %>
+positive-time-to-live   netgroup        <%= $netgroup_positive_time_to_live %>
+negative-time-to-live   netgroup        <%= $netgroup_negative_time_to_live %>
+suggested-size          netgroup        <%= $netgroup_suggested_size %>
+check-files             netgroup        <%= $netgroup_check_files %>
+persistent              netgroup        <%= $netgroup_persistent %>
+shared                  netgroup        <%= $netgroup_shared %>
+max-db-size             netgroup        <%= $netgroup_max_db_size %>
+<%- } -%>

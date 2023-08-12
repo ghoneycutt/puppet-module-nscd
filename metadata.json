@@ -7,11 +7,10 @@
   "source": "git://github.com/ghoneycutt/puppet-module-nscd.git",
   "project_page": "https://github.com/ghoneycutt/puppet-module-nscd",
   "issues_url": "https://github.com/ghoneycutt/puppet-module-nscd/issues",
-  "description": "Manage every aspect of NSCD - name service cache daemon",
-  "requirements": [
+  "dependencies": [
     {
-      "name": "puppet",
-      "version_requirement": ">= 3.0.0 < 7.0.0"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 8.6.0 < 9.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -97,7 +96,14 @@
       ]
     }
   ],
-  "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 4.6.0 < 7.0.0"}
-  ]
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 6.0.0 < 9.0.0"
+    }
+  ],
+  "description": "Manage every aspect of NSCD - name service cache daemon",
+  "pdk-version": "2.7.1",
+  "template-url": "pdk-default#2.7.4",
+  "template-ref": "tags/2.7.4-0-g58edf57"
 }
