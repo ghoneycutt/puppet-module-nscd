@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.1.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v2.1.0) (2023-08-12)
+
+[Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v2.0.0...v2.1.0)
+
+### Added
+
+- New os rebase [\#78](https://github.com/ghoneycutt/puppet-module-nscd/pull/78) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v2.0.0](https://github.com/ghoneycutt/puppet-module-nscd/tree/v2.0.0) (2023-08-12)
 
 [Full Changelog](https://github.com/ghoneycutt/puppet-module-nscd/compare/v1.15.0...v2.0.0)
