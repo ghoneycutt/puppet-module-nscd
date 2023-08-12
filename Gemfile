@@ -13,32 +13,27 @@ def location_for(place_or_version, fake_version = nil)
   end
 end
 
+ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
+minor_version = ruby_version_segments[0..1].join('.')
+
 group :development do
-  gem "json", '= 2.1.0',                           require: false if Gem::Requirement.create(['>= 2.5.0', '< 2.7.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
-  gem "json", '= 2.3.0',                           require: false if Gem::Requirement.create(['>= 2.7.0', '< 3.0.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
-  gem "json", '= 2.5.1',                           require: false if Gem::Requirement.create(['>= 3.0.0', '< 3.0.5']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
-  gem "json", '= 2.6.1',                           require: false if Gem::Requirement.create(['>= 3.1.0', '< 3.1.3']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
-  gem "json", '= 2.6.3',                           require: false if Gem::Requirement.create(['>= 3.2.0', '< 4.0.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
-  gem "voxpupuli-puppet-lint-plugins", '~> 4.0',   require: false
-  gem "facterdb", '~> 1.18',                       require: false
-  gem "metadata-json-lint", '>= 2.0.2', '< 4.0.0', require: false
-  gem "puppetlabs_spec_helper", '~> 5.0',          require: false
-  gem "rspec-puppet-facts", '~> 2.0',              require: false
-  gem "codecov", '~> 0.2',                         require: false
-  gem "dependency_checker", '~> 0.2',              require: false
-  gem "parallel_tests", '= 3.12.1',                require: false
-  gem "pry", '~> 0.10',                            require: false
-  gem "simplecov-console", '~> 0.5',               require: false
-  gem "puppet-debugger", '~> 1.0',                 require: false
-  gem "rubocop", '= 1.6.1',                        require: false
-  gem "rubocop-performance", '= 1.9.1',            require: false
-  gem "rubocop-rspec", '= 2.0.1',                  require: false
-  gem "rb-readline", '= 0.5.5',                    require: false, platforms: [:mswin, :mingw, :x64_mingw]
-  gem "github_changelog_generator", '~> 1.15',     require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
+  gem "voxpupuli-test", '6.0.0',        require: false
+  gem "rubocop-performance", '~> 1.18', require: false
+  gem "faraday", '~> 1.0',              require: false
+  gem "github_changelog_generator",     require: false
+  gem "puppet-blacksmith",              require: false
+  gem "puppet-strings",                 require: false
 end
 group :system_tests do
-  gem "puppet_litmus", '< 1.0.0', require: false, platforms: [:ruby, :x64_mingw]
-  gem "serverspec", '~> 2.41',    require: false
+  gem "beaker", *location_for(ENV['BEAKER_VERSION'] || '~> 4.29')
+  gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
+  gem "beaker-pe",                                                               require: false
+  gem "beaker-hostgenerator"
+  gem "beaker-rspec"
+  gem "beaker-docker"
+  gem "beaker-puppet"
+  gem "beaker-puppet_install_helper",                                            require: false
+  gem "beaker-module_install_helper",                                            require: false
 end
 group :test do
   gem "puppet_metadata", '~> 1.9.0', require: false
@@ -50,6 +45,8 @@ hiera_version = ENV['HIERA_GEM_VERSION']
 
 gems = {}
 
+gems['rake'] = [require: false]
+gems['puppetlabs_spec_helper'] = [require: false]
 gems['puppet'] = location_for(puppet_version)
 
 # If facter or hiera versions have been specified via the environment
