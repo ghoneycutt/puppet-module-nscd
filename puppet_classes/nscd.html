@@ -1,0 +1,3911 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: nscd
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "puppet_classes::nscd";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (n)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">nscd</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: nscd</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/init.pp
+    </dd>
+  </dl>
+</div>
+
+  <h2>Summary</h2>
+  Class to manage nscd, Linuxs Name Service Cache Daemon.
+
+Recommend reading the man page, NSCD.CONF(5). This module allows for
+parameterization of all options specified in the man page.
+
+The module assumes that you want to set enable-cache to true for each of the
+services (passwd, group, hosts, and services). If this is not the case, you can
+disable the cache on a per service basis.
+
+To use this module simply `include ::nscd`
+
+Compatibility
+-------------
+This module has been tested to work on the following systems:
+  * Amazon Linux 2015
+  * Amazon Linux 2016
+  * Amazon Linux 2017
+  * Debian 6
+  * EL 5
+  * EL 6
+  * EL 7
+  * EL 8
+  * Solaris 10
+  * Suse 10
+  * Suse 11
+  * Suse 12
+  * Suse 15
+  * OpenSuse 13.1
+  * Ubuntu 12.04 LTS
+
+Compatibility with Dell Authentication Services
+-----------------------------------------------
+When using nscd in combination with Dell Authentication Services (QAS/VAS) [1]
+it is recommended to turn off caching of passwd and groups.
+
+<pre>
+nscd::passwd_enable_cache: 'no'
+nscd::group_enable_cache:  'no'
+</pre>
+
+[1] http://software.dell.com/products/authentication-services/
+
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>== Class: nscd</p>
+
+  </div>
+</div>
+
+
+
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>audit_user_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files audit_user in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>audit_user_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache audit_user in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>audit_user_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count audit_user in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>audit_user_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live audit_user in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>audit_user_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live audit_user in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>auth_attr_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files auth_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>auth_attr_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache auth_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>auth_attr_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count auth_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>auth_attr_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live auth_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>auth_attr_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live auth_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bootparams_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files bootparams in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bootparams_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache bootparams in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bootparams_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count bootparams in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bootparams_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live bootparams in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>bootparams_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live bootparams in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_group</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Group of nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_mode</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Filemode</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;0644&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Mode of nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/etc/nscd.conf&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>config_owner</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Owner of nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>debug_level</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>0</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for debug-level in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_audit_user</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_audit_user in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_auth_attr</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_auth_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_bootparams</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_bootparams in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_ethers</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_ethers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_exec_attr</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_exec_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_group</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Switch to show group section in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_hosts</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Switch to show hosts section in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_ipnodes</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_ipnodes in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_netgroup</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Switch to show netgroup section in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_netmasks</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_netmasks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_networks</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_networks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_passwd</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Switch to show passwd section in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_printers</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_printers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_prof_attr</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_prof_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_project</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_project in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_protocols</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_protocols in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_rpc</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_rpc in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_services</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Switch to show services section in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_tnrhdb</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_tnrhtp</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_tnrhtp in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_db_user_attr</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_db_user_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_opt_auto_propagate</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable_opt_auto_propagate in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ethers_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files ethers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ethers_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache ethers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ethers_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count ethers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ethers_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live ethers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ethers_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live ethers in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>exec_attr_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files exec_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>exec_attr_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache exec_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>exec_attr_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count exec_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>exec_attr_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live exec_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>exec_attr_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live exec_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_auto_propagate</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for auto-propagate group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache netgroup in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_max_db_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>33554432</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for max-db-size group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>60</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_persistent</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for persistent group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live group in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_shared</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for shared group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group_suggested_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>211</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for suggested-size group in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files hosts in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache hosts in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count hosts in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_max_db_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>33554432</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for max-db-size hosts in nscd.conf. Must be a number in bytes.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live hosts in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_persistent</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for persistent hosts in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live hosts in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_shared</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for shared hosts in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>hosts_suggested_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>211</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for suggested-size hosts in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ipnodes_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files ipnodes in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ipnodes_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache ipnodes in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ipnodes_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count ipnodes in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ipnodes_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live ipnodes in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ipnodes_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live ipnodes in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>logfile</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/var/log/nscd.log&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for logfile in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>max_threads</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>32</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for max-threads in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files netgroup in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache netgroup in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_max_db_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>33554432</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for max-db-size netgroup in nscd.conf. Must be a number in bytes.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live netgroup in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_persistent</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for persistent netgroup in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>28800</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live netgroup in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_shared</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for shared netgroup in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netgroup_suggested_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>211</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for suggested-size netgroup in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netmasks_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files netmasks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netmasks_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache netmasks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netmasks_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count netmasks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netmasks_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live netmasks in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>netmasks_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live netmasks in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>networks_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files networks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>networks_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache networks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>networks_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count networks in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>networks_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live networks in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>networks_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live networks in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>package_adminfile</span>
+      
+      
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Solaris specific adminfile attribute of package resource.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>package_ensure</span>
+      
+      
+        <span class='type'>(<tt>Enum['present', 'installed', 'absent']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;present&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Solaris specific source attribute of package resource.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>package_name</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[&#39;nscd&#39;]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array for name of package(s).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>package_source</span>
+      
+      
+        <span class='type'>(<tt>Optional[Stdlib::Absolutepath]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Solaris specific source attribute of package resource.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>paranoia</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;no&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for paranoia in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_auto_propagate</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for auto-propagate passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_max_db_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>33554432</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for max-db-size passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live passwd in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_persistent</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for persistent passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live passwd in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_shared</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for shared passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>passwd_suggested_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>211</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for suggested-size passwd in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>printers_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files printers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>printers_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache printers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>printers_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count printers in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>printers_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live printers in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>printers_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live printers in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prof_attr_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files prof_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prof_attr_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache prof_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prof_attr_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count prof_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prof_attr_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live prof_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prof_attr_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live prof_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>project_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files project in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>project_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache project in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>project_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count project in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>project_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live project in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>project_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live project in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>protocols_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files protocols in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>protocols_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache protocols in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>protocols_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count protocols in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>protocols_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live protocols in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>protocols_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live protocols in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>reload_count</span>
+      
+      
+        <span class='type'>(<tt>Variant[Integer, Enum['unlimited']]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>5</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for reload-count in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>restart_interval</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for restart-interval in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rpc_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files rpc in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rpc_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache rpc in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rpc_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count rpc in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rpc_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live rpc in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rpc_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live rpc in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>server_user</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for server-user in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_enable</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value of enable attribute of nscd service. This determines if the service will start at boot or not.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_ensure</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Ensure::Service</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;running&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value of ensure attribute of nscd service.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_name</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;nscd&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of service(s)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_provider</span>
+      
+      
+        <span class='type'>(<tt>Optional[String[1]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>String for value of the provider attribute of nscd service. Specifying here will allow you to change the platforms default.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files services in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache services in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count services in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_max_db_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>33554432</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for max-db-size servicess in nscd.conf. Must be a number in bytes.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live services in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_persistent</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for persistent services in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>28800</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live services in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_shared</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for shared services in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>services_suggested_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>211</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for suggested-size services in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stat_user</span>
+      
+      
+        <span class='type'>(<tt>String[1]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;root&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for stat-user in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>threads</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>5</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Setting for threads in nscd.conf. See nscd.conf(5).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhdb_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhdb_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhdb_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhdb_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhdb_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhtp_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhtp_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhtp_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count tnrhdb in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhtp_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tnrhtp_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_attr_check_files</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for check-files user_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_attr_enable_cache</span>
+      
+      
+        <span class='type'>(<tt>Enum['yes', 'no']</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for enable-cache user_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_attr_keep_hot_count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>2048</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for keep-hot-count user_attr in nscd.conf.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_attr_negative_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for negative-time-to-live user_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user_attr_positive_time_to_live</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3600</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Settings for positive-time-to-live user_attr in nscd.conf. Must be a number in seconds.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 553</span>
+
+class nscd (
+  Array                                  $package_name                     = [&#39;nscd&#39;],
+  Enum[&#39;present&#39;, &#39;installed&#39;, &#39;absent&#39;] $package_ensure                   = &#39;present&#39;,
+  Optional[Stdlib::Absolutepath]         $package_source                   = undef,
+  Optional[Stdlib::Absolutepath]         $package_adminfile                = undef,
+  Stdlib::Absolutepath                   $config_path                      = &#39;/etc/nscd.conf&#39;,
+  String[1]                              $config_owner                     = &#39;root&#39;,
+  String[1]                              $config_group                     = &#39;root&#39;,
+  Stdlib::Filemode                       $config_mode                      = &#39;0644&#39;,
+  String[1]                              $service_name                     = &#39;nscd&#39;,
+  Stdlib::Ensure::Service                $service_ensure                   = &#39;running&#39;,
+  Boolean                                $service_enable                   = true,
+  Optional[String[1]]                    $service_provider                 = undef,
+  Stdlib::Absolutepath                   $logfile                          = &#39;/var/log/nscd.log&#39;,
+  Integer                                $threads                          = 5,
+  Integer                                $max_threads                      = 32,
+  Optional[String[1]]                    $server_user                      = undef,
+  String[1]                              $stat_user                        = &#39;root&#39;,
+  Integer                                $debug_level                      = 0,
+  Variant[Integer, Enum[&#39;unlimited&#39;]]    $reload_count                     = 5,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $paranoia                         = &#39;no&#39;,
+  Integer                                $restart_interval                 = 3600,
+  Boolean                                $enable_db_passwd                 = false,
+  Boolean                                $enable_db_group                  = false,
+  Boolean                                $enable_db_hosts                  = false,
+  Boolean                                $enable_db_services               = false,
+  Boolean                                $enable_db_netgroup               = false,
+  Boolean                                $enable_db_audit_user             = false,
+  Boolean                                $enable_db_auth_attr              = false,
+  Boolean                                $enable_db_bootparams             = false,
+  Boolean                                $enable_db_ethers                 = false,
+  Boolean                                $enable_db_exec_attr              = false,
+  Boolean                                $enable_db_ipnodes                = false,
+  Boolean                                $enable_db_netmasks               = false,
+  Boolean                                $enable_db_networks               = false,
+  Boolean                                $enable_db_printers               = false,
+  Boolean                                $enable_db_prof_attr              = false,
+  Boolean                                $enable_db_project                = false,
+  Boolean                                $enable_db_protocols              = false,
+  Boolean                                $enable_db_rpc                    = false,
+  Boolean                                $enable_db_tnrhdb                 = false,
+  Boolean                                $enable_db_tnrhtp                 = false,
+  Boolean                                $enable_db_user_attr              = false,
+  Boolean                                $enable_opt_auto_propagate        = false,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $passwd_enable_cache              = &#39;yes&#39;,
+  Integer                                $passwd_positive_time_to_live     = 600,
+  Integer                                $passwd_negative_time_to_live     = 20,
+  Integer                                $passwd_keep_hot_count            = 2048,
+  Integer                                $passwd_suggested_size            = 211,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $passwd_check_files               = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $passwd_persistent                = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $passwd_shared                    = &#39;yes&#39;,
+  Integer                                $passwd_max_db_size               = 33554432,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $passwd_auto_propagate            = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $group_enable_cache               = &#39;yes&#39;,
+  Integer                                $group_positive_time_to_live      = 3600,
+  Integer                                $group_negative_time_to_live      = 60,
+  Integer                                $group_keep_hot_count             = 2048,
+  Integer                                $group_suggested_size             = 211,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $group_check_files                = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $group_persistent                 = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $group_shared                     = &#39;yes&#39;,
+  Integer                                $group_max_db_size                = 33554432,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $group_auto_propagate             = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $hosts_enable_cache               = &#39;yes&#39;,
+  Integer                                $hosts_positive_time_to_live      = 3600,
+  Integer                                $hosts_negative_time_to_live      = 20,
+  Integer                                $hosts_keep_hot_count             = 2048,
+  Integer                                $hosts_suggested_size             = 211,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $hosts_check_files                = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $hosts_persistent                 = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $hosts_shared                     = &#39;yes&#39;,
+  Integer                                $hosts_max_db_size                = 33554432,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $services_enable_cache            = &#39;yes&#39;,
+  Integer                                $services_positive_time_to_live   = 28800,
+  Integer                                $services_negative_time_to_live   = 20,
+  Integer                                $services_keep_hot_count          = 2048,
+  Integer                                $services_suggested_size          = 211,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $services_check_files             = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $services_persistent              = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $services_shared                  = &#39;yes&#39;,
+  Integer                                $services_max_db_size             = 33554432,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $netgroup_enable_cache            = &#39;yes&#39;,
+  Integer                                $netgroup_positive_time_to_live   = 28800,
+  Integer                                $netgroup_negative_time_to_live   = 20,
+  Integer                                $netgroup_suggested_size          = 211,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $netgroup_check_files             = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $netgroup_persistent              = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $netgroup_shared                  = &#39;yes&#39;,
+  Integer                                $netgroup_max_db_size             = 33554432,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $audit_user_enable_cache          = &#39;yes&#39;,
+  Integer                                $audit_user_positive_time_to_live = 3600,
+  Integer                                $audit_user_negative_time_to_live = 20,
+  Integer                                $audit_user_keep_hot_count        = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $audit_user_check_files           = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $auth_attr_enable_cache           = &#39;yes&#39;,
+  Integer                                $auth_attr_positive_time_to_live  = 3600,
+  Integer                                $auth_attr_negative_time_to_live  = 20,
+  Integer                                $auth_attr_keep_hot_count         = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $auth_attr_check_files            = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $bootparams_enable_cache          = &#39;yes&#39;,
+  Integer                                $bootparams_positive_time_to_live = 3600,
+  Integer                                $bootparams_negative_time_to_live = 20,
+  Integer                                $bootparams_keep_hot_count        = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $bootparams_check_files           = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $ethers_enable_cache              = &#39;yes&#39;,
+  Integer                                $ethers_positive_time_to_live     = 3600,
+  Integer                                $ethers_negative_time_to_live     = 20,
+  Integer                                $ethers_keep_hot_count            = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $ethers_check_files               = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $exec_attr_enable_cache           = &#39;yes&#39;,
+  Integer                                $exec_attr_positive_time_to_live  = 3600,
+  Integer                                $exec_attr_negative_time_to_live  = 20,
+  Integer                                $exec_attr_keep_hot_count         = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $exec_attr_check_files            = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $ipnodes_enable_cache             = &#39;yes&#39;,
+  Integer                                $ipnodes_positive_time_to_live    = 3600,
+  Integer                                $ipnodes_negative_time_to_live    = 20,
+  Integer                                $ipnodes_keep_hot_count           = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $ipnodes_check_files              = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $netmasks_enable_cache            = &#39;yes&#39;,
+  Integer                                $netmasks_positive_time_to_live   = 3600,
+  Integer                                $netmasks_negative_time_to_live   = 20,
+  Integer                                $netmasks_keep_hot_count          = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $netmasks_check_files             = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $networks_enable_cache            = &#39;yes&#39;,
+  Integer                                $networks_positive_time_to_live   = 3600,
+  Integer                                $networks_negative_time_to_live   = 20,
+  Integer                                $networks_keep_hot_count          = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $networks_check_files             = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $printers_enable_cache            = &#39;yes&#39;,
+  Integer                                $printers_positive_time_to_live   = 3600,
+  Integer                                $printers_negative_time_to_live   = 20,
+  Integer                                $printers_keep_hot_count          = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $printers_check_files             = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $prof_attr_enable_cache           = &#39;yes&#39;,
+  Integer                                $prof_attr_positive_time_to_live  = 3600,
+  Integer                                $prof_attr_negative_time_to_live  = 20,
+  Integer                                $prof_attr_keep_hot_count         = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $prof_attr_check_files            = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $project_enable_cache             = &#39;yes&#39;,
+  Integer                                $project_positive_time_to_live    = 3600,
+  Integer                                $project_negative_time_to_live    = 20,
+  Integer                                $project_keep_hot_count           = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $project_check_files              = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $protocols_enable_cache           = &#39;yes&#39;,
+  Integer                                $protocols_positive_time_to_live  = 3600,
+  Integer                                $protocols_negative_time_to_live  = 20,
+  Integer                                $protocols_keep_hot_count         = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $protocols_check_files            = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $rpc_enable_cache                 = &#39;yes&#39;,
+  Integer                                $rpc_positive_time_to_live        = 3600,
+  Integer                                $rpc_negative_time_to_live        = 20,
+  Integer                                $rpc_keep_hot_count               = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $rpc_check_files                  = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $tnrhdb_enable_cache              = &#39;yes&#39;,
+  Integer                                $tnrhdb_positive_time_to_live     = 3600,
+  Integer                                $tnrhdb_negative_time_to_live     = 20,
+  Integer                                $tnrhdb_keep_hot_count            = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $tnrhdb_check_files               = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $tnrhtp_enable_cache              = &#39;yes&#39;,
+  Integer                                $tnrhtp_positive_time_to_live     = 3600,
+  Integer                                $tnrhtp_negative_time_to_live     = 20,
+  Integer                                $tnrhtp_keep_hot_count            = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $tnrhtp_check_files               = &#39;yes&#39;,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $user_attr_enable_cache           = &#39;yes&#39;,
+  Integer                                $user_attr_positive_time_to_live  = 3600,
+  Integer                                $user_attr_negative_time_to_live  = 20,
+  Integer                                $user_attr_keep_hot_count         = 2048,
+  Enum[&#39;yes&#39;, &#39;no&#39;]                      $user_attr_check_files            = &#39;yes&#39;,
+) {
+  package { $package_name:
+    ensure    =&gt; $package_ensure,
+    source    =&gt; $package_source,
+    adminfile =&gt; $package_adminfile,
+    before    =&gt; File[&#39;nscd_config&#39;],
+  }
+
+  file { &#39;nscd_config&#39;:
+    ensure  =&gt; file,
+    path    =&gt; $config_path,
+    owner   =&gt; $config_owner,
+    group   =&gt; $config_group,
+    mode    =&gt; $config_mode,
+    content =&gt; epp(&#39;nscd/nscd.conf.epp&#39;,
+      {
+        logfile                          =&gt; $logfile,
+        debug_level                      =&gt; $debug_level,
+        threads                          =&gt; $threads,
+        max_threads                      =&gt; $max_threads,
+        server_user                      =&gt; $server_user,
+        stat_user                        =&gt; $stat_user,
+        reload_count                     =&gt; $reload_count,
+        paranoia                         =&gt; $paranoia,
+        restart_interval                 =&gt; $restart_interval,
+        enable_opt_auto_propagate        =&gt; $enable_opt_auto_propagate,
+        enable_db_passwd                 =&gt; $enable_db_passwd,
+        passwd_enable_cache              =&gt; $passwd_enable_cache,
+        passwd_positive_time_to_live     =&gt; $passwd_positive_time_to_live,
+        passwd_negative_time_to_live     =&gt; $passwd_negative_time_to_live,
+        passwd_keep_hot_count            =&gt; $passwd_keep_hot_count,
+        passwd_suggested_size            =&gt; $passwd_suggested_size,
+        passwd_check_files               =&gt; $passwd_check_files,
+        passwd_persistent                =&gt; $passwd_persistent,
+        passwd_shared                    =&gt; $passwd_shared,
+        passwd_max_db_size               =&gt; $passwd_max_db_size,
+        passwd_auto_propagate            =&gt; $passwd_auto_propagate,
+        enable_db_group                  =&gt; $enable_db_group,
+        group_enable_cache               =&gt; $group_enable_cache,
+        group_positive_time_to_live      =&gt; $group_positive_time_to_live,
+        group_negative_time_to_live      =&gt; $group_negative_time_to_live,
+        group_keep_hot_count             =&gt; $group_keep_hot_count,
+        group_suggested_size             =&gt; $group_suggested_size,
+        group_check_files                =&gt; $group_check_files,
+        group_persistent                 =&gt; $group_persistent,
+        group_shared                     =&gt; $group_shared,
+        group_max_db_size                =&gt; $group_max_db_size,
+        group_auto_propagate             =&gt; $group_auto_propagate,
+        enable_db_hosts                  =&gt; $enable_db_hosts,
+        hosts_enable_cache               =&gt; $hosts_enable_cache,
+        hosts_positive_time_to_live      =&gt; $hosts_positive_time_to_live,
+        hosts_negative_time_to_live      =&gt; $hosts_negative_time_to_live,
+        hosts_keep_hot_count             =&gt; $hosts_keep_hot_count,
+        hosts_suggested_size             =&gt; $hosts_suggested_size,
+        hosts_check_files                =&gt; $hosts_check_files,
+        hosts_persistent                 =&gt; $hosts_persistent,
+        hosts_shared                     =&gt; $hosts_shared,
+        hosts_max_db_size                =&gt; $hosts_max_db_size,
+        enable_db_services               =&gt; $enable_db_services,
+        services_enable_cache            =&gt; $services_enable_cache,
+        services_positive_time_to_live   =&gt; $services_positive_time_to_live,
+        services_negative_time_to_live   =&gt; $services_negative_time_to_live,
+        services_keep_hot_count          =&gt; $services_keep_hot_count,
+        services_suggested_size          =&gt; $services_suggested_size,
+        services_check_files             =&gt; $services_check_files,
+        services_persistent              =&gt; $services_persistent,
+        services_shared                  =&gt; $services_shared,
+        services_max_db_size             =&gt; $services_max_db_size,
+        enable_db_netgroup               =&gt; $enable_db_netgroup,
+        netgroup_enable_cache            =&gt; $netgroup_enable_cache,
+        netgroup_positive_time_to_live   =&gt; $netgroup_positive_time_to_live,
+        netgroup_negative_time_to_live   =&gt; $netgroup_negative_time_to_live,
+        netgroup_suggested_size          =&gt; $netgroup_suggested_size,
+        netgroup_check_files             =&gt; $netgroup_check_files,
+        netgroup_persistent              =&gt; $netgroup_persistent,
+        netgroup_shared                  =&gt; $netgroup_shared,
+        netgroup_max_db_size             =&gt; $netgroup_max_db_size,
+        enable_db_audit_user             =&gt; $enable_db_audit_user,
+        audit_user_enable_cache          =&gt; $audit_user_enable_cache,
+        audit_user_positive_time_to_live =&gt; $audit_user_positive_time_to_live,
+        audit_user_negative_time_to_live =&gt; $audit_user_negative_time_to_live,
+        audit_user_keep_hot_count        =&gt; $audit_user_keep_hot_count,
+        audit_user_check_files           =&gt; $audit_user_check_files,
+        enable_db_auth_attr              =&gt; $enable_db_auth_attr,
+        auth_attr_enable_cache           =&gt; $auth_attr_enable_cache,
+        auth_attr_positive_time_to_live  =&gt; $auth_attr_positive_time_to_live,
+        auth_attr_negative_time_to_live  =&gt; $auth_attr_negative_time_to_live,
+        auth_attr_keep_hot_count         =&gt; $auth_attr_keep_hot_count,
+        auth_attr_check_files            =&gt; $auth_attr_check_files,
+        enable_db_bootparams             =&gt; $enable_db_bootparams,
+        bootparams_enable_cache          =&gt; $bootparams_enable_cache,
+        bootparams_positive_time_to_live =&gt; $bootparams_positive_time_to_live,
+        bootparams_negative_time_to_live =&gt; $bootparams_negative_time_to_live,
+        bootparams_keep_hot_count        =&gt; $bootparams_keep_hot_count,
+        bootparams_check_files           =&gt; $bootparams_check_files,
+        enable_db_ethers                 =&gt; $enable_db_ethers,
+        ethers_enable_cache              =&gt; $ethers_enable_cache,
+        ethers_positive_time_to_live     =&gt; $ethers_positive_time_to_live,
+        ethers_negative_time_to_live     =&gt; $ethers_negative_time_to_live,
+        ethers_keep_hot_count            =&gt; $ethers_keep_hot_count,
+        ethers_check_files               =&gt; $ethers_check_files,
+        enable_db_exec_attr              =&gt; $enable_db_exec_attr,
+        exec_attr_enable_cache           =&gt; $exec_attr_enable_cache,
+        exec_attr_positive_time_to_live  =&gt; $exec_attr_positive_time_to_live,
+        exec_attr_negative_time_to_live  =&gt; $exec_attr_negative_time_to_live,
+        exec_attr_keep_hot_count         =&gt; $exec_attr_keep_hot_count,
+        exec_attr_check_files            =&gt; $exec_attr_check_files,
+        enable_db_ipnodes                =&gt; $enable_db_ipnodes,
+        ipnodes_enable_cache             =&gt; $ipnodes_enable_cache,
+        ipnodes_positive_time_to_live    =&gt; $ipnodes_positive_time_to_live,
+        ipnodes_negative_time_to_live    =&gt; $ipnodes_negative_time_to_live,
+        ipnodes_keep_hot_count           =&gt; $ipnodes_keep_hot_count,
+        ipnodes_check_files              =&gt; $ipnodes_check_files,
+        enable_db_netmasks               =&gt; $enable_db_netmasks,
+        netmasks_enable_cache            =&gt; $netmasks_enable_cache,
+        netmasks_positive_time_to_live   =&gt; $netmasks_positive_time_to_live,
+        netmasks_negative_time_to_live   =&gt; $netmasks_negative_time_to_live,
+        netmasks_keep_hot_count          =&gt; $netmasks_keep_hot_count,
+        netmasks_check_files             =&gt; $netmasks_check_files,
+        enable_db_networks               =&gt; $enable_db_networks,
+        networks_enable_cache            =&gt; $networks_enable_cache,
+        networks_positive_time_to_live   =&gt; $networks_positive_time_to_live,
+        networks_negative_time_to_live   =&gt; $networks_negative_time_to_live,
+        networks_keep_hot_count          =&gt; $networks_keep_hot_count,
+        networks_check_files             =&gt; $networks_check_files,
+        enable_db_printers               =&gt; $enable_db_printers,
+        printers_enable_cache            =&gt; $printers_enable_cache,
+        printers_positive_time_to_live   =&gt; $printers_positive_time_to_live,
+        printers_negative_time_to_live   =&gt; $printers_negative_time_to_live,
+        printers_keep_hot_count          =&gt; $printers_keep_hot_count,
+        printers_check_files             =&gt; $printers_check_files,
+        enable_db_prof_attr              =&gt; $enable_db_prof_attr,
+        prof_attr_enable_cache           =&gt; $prof_attr_enable_cache,
+        prof_attr_positive_time_to_live  =&gt; $prof_attr_positive_time_to_live,
+        prof_attr_negative_time_to_live  =&gt; $prof_attr_negative_time_to_live,
+        prof_attr_keep_hot_count         =&gt; $prof_attr_keep_hot_count,
+        prof_attr_check_files            =&gt; $prof_attr_check_files,
+        enable_db_project                =&gt; $enable_db_project,
+        project_enable_cache             =&gt; $project_enable_cache,
+        project_positive_time_to_live    =&gt; $project_positive_time_to_live,
+        project_negative_time_to_live    =&gt; $project_negative_time_to_live,
+        project_keep_hot_count           =&gt; $project_keep_hot_count,
+        project_check_files              =&gt; $project_check_files,
+        enable_db_protocols              =&gt; $enable_db_protocols,
+        protocols_enable_cache           =&gt; $protocols_enable_cache,
+        protocols_positive_time_to_live  =&gt; $protocols_positive_time_to_live,
+        protocols_negative_time_to_live  =&gt; $protocols_negative_time_to_live,
+        protocols_keep_hot_count         =&gt; $protocols_keep_hot_count,
+        protocols_check_files            =&gt; $protocols_check_files,
+        enable_db_rpc                    =&gt; $enable_db_rpc,
+        rpc_enable_cache                 =&gt; $rpc_enable_cache,
+        rpc_positive_time_to_live        =&gt; $rpc_positive_time_to_live,
+        rpc_negative_time_to_live        =&gt; $rpc_negative_time_to_live,
+        rpc_keep_hot_count               =&gt; $rpc_keep_hot_count,
+        rpc_check_files                  =&gt; $rpc_check_files,
+        enable_db_tnrhdb                 =&gt; $enable_db_tnrhdb,
+        tnrhdb_enable_cache              =&gt; $tnrhdb_enable_cache,
+        tnrhdb_positive_time_to_live     =&gt; $tnrhdb_positive_time_to_live,
+        tnrhdb_negative_time_to_live     =&gt; $tnrhdb_negative_time_to_live,
+        tnrhdb_keep_hot_count            =&gt; $tnrhdb_keep_hot_count,
+        tnrhdb_check_files               =&gt; $tnrhdb_check_files,
+        enable_db_tnrhtp                 =&gt; $enable_db_tnrhtp,
+        tnrhtp_enable_cache              =&gt; $tnrhtp_enable_cache,
+        tnrhtp_positive_time_to_live     =&gt; $tnrhtp_positive_time_to_live,
+        tnrhtp_negative_time_to_live     =&gt; $tnrhtp_negative_time_to_live,
+        tnrhtp_keep_hot_count            =&gt; $tnrhtp_keep_hot_count,
+        tnrhtp_check_files               =&gt; $tnrhtp_check_files,
+        enable_db_user_attr              =&gt; $enable_db_user_attr,
+        user_attr_enable_cache           =&gt; $user_attr_enable_cache,
+        user_attr_positive_time_to_live  =&gt; $user_attr_positive_time_to_live,
+        user_attr_negative_time_to_live  =&gt; $user_attr_negative_time_to_live,
+        user_attr_keep_hot_count         =&gt; $user_attr_keep_hot_count,
+        user_attr_check_files            =&gt; $user_attr_check_files,
+      }
+    ),
+  }
+
+  service { &#39;nscd_service&#39;:
+    ensure    =&gt; $service_ensure,
+    name      =&gt; $service_name,
+    enable    =&gt; $service_enable,
+    provider  =&gt; $service_provider,
+    subscribe =&gt; File[&#39;nscd_config&#39;],
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-23+puppet-module-nscd"># puppet-module-nscd</h1>
+
+<p>Puppet module to manage nscd, Linux’s Name Service Cache Daemon.</p>
+
+<p>Recommend reading the man page, NSCD.CONF(5). This module allows for parameterization of all options specified in the man page.</p>
+
+<p>The module assumes that you want to set enable-cache to true for each of the services (passwd, group, hosts, and services). If this is not the case, you can disable the cache on a per service basis.</p>
+
+<p>To use this module simply <code>include nscd</code></p>
+
+<p>===</p>
+
+<h2 id="label-23+Compatibility"># Compatibility</h2>
+
+<p>This module officially supports the platforms listed in the <code>metadata.json</code>. It does not fail on unsupported platforms and has been known to work on many, many platforms since its creation in 2013.</p>
+<ul><li>
+<p>Amazon Linux 2015</p>
+</li><li>
+<p>Amazon Linux 2016</p>
+</li><li>
+<p>Amazon Linux 2017</p>
+</li><li>
+<p>Debian 6</p>
+</li><li>
+<p>EL 5</p>
+</li><li>
+<p>EL 6</p>
+</li><li>
+<p>EL 7</p>
+</li><li>
+<p>EL 8</p>
+</li><li>
+<p>Solaris 10</p>
+</li><li>
+<p>Suse 10</p>
+</li><li>
+<p>Suse 11</p>
+</li><li>
+<p>Suse 12</p>
+</li><li>
+<p>Suse 15</p>
+</li><li>
+<p>OpenSuse 13.1</p>
+</li><li>
+<p>Ubuntu 12.04 LTS</p>
+</li></ul>
+
+<h2 id="label-23+Compatibility+with+Dell+Authentication+Services"># Compatibility with Dell Authentication Services</h2>
+
+<p>When using nscd in combination with Dell Authentication Services (QAS/VAS) [1] it is recommended to turn off caching of passwd and groups.</p>
+<pre class="code ruby"><code class="ruby">
+nscd::passwd_enable_cache: &#39;no&#39;
+nscd::group_enable_cache:  &#39;no&#39;
+</code></pre>
+<p>[1] <a href="http://software.dell.com/products/authentication-services">software.dell.com/products/authentication-services</a>/</p>
+
+<p>===</p>
+
+<h2 id="label-23+Parameters"># Parameters</h2>
+
+<p>All numbers should be type cast as strings. Global options for nscd.con can be accessed as parameters, with the dashes changed to underscores. Each per service option can be accessed as parameters and follow the naming scheme of <code>&lt;service&gt;_&lt;option&gt;</code> with the dashed changed to underscores. So enable-cache for the passwd service is available as <code>passwd_enable_cache</code>. The default values follow that of the man page, unless otherwise noted.</p>
+
+<h2 id="label-23-23+Resource+parameters">## Resource parameters</h2>
+
+<h2 id="label-package_name">package_name</h2>
+
+<p>String or array for name of package(s). ‘USE_DEFAULTS’ will use platform specific defaults.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-package_ensure">package_ensure</h2>
+
+<p>String for value of ensure attribute of nscd package. Valid values are ‘present’, ‘installed’, or ‘absent’.</p>
+<ul><li>
+<p><em>Default</em>: ‘present’</p>
+</li></ul>
+
+<h2 id="label-package_adminfile">package_adminfile</h2>
+
+<p>String for value of Solaris specific adminfile attribute of package resource. ‘USE_DEFAULTS’ will use platform specific defaults.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-package_source">package_source</h2>
+
+<p>String for value of Solaris specific source attribute of package resource. ‘USE_DEFAULTS’ will use platform specific defaults.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-config_path">config_path</h2>
+
+<p>Path to nscd.conf.</p>
+<ul><li>
+<p><em>Default</em>: ‘/etc/nscd.conf’</p>
+</li></ul>
+
+<h2 id="label-config_owner">config_owner</h2>
+
+<p>Owner of nscd.conf.</p>
+<ul><li>
+<p><em>Default</em>: ‘root’</p>
+</li></ul>
+
+<h2 id="label-config_group">config_group</h2>
+
+<p>Group of nscd.conf.</p>
+<ul><li>
+<p><em>Default</em>: ‘root’</p>
+</li></ul>
+
+<h2 id="label-config_mode">config_mode</h2>
+
+<p>Mode of nscd.conf. Must be in four digit octal notation.</p>
+<ul><li>
+<p><em>Default</em>: ‘0644’</p>
+</li></ul>
+
+<h2 id="label-service_name">service_name</h2>
+
+<p>String or array for name of service(s). ‘USE_DEFAULTS’ will use platform specific defaults</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-service_ensure">service_ensure</h2>
+
+<p>String for value of ensure attribute of nscd service. Valid values are ‘present’, ‘running’, ‘absent’, or ‘stopped’.</p>
+<ul><li>
+<p><em>Default</em>: ‘running’</p>
+</li></ul>
+
+<h2 id="label-service_enable">service_enable</h2>
+
+<p>Value of enable attribute of nscd service. This determines if the service will start at boot or not. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: true</p>
+</li></ul>
+
+<h2 id="label-service_provider">service_provider</h2>
+
+<p>String for value of the provider attribute of nscd service. Specifying here will allow you to change the platform’s default.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-23-23+Global+nscd.conf+settings">## Global nscd.conf settings</h2>
+
+<h2 id="label-logfile">logfile</h2>
+
+<p>Setting for logfile in nscd.conf. See nscd.conf(5). Must be an absolute path.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-threads">threads</h2>
+
+<p>Setting for threads in nscd.conf. See nscd.conf(5). Must be an number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘5’</p>
+</li></ul>
+
+<h2 id="label-max_threads">max_threads</h2>
+
+<p>Setting for max-threads in nscd.conf. See nscd.conf(5). Must be an number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘32’</p>
+</li></ul>
+
+<h2 id="label-server_user">server_user</h2>
+
+<p>Setting for server-user in nscd.conf. See nscd.conf(5). ‘USE_DEFAULTS’ will use platform specific defaults. RedHat based systems set this optional parameter to ‘nscd’ while other platforms do not use it.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-stat_user">stat_user</h2>
+
+<p>Setting for stat-user in nscd.conf. See nscd.conf(5).</p>
+<ul><li>
+<p><em>Default</em>: ‘root’</p>
+</li></ul>
+
+<h2 id="label-debug_level">debug_level</h2>
+
+<p>Setting for debug-level in nscd.conf. See nscd.conf(5). Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘0’</p>
+</li></ul>
+
+<h2 id="label-reload_count">reload_count</h2>
+
+<p>Settings for reload-count in nscd.conf. See nscd.conf(5). Must be a number expressed as a string or ‘unlimited’.</p>
+<ul><li>
+<p><em>Default</em>: ‘5’</p>
+</li></ul>
+
+<h2 id="label-paranoia">paranoia</h2>
+
+<p>Setting for paranoia in nscd.conf. See nscd.conf(5). Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘no’</p>
+</li></ul>
+
+<h2 id="label-restart_interval">restart_interval</h2>
+
+<p>Setting for restart-interval in nscd.conf. See nscd.conf(5). Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-23-23+Per+service+nscd.conf+settings">## Per service nscd.conf settings</h2>
+
+<h2 id="label-enable_db_passwd">enable_db_passwd</h2>
+
+<p>Switch to show passwd section in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’, based on OS platform</p>
+</li></ul>
+
+<h2 id="label-enable_db_group">enable_db_group</h2>
+
+<p>Switch to show group section in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’, based on OS platform</p>
+</li></ul>
+
+<h2 id="label-enable_db_hosts">enable_db_hosts</h2>
+
+<p>Switch to show hosts section in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’, based on OS platform</p>
+</li></ul>
+
+<h2 id="label-enable_db_services">enable_db_services</h2>
+
+<p>Switch to show services section in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’, based on OS platform</p>
+</li></ul>
+
+<h2 id="label-enable_db_netgroup">enable_db_netgroup</h2>
+
+<p>Switch to show netgroup section in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’, based on OS platform</p>
+</li></ul>
+
+<h2 id="label-enable_db_audit_user">enable_db_audit_user</h2>
+
+<p>Settings for enable_db_audit_user in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_auth_attr">enable_db_auth_attr</h2>
+
+<p>Settings for enable_db_auth_attr in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_bootparams">enable_db_bootparams</h2>
+
+<p>Settings for enable_db_bootparams in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_ethers">enable_db_ethers</h2>
+
+<p>Settings for enable_db_ethers in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_exec_attr">enable_db_exec_attr</h2>
+
+<p>Settings for enable_db_exec_attr in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_ipnodes">enable_db_ipnodes</h2>
+
+<p>Settings for enable_db_ipnodes in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_netmasks">enable_db_netmasks</h2>
+
+<p>Settings for enable_db_netmasks in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_networks">enable_db_networks</h2>
+
+<p>Settings for enable_db_networks in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_printers">enable_db_printers</h2>
+
+<p>Settings for enable_db_printers in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_prof_attr">enable_db_prof_attr</h2>
+
+<p>Settings for enable_db_prof_attr in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_project">enable_db_project</h2>
+
+<p>Settings for enable_db_project in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_protocols">enable_db_protocols</h2>
+
+<p>Settings for enable_db_protocols in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_rpc">enable_db_rpc</h2>
+
+<p>Settings for enable_db_rpc in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_tnrhdb">enable_db_tnrhdb</h2>
+
+<p>Settings for enable_db_tnrhdb in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_tnrhtp">enable_db_tnrhtp</h2>
+
+<p>Settings for enable_db_tnrhtp in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_db_user_attr">enable_db_user_attr</h2>
+
+<p>Settings for enable_db_user_attr in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-enable_opt_auto_propagate">enable_opt_auto_propagate</h2>
+
+<p>Settings for enable_opt_auto_propagate in nscd.conf. Allows for boolean, ‘true’, or ‘false’.</p>
+<ul><li>
+<p><em>Default</em>: ‘USE_DEFAULTS’</p>
+</li></ul>
+
+<h2 id="label-passwd_enable_cache">passwd_enable_cache</h2>
+
+<p>Settings for enable-cache passwd in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-passwd_positive_time_to_live">passwd_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live passwd in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘600’</p>
+</li></ul>
+
+<h2 id="label-passwd_negative_time_to_live">passwd_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live passwd in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-passwd_keep_hot_count">passwd_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count passwd in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-passwd_suggested_size">passwd_suggested_size</h2>
+
+<p>Settings for suggested-size passwd in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-passwd_check_files">passwd_check_files</h2>
+
+<p>Settings for check-files passwd in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-passwd_persistent">passwd_persistent</h2>
+
+<p>Settings for persistent passwd in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-passwd_shared">passwd_shared</h2>
+
+<p>Settings for shared passwd in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-passwd_max_db_size">passwd_max_db_size</h2>
+
+<p>Settings for max-db-size passwd in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-passwd_auto_propagate">passwd_auto_propagate</h2>
+
+<p>Settings for auto-propagate passwd in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-group_enable_cache">group_enable_cache</h2>
+
+<p>Settings for enable-cache group in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-group_positive_time_to_live">group_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live group in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-group_negative_time_to_live">group_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live group in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘60’</p>
+</li></ul>
+
+<h2 id="label-group_keep_hot_count">group_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count group in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-group_suggested_size">group_suggested_size</h2>
+
+<p>Settings for suggested-size group in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-group_check_files">group_check_files</h2>
+
+<p>Settings for check-files group in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-group_persistent">group_persistent</h2>
+
+<p>Settings for persistent group in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-group_shared">group_shared</h2>
+
+<p>Settings for shared group in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-group_max_db_size">group_max_db_size</h2>
+
+<p>Settings for max-db-size group in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-group_auto_propagate">group_auto_propagate</h2>
+
+<p>Settings for auto-propagate group in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-hosts_enable_cache">hosts_enable_cache</h2>
+
+<p>Settings for enable-cache hosts in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-hosts_positive_time_to_live">hosts_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live hosts in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-hosts_negative_time_to_live">hosts_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live hosts in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-hosts_keep_hot_count">hosts_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count hosts in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-hosts_suggested_size">hosts_suggested_size</h2>
+
+<p>Settings for suggested-size hosts in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-hosts_check_files">hosts_check_files</h2>
+
+<p>Settings for check-files hosts in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-hosts_persistent">hosts_persistent</h2>
+
+<p>Settings for persistent hosts in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-hosts_shared">hosts_shared</h2>
+
+<p>Settings for shared hosts in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-hosts_max_db_size">hosts_max_db_size</h2>
+
+<p>Settings for max-db-size hosts in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-services_enable_cache">services_enable_cache</h2>
+
+<p>Settings for enable-cache services in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-services_positive_time_to_live">services_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live services in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘28800’</p>
+</li></ul>
+
+<h2 id="label-services_negative_time_to_live">services_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live services in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-services_keep_hot_count">services_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count services in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-services_suggested_size">services_suggested_size</h2>
+
+<p>Settings for suggested-size services in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-services_check_files">services_check_files</h2>
+
+<p>Settings for check-files services in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-services_persistent">services_persistent</h2>
+
+<p>Settings for persistent services in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-services_shared">services_shared</h2>
+
+<p>Settings for shared services in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-services_max_db_size">services_max_db_size</h2>
+
+<p>Settings for max-db-size servicess in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-netgroup_enable_cache">netgroup_enable_cache</h2>
+
+<p>Settings for enable-cache netgroup in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netgroup_positive_time_to_live">netgroup_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live netgroup in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘28800’</p>
+</li></ul>
+
+<h2 id="label-netgroup_negative_time_to_live">netgroup_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live netgroup in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-netgroup_suggested_size">netgroup_suggested_size</h2>
+
+<p>Settings for suggested-size netgroup in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-netgroup_check_files">netgroup_check_files</h2>
+
+<p>Settings for check-files netgroup in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netgroup_persistent">netgroup_persistent</h2>
+
+<p>Settings for persistent netgroup in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netgroup_shared">netgroup_shared</h2>
+
+<p>Settings for shared netgroup in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netgroup_max_db_size">netgroup_max_db_size</h2>
+
+<p>Settings for max-db-size netgroup in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-audit_user_enable_cache">audit_user_enable_cache</h2>
+
+<p>Settings for enable-cache audit_user in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-audit_user_positive_time_to_live">audit_user_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live audit_user in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-audit_user_negative_time_to_live">audit_user_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live audit_user in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-audit_user_keep_hot_count">audit_user_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count audit_user in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-audit_user_suggested_size">audit_user_suggested_size</h2>
+
+<p>Settings for suggested-size audit_user in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-audit_user_check_files">audit_user_check_files</h2>
+
+<p>Settings for check-files audit_user in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-audit_user_persistent">audit_user_persistent</h2>
+
+<p>Settings for persistent audit_user in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-audit_user_shared">audit_user_shared</h2>
+
+<p>Settings for shared audit_user in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-audit_user_max_db_size">audit_user_max_db_size</h2>
+
+<p>Settings for max-db-size audit_user in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-audit_user_auto_propagate">audit_user_auto_propagate</h2>
+
+<p>Settings for auto-propagate audit_user in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_enable_cache">auth_attr_enable_cache</h2>
+
+<p>Settings for enable-cache auth_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_positive_time_to_live">auth_attr_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live auth_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_negative_time_to_live">auth_attr_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live auth_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_keep_hot_count">auth_attr_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count auth_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_suggested_size">auth_attr_suggested_size</h2>
+
+<p>Settings for suggested-size auth_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_check_files">auth_attr_check_files</h2>
+
+<p>Settings for check-files auth_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_persistent">auth_attr_persistent</h2>
+
+<p>Settings for persistent auth_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_shared">auth_attr_shared</h2>
+
+<p>Settings for shared auth_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_max_db_size">auth_attr_max_db_size</h2>
+
+<p>Settings for max-db-size auth_attr in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-auth_attr_auto_propagate">auth_attr_auto_propagate</h2>
+
+<p>Settings for auto-propagate auth_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-bootparams_enable_cache">bootparams_enable_cache</h2>
+
+<p>Settings for enable-cache bootparams in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-bootparams_positive_time_to_live">bootparams_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live bootparams in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-bootparams_negative_time_to_live">bootparams_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live bootparams in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-bootparams_keep_hot_count">bootparams_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count bootparams in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-bootparams_suggested_size">bootparams_suggested_size</h2>
+
+<p>Settings for suggested-size bootparams in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-bootparams_check_files">bootparams_check_files</h2>
+
+<p>Settings for check-files bootparams in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-bootparams_persistent">bootparams_persistent</h2>
+
+<p>Settings for persistent bootparams in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-bootparams_shared">bootparams_shared</h2>
+
+<p>Settings for shared bootparams in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-bootparams_max_db_size">bootparams_max_db_size</h2>
+
+<p>Settings for max-db-size bootparams in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-bootparams_auto_propagate">bootparams_auto_propagate</h2>
+
+<p>Settings for auto-propagate bootparams in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ethers_enable_cache">ethers_enable_cache</h2>
+
+<p>Settings for enable-cache ethers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ethers_positive_time_to_live">ethers_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live ethers in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-ethers_negative_time_to_live">ethers_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live ethers in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-ethers_keep_hot_count">ethers_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count ethers in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-ethers_suggested_size">ethers_suggested_size</h2>
+
+<p>Settings for suggested-size ethers in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-ethers_check_files">ethers_check_files</h2>
+
+<p>Settings for check-files ethers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ethers_persistent">ethers_persistent</h2>
+
+<p>Settings for persistent ethers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ethers_shared">ethers_shared</h2>
+
+<p>Settings for shared ethers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ethers_max_db_size">ethers_max_db_size</h2>
+
+<p>Settings for max-db-size ethers in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-ethers_auto_propagate">ethers_auto_propagate</h2>
+
+<p>Settings for auto-propagate ethers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_enable_cache">exec_attr_enable_cache</h2>
+
+<p>Settings for enable-cache exec_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_positive_time_to_live">exec_attr_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live exec_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_negative_time_to_live">exec_attr_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live exec_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_keep_hot_count">exec_attr_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count exec_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_suggested_size">exec_attr_suggested_size</h2>
+
+<p>Settings for suggested-size exec_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_check_files">exec_attr_check_files</h2>
+
+<p>Settings for check-files exec_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_persistent">exec_attr_persistent</h2>
+
+<p>Settings for persistent exec_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_shared">exec_attr_shared</h2>
+
+<p>Settings for shared exec_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_max_db_size">exec_attr_max_db_size</h2>
+
+<p>Settings for max-db-size exec_attr in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-exec_attr_auto_propagate">exec_attr_auto_propagate</h2>
+
+<p>Settings for auto-propagate exec_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_enable_cache">ipnodes_enable_cache</h2>
+
+<p>Settings for enable-cache ipnodes in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_positive_time_to_live">ipnodes_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live ipnodes in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_negative_time_to_live">ipnodes_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live ipnodes in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_keep_hot_count">ipnodes_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count ipnodes in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_suggested_size">ipnodes_suggested_size</h2>
+
+<p>Settings for suggested-size ipnodes in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_check_files">ipnodes_check_files</h2>
+
+<p>Settings for check-files ipnodes in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_persistent">ipnodes_persistent</h2>
+
+<p>Settings for persistent ipnodes in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_shared">ipnodes_shared</h2>
+
+<p>Settings for shared ipnodes in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_max_db_size">ipnodes_max_db_size</h2>
+
+<p>Settings for max-db-size ipnodes in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-ipnodes_auto_propagate">ipnodes_auto_propagate</h2>
+
+<p>Settings for auto-propagate ipnodes in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netmasks_enable_cache">netmasks_enable_cache</h2>
+
+<p>Settings for enable-cache netmasks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netmasks_positive_time_to_live">netmasks_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live netmasks in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-netmasks_negative_time_to_live">netmasks_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live netmasks in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-netmasks_keep_hot_count">netmasks_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count netmasks in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-netmasks_suggested_size">netmasks_suggested_size</h2>
+
+<p>Settings for suggested-size netmasks in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-netmasks_check_files">netmasks_check_files</h2>
+
+<p>Settings for check-files netmasks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netmasks_persistent">netmasks_persistent</h2>
+
+<p>Settings for persistent netmasks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netmasks_shared">netmasks_shared</h2>
+
+<p>Settings for shared netmasks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-netmasks_max_db_size">netmasks_max_db_size</h2>
+
+<p>Settings for max-db-size netmasks in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-netmasks_auto_propagate">netmasks_auto_propagate</h2>
+
+<p>Settings for auto-propagate netmasks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-networks_enable_cache">networks_enable_cache</h2>
+
+<p>Settings for enable-cache networks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-networks_positive_time_to_live">networks_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live networks in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-networks_negative_time_to_live">networks_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live networks in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-networks_keep_hot_count">networks_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count networks in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-networks_suggested_size">networks_suggested_size</h2>
+
+<p>Settings for suggested-size networks in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-networks_check_files">networks_check_files</h2>
+
+<p>Settings for check-files networks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-networks_persistent">networks_persistent</h2>
+
+<p>Settings for persistent networks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-networks_shared">networks_shared</h2>
+
+<p>Settings for shared networks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-networks_max_db_size">networks_max_db_size</h2>
+
+<p>Settings for max-db-size networks in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-networks_auto_propagate">networks_auto_propagate</h2>
+
+<p>Settings for auto-propagate networks in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-printers_enable_cache">printers_enable_cache</h2>
+
+<p>Settings for enable-cache printers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-printers_positive_time_to_live">printers_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live printers in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-printers_negative_time_to_live">printers_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live printers in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-printers_keep_hot_count">printers_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count printers in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-printers_suggested_size">printers_suggested_size</h2>
+
+<p>Settings for suggested-size printers in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-printers_check_files">printers_check_files</h2>
+
+<p>Settings for check-files printers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-printers_persistent">printers_persistent</h2>
+
+<p>Settings for persistent printers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-printers_shared">printers_shared</h2>
+
+<p>Settings for shared printers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-printers_max_db_size">printers_max_db_size</h2>
+
+<p>Settings for max-db-size printers in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-printers_auto_propagate">printers_auto_propagate</h2>
+
+<p>Settings for auto-propagate printers in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_enable_cache">prof_attr_enable_cache</h2>
+
+<p>Settings for enable-cache prof_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_positive_time_to_live">prof_attr_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live prof_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_negative_time_to_live">prof_attr_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live prof_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_keep_hot_count">prof_attr_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count prof_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_suggested_size">prof_attr_suggested_size</h2>
+
+<p>Settings for suggested-size prof_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_check_files">prof_attr_check_files</h2>
+
+<p>Settings for check-files prof_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_persistent">prof_attr_persistent</h2>
+
+<p>Settings for persistent prof_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_shared">prof_attr_shared</h2>
+
+<p>Settings for shared prof_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_max_db_size">prof_attr_max_db_size</h2>
+
+<p>Settings for max-db-size prof_attr in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-prof_attr_auto_propagate">prof_attr_auto_propagate</h2>
+
+<p>Settings for auto-propagate prof_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-project_enable_cache">project_enable_cache</h2>
+
+<p>Settings for enable-cache project in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-project_positive_time_to_live">project_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live project in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-project_negative_time_to_live">project_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live project in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-project_keep_hot_count">project_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count project in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-project_suggested_size">project_suggested_size</h2>
+
+<p>Settings for suggested-size project in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-project_check_files">project_check_files</h2>
+
+<p>Settings for check-files project in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-project_persistent">project_persistent</h2>
+
+<p>Settings for persistent project in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-project_shared">project_shared</h2>
+
+<p>Settings for shared project in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-project_max_db_size">project_max_db_size</h2>
+
+<p>Settings for max-db-size project in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-project_auto_propagate">project_auto_propagate</h2>
+
+<p>Settings for auto-propagate project in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-protocols_enable_cache">protocols_enable_cache</h2>
+
+<p>Settings for enable-cache protocols in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-protocols_positive_time_to_live">protocols_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live protocols in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-protocols_negative_time_to_live">protocols_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live protocols in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-protocols_keep_hot_count">protocols_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count protocols in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-protocols_suggested_size">protocols_suggested_size</h2>
+
+<p>Settings for suggested-size protocols in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-protocols_check_files">protocols_check_files</h2>
+
+<p>Settings for check-files protocols in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-protocols_persistent">protocols_persistent</h2>
+
+<p>Settings for persistent protocols in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-protocols_shared">protocols_shared</h2>
+
+<p>Settings for shared protocols in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-protocols_max_db_size">protocols_max_db_size</h2>
+
+<p>Settings for max-db-size protocols in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-protocols_auto_propagate">protocols_auto_propagate</h2>
+
+<p>Settings for auto-propagate protocols in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-rpc_enable_cache">rpc_enable_cache</h2>
+
+<p>Settings for enable-cache rpc in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-rpc_positive_time_to_live">rpc_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live rpc in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-rpc_negative_time_to_live">rpc_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live rpc in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-rpc_keep_hot_count">rpc_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count rpc in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-rpc_suggested_size">rpc_suggested_size</h2>
+
+<p>Settings for suggested-size rpc in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-rpc_check_files">rpc_check_files</h2>
+
+<p>Settings for check-files rpc in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-rpc_persistent">rpc_persistent</h2>
+
+<p>Settings for persistent rpc in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-rpc_shared">rpc_shared</h2>
+
+<p>Settings for shared rpc in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-rpc_max_db_size">rpc_max_db_size</h2>
+
+<p>Settings for max-db-size rpc in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-rpc_auto_propagate">rpc_auto_propagate</h2>
+
+<p>Settings for auto-propagate rpc in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_enable_cache">tnrhdb_enable_cache</h2>
+
+<p>Settings for enable-cache tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_positive_time_to_live">tnrhdb_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_negative_time_to_live">tnrhdb_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_keep_hot_count">tnrhdb_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count tnrhdb in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_suggested_size">tnrhdb_suggested_size</h2>
+
+<p>Settings for suggested-size tnrhdb in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_check_files">tnrhdb_check_files</h2>
+
+<p>Settings for check-files tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_persistent">tnrhdb_persistent</h2>
+
+<p>Settings for persistent tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_shared">tnrhdb_shared</h2>
+
+<p>Settings for shared tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_max_db_size">tnrhdb_max_db_size</h2>
+
+<p>Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-tnrhdb_auto_propagate">tnrhdb_auto_propagate</h2>
+
+<p>Settings for auto-propagate tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_enable_cache">tnrhtp_enable_cache</h2>
+
+<p>Settings for enable-cache tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_positive_time_to_live">tnrhtp_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_negative_time_to_live">tnrhtp_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live tnrhdb in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_keep_hot_count">tnrhtp_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count tnrhdb in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_suggested_size">tnrhtp_suggested_size</h2>
+
+<p>Settings for suggested-size tnrhdb in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_check_files">tnrhtp_check_files</h2>
+
+<p>Settings for check-files tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_persistent">tnrhtp_persistent</h2>
+
+<p>Settings for persistent tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_shared">tnrhtp_shared</h2>
+
+<p>Settings for shared tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_max_db_size">tnrhtp_max_db_size</h2>
+
+<p>Settings for max-db-size tnrhdb in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-tnrhtp_auto_propagate">tnrhtp_auto_propagate</h2>
+
+<p>Settings for auto-propagate tnrhdb in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-user_attr_enable_cache">user_attr_enable_cache</h2>
+
+<p>Settings for enable-cache user_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-user_attr_positive_time_to_live">user_attr_positive_time_to_live</h2>
+
+<p>Settings for positive-time-to-live user_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘3600’</p>
+</li></ul>
+
+<h2 id="label-user_attr_negative_time_to_live">user_attr_negative_time_to_live</h2>
+
+<p>Settings for negative-time-to-live user_attr in nscd.conf. Must be a number in seconds expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘20’</p>
+</li></ul>
+
+<h2 id="label-user_attr_keep_hot_count">user_attr_keep_hot_count</h2>
+
+<p>Settings for keep-hot-count user_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘2048’</p>
+</li></ul>
+
+<h2 id="label-user_attr_suggested_size">user_attr_suggested_size</h2>
+
+<p>Settings for suggested-size user_attr in nscd.conf. Must be a number expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘211’</p>
+</li></ul>
+
+<h2 id="label-user_attr_check_files">user_attr_check_files</h2>
+
+<p>Settings for check-files user_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-user_attr_persistent">user_attr_persistent</h2>
+
+<p>Settings for persistent user_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-user_attr_shared">user_attr_shared</h2>
+
+<p>Settings for shared user_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+
+<h2 id="label-user_attr_max_db_size">user_attr_max_db_size</h2>
+
+<p>Settings for max-db-size user_attr in nscd.conf. Must be a number in bytes expressed as a string.</p>
+<ul><li>
+<p><em>Default</em>: ‘33554432’</p>
+</li></ul>
+
+<h2 id="label-user_attr_auto_propagate">user_attr_auto_propagate</h2>
+
+<p>Settings for auto-propagate user_attr in nscd.conf. Must be ‘yes’ or ‘no’.</p>
+<ul><li>
+<p><em>Default</em>: ‘yes’</p>
+</li></ul>
+</div></div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>
