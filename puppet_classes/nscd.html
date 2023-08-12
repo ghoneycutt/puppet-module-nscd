@@ -94,6 +94,7 @@ This module has been tested to work on the following systems:
   * EL 6
   * EL 7
   * EL 8
+  * EL 9
   * Solaris 10
   * Suse 10
   * Suse 11
@@ -101,6 +102,11 @@ This module has been tested to work on the following systems:
   * Suse 15
   * OpenSuse 13.1
   * Ubuntu 12.04 LTS
+  * Ubuntu 14.04 LTS
+  * Ubuntu 16.04 LTS
+  * Ubuntu 18.04 LTS
+  * Ubuntu 20.04 LTS
+  * Ubuntu 22.04 LTS
 
 Compatibility with Dell Authentication Services
 -----------------------------------------------
@@ -3182,12 +3188,6 @@ nscd::group_enable_cache:  'no'
         <pre class="lines">
 
 
-553
-554
-555
-556
-557
-558
 559
 560
 561
@@ -3536,10 +3536,16 @@ nscd::group_enable_cache:  'no'
 904
 905
 906
-907</pre>
+907
+908
+909
+910
+911
+912
+913</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 553</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 559</span>
 
 class nscd (
   Array                                  $package_name                     = [&#39;nscd&#39;],
