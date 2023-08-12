@@ -21,6 +21,7 @@
 #     * EL 6
 #     * EL 7
 #     * EL 8
+#     * EL 9
 #     * Solaris 10
 #     * Suse 10
 #     * Suse 11
@@ -28,6 +29,11 @@
 #     * Suse 15
 #     * OpenSuse 13.1
 #     * Ubuntu 12.04 LTS
+#     * Ubuntu 14.04 LTS
+#     * Ubuntu 16.04 LTS
+#     * Ubuntu 18.04 LTS
+#     * Ubuntu 20.04 LTS
+#     * Ubuntu 22.04 LTS
 #
 #   Compatibility with Dell Authentication Services
 #   -----------------------------------------------

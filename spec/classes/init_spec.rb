@@ -105,6 +105,18 @@ describe 'nscd' do
         enable_db_hosts:           true,
       },
     ),
+    'el9' => defaults.merge(
+      {
+        osfamily:                  'RedHat',
+        operatingsystemmajrelease: '9',
+        server_user:               'nscd',
+        enable_db_services:        true,
+        enable_db_netgroup:        true,
+        enable_db_passwd:          true,
+        enable_db_group:           true,
+        enable_db_hosts:           true,
+      },
+    ),
     'suse10' => defaults.merge(
       {
         osfamily:                  'Suse',
@@ -155,6 +167,61 @@ describe 'nscd' do
       {
         osfamily:                  'Debian',
         operatingsystemmajrelease: '12',
+        server_user:               nil,
+        service_provider:          nil,
+        enable_db_services:        true,
+        enable_db_netgroup:        false,
+        enable_opt_auto_propagate: true,
+      },
+    ),
+    'ubuntu14' => defaults.merge(
+      {
+        osfamily:                  'Debian',
+        operatingsystemmajrelease: '14',
+        server_user:               nil,
+        service_provider:          nil,
+        enable_db_services:        true,
+        enable_db_netgroup:        false,
+        enable_opt_auto_propagate: true,
+      },
+    ),
+    'ubuntu16' => defaults.merge(
+      {
+        osfamily:                  'Debian',
+        operatingsystemmajrelease: '16',
+        server_user:               nil,
+        service_provider:          nil,
+        enable_db_services:        true,
+        enable_db_netgroup:        false,
+        enable_opt_auto_propagate: true,
+      },
+    ),
+    'ubuntu18' => defaults.merge(
+      {
+        osfamily:                  'Debian',
+        operatingsystemmajrelease: '18',
+        server_user:               nil,
+        service_provider:          nil,
+        enable_db_services:        true,
+        enable_db_netgroup:        false,
+        enable_opt_auto_propagate: true,
+      },
+    ),
+    'ubuntu20' => defaults.merge(
+      {
+        osfamily:                  'Debian',
+        operatingsystemmajrelease: '20',
+        server_user:               nil,
+        service_provider:          nil,
+        enable_db_services:        true,
+        enable_db_netgroup:        false,
+        enable_opt_auto_propagate: true,
+      },
+    ),
+    'ubuntu22' => defaults.merge(
+      {
+        osfamily:                  'Debian',
+        operatingsystemmajrelease: '22',
         server_user:               nil,
         service_provider:          nil,
         enable_db_services:        true,
