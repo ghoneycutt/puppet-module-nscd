@@ -1,1406 +1,1469 @@
 require 'spec_helper'
-describe 'nscd' do
-  defaults = {
-    kernel:                    'Linux',
-    osfamily:                  nil,
-    package_adminfile:         nil,
-    package_name:              ['nscd'],
-    package_source:            nil,
-    server_user:               nil,
-    service_name:              'nscd',
-    service_provider:          nil,
-    enable_db_services:        true,
-    enable_db_netgroup:        false,
-    enable_opt_auto_propagate: true,
-    enable_db_passwd:          true,
-    enable_db_group:           true,
-    enable_db_hosts:           true,
-    enable_db_audit_user:      false,
-    enable_db_auth_attr:       false,
-    enable_db_bootparams:      false,
-    enable_db_ethers:          false,
-    enable_db_exec_attr:       false,
-    enable_db_ipnodes:         false,
-    enable_db_netmasks:        false,
-    enable_db_networks:        false,
-    enable_db_printers:        false,
-    enable_db_prof_attr:       false,
-    enable_db_project:         false,
-    enable_db_protocols:       false,
-    enable_db_rpc:             false,
-    enable_db_tnrhdb:          false,
-    enable_db_tnrhtp:          false,
-    enable_db_user_attr:       false,
-  }
+describe 'nscd', type: :class do
+  header = <<-END.gsub(%r{^\s+\|}, '')
+    |# This file is being maintained by Puppet.
+    |# DO NOT EDIT
+    |#
+    |# /etc/nscd.conf
+    |#
+    |# An example Name Service Cache config file.  This file is needed by nscd.
+    |#
+    |# Legal entries are:
+    |#
+    |# logfile           <file>
+    |# debug-level       <level>
+    |# threads           <initial #threads to use>
+    |# max-threads       <maximum #threads to use>
+    |# server-user       <user to run server as instead of root>
+    |#     server-user is ignored if nscd is started with -S parameters
+    |# stat-user         <user who is allowed to request statistics>
+    |# reload-count      unlimited|<number>
+    |# paranoia          <yes|no>
+    |# restart-interval  <time in seconds>
+    |#
+    |# enable-cache          <service> <yes|no>
+    |# positive-time-to-live <service> <time in seconds>
+    |# negative-time-to-live <service> <time in seconds>
+    |# suggested-size        <service> <prime number>
+    |# check-files           <service> <yes|no>
+    |# persistent            <service> <yes|no>
+    |# shared                <service> <yes|no>
+    |# max-db-size           <service> <number bytes>
+    |# auto-propagate        <service> <yes|no>
+    |#
+    |# Currently supported cache names (services): passwd, group, hosts, services
+    |#
+    |# Currently supported cache names for Solaris (services):
+    |#               audit_user, auth_attr, bootparams, ethers
+    |#               exec_attr, group, hosts, ipnodes, netmasks
+    |#               networks, passwd, printers, prof_attr, project
+    |#               protocols, rpc, services, tnrhdb, tnrhtp, user_attr
+    |#
+    |
+  END
 
-  platforms = {
-    'debian6' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '6',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'el5' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '5',
-        server_user:               'nscd',
-        enable_db_services:        false,
-        enable_db_netgroup:        false,
-      },
-    ),
-    'el6' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '6',
-        server_user:               'nscd',
-      },
-    ),
-    'amazon2015' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '2015',
-        server_user:               'nscd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'amazon2016' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '2016',
-        server_user:               'nscd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'amazon2017' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '2017',
-        server_user:               'nscd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'el7' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '7',
-        server_user:               'nscd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'el8' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '8',
-        server_user:               'nscd',
-        enable_db_services:        false,
-        enable_db_netgroup:        false,
-        enable_db_passwd:          false,
-        enable_db_group:           false,
-        enable_db_hosts:           true,
-      },
-    ),
-    'el9' => defaults.merge(
-      {
-        osfamily:                  'RedHat',
-        operatingsystemmajrelease: '9',
-        server_user:               'nscd',
-        enable_db_services:        true,
-        enable_db_netgroup:        true,
-        enable_db_passwd:          true,
-        enable_db_group:           true,
-        enable_db_hosts:           true,
-      },
-    ),
-    'suse10' => defaults.merge(
-      {
-        osfamily:                  'Suse',
-        operatingsystemmajrelease: '10',
-        operatingsystemrelease:    '10.1',
-        enable_db_services:        false,
-        enable_opt_auto_propagate: false,
-      },
-    ),
-    'suse11' => defaults.merge(
-      {
-        osfamily:                  'Suse',
-        operatingsystemmajrelease: '11',
-        operatingsystemrelease:    '11.2',
-      },
-    ),
-    'suse12' => defaults.merge(
-      {
-        osfamily:                  'Suse',
-        operatingsystemmajrelease: '12',
-        operatingsystemrelease:    '12.3',
-        server_user:               'nscd',
-        service_provider:          'systemd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'suse13' => defaults.merge(
-      {
-        osfamily:                  'Suse',
-        operatingsystemmajrelease: '13',
-        operatingsystemrelease:    '13.0',
-        server_user:               'nscd',
-        service_provider:          'systemd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'suse15' => defaults.merge(
-      {
-        osfamily:                  'Suse',
-        operatingsystemmajrelease: '15',
-        operatingsystemrelease:    '15.0',
-        server_user:               'nscd',
-        service_provider:          'systemd',
-        enable_db_netgroup:        true,
-      },
-    ),
-    'ubuntu12' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '12',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'ubuntu14' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '14',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'ubuntu16' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '16',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'ubuntu18' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '18',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'ubuntu20' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '20',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'ubuntu22' => defaults.merge(
-      {
-        osfamily:                  'Debian',
-        operatingsystemmajrelease: '22',
-        server_user:               nil,
-        service_provider:          nil,
-        enable_db_services:        true,
-        enable_db_netgroup:        false,
-        enable_opt_auto_propagate: true,
-      },
-    ),
-    'solaris10' => defaults.merge(
-      {
-        kernel:                    'SunOS',
-        osfamily:                  'Solaris',
-        kernelrelease:             '5.10',
-        package_name:              ['SUNWcsu'],
-        package_source:            '/var/spool/pkg',
-        service_name:              'name-service-cache',
-        enable_db_group:           true,
-        enable_db_netgroup:        false,
-        enable_db_audit_user:      true,
-        enable_db_auth_attr:       true,
-        enable_db_bootparams:      true,
-        enable_db_ethers:          true,
-        enable_db_exec_attr:       true,
-        enable_db_ipnodes:         true,
-        enable_db_netmasks:        true,
-        enable_db_networks:        true,
-        enable_db_printers:        true,
-        enable_db_prof_attr:       true,
-        enable_db_project:         true,
-        enable_db_protocols:       true,
-        enable_db_rpc:             true,
-        enable_db_tnrhdb:          true,
-        enable_db_tnrhtp:          true,
-        enable_db_user_attr:       true,
-        enable_opt_auto_propagate: false
-      },
-    ),
-  }
+  base = <<-END.gsub(%r{^\s+\|}, '')
+    |logfile           /var/log/nscd.log
+    |debug-level       0
+    |threads           5
+    |max-threads       32
+    |
+    |stat-user         root
+    |reload-count      5
+    |paranoia          no
+    |restart-interval  3600
+  END
 
-  services_solaris = [
-    'audit_user',
-    'auth_attr',
-    'bootparams',
-    'ethers',
-    'exec_attr',
-    'ipnodes',
-    'netmasks',
-    'networks',
-    'printers',
-    'prof_attr',
-    'project',
-    'protocols',
-    'rpc',
-    'tnrhdb',
-    'tnrhtp',
-    'user_attr',
-  ]
+  base_server_user = <<-END.gsub(%r{^\s+\|}, '')
+    |logfile           /var/log/nscd.log
+    |debug-level       0
+    |threads           5
+    |max-threads       32
+    |server-user       nscd
+    |stat-user         root
+    |reload-count      5
+    |paranoia          no
+    |restart-interval  3600
+  END
 
-  platforms.sort.each do |_k, v|
-    describe "on #{v[:osfamily]} #{v[:operatingsystemmajrelease]}#{v[:operatingsystemrelease]}#{v[:kernelrelease]} with default values for all parameters" do
-      let(:facts) do
-        {
-          operatingsystemmajrelease: v[:operatingsystemmajrelease],
-          operatingsystemrelease:    v[:operatingsystemrelease],
-          kernelrelease:             v[:kernelrelease],
-          kernel:                    v[:kernel],
-          osfamily:                  v[:osfamily],
-          os: {
-            family:                  v[:osfamily],
-            release: {
-              major:                 v[:operatingsystemmajrelease],
-            },
-          },
-        }
-      end
+  base_solaris = <<-END.gsub(%r{^\s+\|}, '')
+    |logfile           /var/adm/nscd.log
+    |debug-level       0
+  END
 
-      it { is_expected.to compile.with_all_deps }
+  passwd = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# passwd
+    |enable-cache            passwd          yes
+    |positive-time-to-live   passwd          600
+    |negative-time-to-live   passwd          20
+    |suggested-size          passwd          211
+    |check-files             passwd          yes
+    |persistent              passwd          yes
+    |shared                  passwd          yes
+    |max-db-size             passwd          33554432
+    |auto-propagate          passwd          yes
+  END
+
+  group = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# group
+    |enable-cache            group           yes
+    |positive-time-to-live   group           3600
+    |negative-time-to-live   group           60
+    |suggested-size          group           211
+    |check-files             group           yes
+    |persistent              group           yes
+    |shared                  group           yes
+    |max-db-size             group           33554432
+    |auto-propagate          group           yes
+  END
+
+  hosts = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# hosts
+    |enable-cache            hosts           yes
+    |positive-time-to-live   hosts           3600
+    |negative-time-to-live   hosts           20
+    |suggested-size          hosts           211
+    |check-files             hosts           yes
+    |persistent              hosts           yes
+    |shared                  hosts           yes
+    |max-db-size             hosts           33554432
+  END
+
+  services = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# services
+    |enable-cache            services        yes
+    |positive-time-to-live   services        28800
+    |negative-time-to-live   services        20
+    |suggested-size          services        211
+    |check-files             services        yes
+    |persistent              services        yes
+    |shared                  services        yes
+    |max-db-size             services        33554432
+  END
+
+  netgroup = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# netgroup
+    |enable-cache            netgroup        yes
+    |positive-time-to-live   netgroup        28800
+    |negative-time-to-live   netgroup        20
+    |suggested-size          netgroup        211
+    |check-files             netgroup        yes
+    |persistent              netgroup        yes
+    |shared                  netgroup        yes
+    |max-db-size             netgroup        33554432
+  END
+
+  passwd_solaris = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# passwd
+    |enable-cache            passwd          yes
+    |positive-time-to-live   passwd          600
+    |negative-time-to-live   passwd          20
+    |suggested-size          passwd          211
+    |keep-hot-count          passwd          2048
+    |check-files             passwd          yes
+  END
+
+  group_solaris = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# group
+    |enable-cache            group           yes
+    |positive-time-to-live   group           3600
+    |negative-time-to-live   group           60
+    |suggested-size          group           211
+    |keep-hot-count          group           2048
+    |check-files             group           yes
+  END
+
+  hosts_solaris = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# hosts
+    |enable-cache            hosts           yes
+    |positive-time-to-live   hosts           3600
+    |negative-time-to-live   hosts           20
+    |suggested-size          hosts           211
+    |keep-hot-count          hosts           2048
+    |check-files             hosts           yes
+  END
+
+  services_solaris = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# services
+    |enable-cache            services        yes
+    |positive-time-to-live   services        28800
+    |negative-time-to-live   services        20
+    |suggested-size          services        211
+    |keep-hot-count          services        2048
+    |check-files             services        yes
+  END
+
+  audit_user = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# audit_user
+    |enable-cache            audit_user      yes
+    |positive-time-to-live   audit_user      3600
+    |negative-time-to-live   audit_user      20
+    |keep-hot-count          audit_user      2048
+    |check-files             audit_user      yes
+  END
+
+  auth_attr = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# auth_attr
+    |enable-cache            auth_attr       yes
+    |positive-time-to-live   auth_attr       3600
+    |negative-time-to-live   auth_attr       20
+    |keep-hot-count          auth_attr       2048
+    |check-files             auth_attr       yes
+  END
+
+  bootparams = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# bootparams
+    |enable-cache            bootparams      yes
+    |positive-time-to-live   bootparams      3600
+    |negative-time-to-live   bootparams      20
+    |keep-hot-count          bootparams      2048
+    |check-files             bootparams      yes
+  END
+
+  ethers = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# ethers
+    |enable-cache            ethers          yes
+    |positive-time-to-live   ethers          3600
+    |negative-time-to-live   ethers          20
+    |keep-hot-count          ethers          2048
+    |check-files             ethers          yes
+  END
+
+  exec_attr = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# exec_attr
+    |enable-cache            exec_attr       yes
+    |positive-time-to-live   exec_attr       3600
+    |negative-time-to-live   exec_attr       20
+    |keep-hot-count          exec_attr       2048
+    |check-files             exec_attr       yes
+  END
+
+  ipnodes = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# ipnodes
+    |enable-cache            ipnodes         yes
+    |positive-time-to-live   ipnodes         3600
+    |negative-time-to-live   ipnodes         20
+    |keep-hot-count          ipnodes         2048
+    |check-files             ipnodes         yes
+  END
+
+  netmasks = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# netmasks
+    |enable-cache            netmasks        yes
+    |positive-time-to-live   netmasks        3600
+    |negative-time-to-live   netmasks        20
+    |keep-hot-count          netmasks        2048
+    |check-files             netmasks        yes
+  END
+
+  networks = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# networks
+    |enable-cache            networks        yes
+    |positive-time-to-live   networks        3600
+    |negative-time-to-live   networks        20
+    |keep-hot-count          networks        2048
+    |check-files             networks        yes
+  END
+
+  printers = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# printers
+    |enable-cache            printers        yes
+    |positive-time-to-live   printers        3600
+    |negative-time-to-live   printers        20
+    |keep-hot-count          printers        2048
+    |check-files             printers        yes
+  END
+
+  prof_attr = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# prof_attr
+    |enable-cache            prof_attr       yes
+    |positive-time-to-live   prof_attr       3600
+    |negative-time-to-live   prof_attr       20
+    |keep-hot-count          prof_attr       2048
+    |check-files             prof_attr       yes
+  END
+
+  project = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# project
+    |enable-cache            project         yes
+    |positive-time-to-live   project         3600
+    |negative-time-to-live   project         20
+    |keep-hot-count          project         2048
+    |check-files             project         yes
+  END
+
+  protocols = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# protocols
+    |enable-cache            protocols       yes
+    |positive-time-to-live   protocols       3600
+    |negative-time-to-live   protocols       20
+    |keep-hot-count          protocols       2048
+    |check-files             protocols       yes
+  END
+
+  rpc = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# rpc
+    |enable-cache            rpc             yes
+    |positive-time-to-live   rpc             3600
+    |negative-time-to-live   rpc             20
+    |keep-hot-count          rpc             2048
+    |check-files             rpc             yes
+  END
+
+  tnrhdb = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# tnrhdb
+    |enable-cache            tnrhdb          yes
+    |positive-time-to-live   tnrhdb          3600
+    |negative-time-to-live   tnrhdb          20
+    |keep-hot-count          tnrhdb          2048
+    |check-files             tnrhdb          yes
+  END
+
+  tnrhtp = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# tnrhtp
+    |enable-cache            tnrhtp          yes
+    |positive-time-to-live   tnrhtp          3600
+    |negative-time-to-live   tnrhtp          20
+    |keep-hot-count          tnrhtp          2048
+    |check-files             tnrhtp          yes
+  END
+
+  user_attr = <<-END.gsub(%r{^\s+\|}, '')
+    |
+    |# user_attr
+    |enable-cache            user_attr       yes
+    |positive-time-to-live   user_attr       3600
+    |negative-time-to-live   user_attr       20
+    |keep-hot-count          user_attr       2048
+    |check-files             user_attr       yes
+  END
+
+  on_supported_os.sort.each do |os, facts|
+    # define os specific defaults
+    case "#{facts[:os]['family']}-#{facts[:os]['release']['major']}"
+    when 'RedHat-5'
+      nscd_conf = header + base_server_user + passwd + group + hosts
+    when 'RedHat-6'
+      nscd_conf = header + base_server_user + passwd + group + hosts + services
+    when 'RedHat-7'
+      nscd_conf = header + base_server_user + passwd + group + hosts + services + netgroup
+    when 'RedHat-8'
+      nscd_conf = header + base_server_user + hosts
+    when 'RedHat-9'
+      nscd_conf = header + base_server_user + passwd + group + hosts + services + netgroup
+    when 'RedHat-2015', 'RedHat-2016', 'RedHat-2017'
+      nscd_conf = header + base_server_user + passwd + group + hosts + services + netgroup
+    when 'Solaris-10'
+      solaris1 = audit_user + auth_attr + bootparams + ethers + exec_attr + ipnodes + netmasks
+      solaris2 = networks + printers + prof_attr + project + protocols + rpc + tnrhdb + tnrhtp + user_attr
+      nscd_conf = header + base_solaris + passwd_solaris + group_solaris + hosts_solaris + services_solaris + solaris1 + solaris2
+      package = 'SUNWcsu'
+      package_source = '/var/spool/pkg'
+      service_name = 'name-service-cache'
+    when 'Suse-10'
+      nscd_conf = header + base_server_user + passwd + group + hosts
+    when 'Suse-11'
+      nscd_conf = header + base + passwd + group + hosts + services
+    when 'Suse-12', 'Suse-13', 'Suse-15'
+      nscd_conf = header + base_server_user + passwd + group + hosts + services + netgroup
+      provider = 'systemd'
+    when 'Debian-6', 'Debian-12.04', 'Debian-14.04', 'Debian-16.04', 'Debian-18.04', 'Debian-20.04', 'Debian-22.04'
+      nscd_conf = header + base + passwd + group + hosts + services
+    end
+
+    describe "on #{os} with default values for parameters" do
+      let(:facts) { facts }
+
+      package      = 'nscd' if package.nil?
+      service_name = 'nscd' if service_name.nil?
 
       it { is_expected.to contain_class('nscd') }
 
-      v[:package_name].each do |package|
-        it do
-          is_expected.to contain_package(package).with(
-            {
-              'ensure'    => 'present',
-              'source'    => v[:package_source],
-              'adminfile' => v[:package_adminfile],
-              'before'    => 'File[nscd_config]',
-            },
-          )
-        end
-      end
-
       it do
-        is_expected.to contain_file('nscd_config').with(
+        is_expected.to contain_package(package).only_with(
           {
-            'ensure'  => 'file',
-            'path'    => '/etc/nscd.conf',
-            'owner'   => 'root',
-            'group'   => 'root',
-            'mode'    => '0644',
+            'ensure'    => 'present',
+            'source'    => package_source,
+            'adminfile' => nil,
+            'before'    => 'File[nscd_config]',
           },
         )
       end
 
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^debug-level\ +0$}) }
-
-      if v[:osfamily] != 'Solaris'
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^logfile\ +/var/log/nscd\.log$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^threads\ +5$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^max-threads\ +32$}) }
-        if !v[:server_user].nil?
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^\s*server-user\ +#{v[:server_user]}$}) }
-        else
-          it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*server-user}) }
-        end
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^stat-user\ +root$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^reload-count\ +5$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^paranoia\ +no$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^restart-interval\ +3600$}) }
-      else
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^logfile\ +/var/adm/nscd\.log$}) }
-      end
-
-      if v[:enable_db_passwd] == true
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +passwd\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +passwd\ +600$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +passwd\ +20$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +passwd\ +211$}) }
-
-        if v[:osfamily] == 'Solaris'
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^keep-hot-count\ +passwd\ +2048$}) }
-        end
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +passwd\ +yes$}) }
-
-        if v[:osfamily] != 'Solaris'
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +passwd\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +passwd\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +passwd\ +33554432$}) }
-
-          if v[:enable_opt_auto_propagate] == true
-            it { is_expected.to contain_file('nscd_config').with_content(%r{^auto-propagate\ +passwd\ +yes$}) }
-          else
-            it { is_expected.to contain_file('nscd_config').without_content(%r{^auto-propagate +passwd}) }
-          end
-
-        end
-      else
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^enable-cache\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^positive-time-to-live\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^negative-time-to-live\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^suggested-size\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^keep-hot-count\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^check-files\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^persistent\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^shared\ +passwd}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^max-db-size\ +passwd}) }
-      end
-      if v[:enable_db_group] == true
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +group\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +group\ +3600$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +group\ +60$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +group\ +211$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +group\ +yes$}) }
-        if v[:osfamily] != 'Solaris'
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +group\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +group\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +group\ +33554432$}) }
-          if v[:enable_opt_auto_propagate] == true
-            it { is_expected.to contain_file('nscd_config').with_content(%r{^auto-propagate\ +group\ +yes$}) }
-          else
-            it { is_expected.to contain_file('nscd_config').without_content(%r{^auto-propagate +group}) }
-          end
-        else
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^keep-hot-count\ +group\ +2048$}) }
-        end
-      else
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^enable-cache\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^positive-time-to-live\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^negative-time-to-live\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^suggested-size\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^keep-hot-count\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^check-files\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^persistent\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^shared\ +group}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^max-db-size\ +group}) }
-      end
-      if v[:enable_db_hosts] == true
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +hosts\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +hosts\ +3600$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +hosts\ +20$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +hosts\ +211$}) }
-        if v[:osfamily] == 'Solaris'
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^keep-hot-count\ +hosts\ +2048$}) }
-        end
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +hosts\ +yes$}) }
-        if v[:osfamily] != 'Solaris'
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +hosts\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +hosts\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +hosts\ +33554432$}) }
-        end
-      else
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^enable-cache\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^positive-time-to-live\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^negative-time-to-live\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^suggested-size\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^keep-hot-count\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^check-files\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^persistent\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^shared\ +hosts}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^max-db-size\ +hosts}) }
-      end
-      if v[:enable_db_services] == true
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +services\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +services\ +28800$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +services\ +20$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +services\ +211$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +services\ +yes$}) }
-        if v[:osfamily] == 'Solaris'
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^keep-hot-count\ +services\ +2048$}) }
-        else
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +services\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +services\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +services\ +33554432$}) }
-        end
-      else
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^enable-cache\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^positive-time-to-live\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^negative-time-to-live\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^suggested-size\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^keep-hot-count\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^check-files\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^persistent\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^shared\ +services}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^max-db-size\ +services}) }
-      end
-
-      services_solaris.each do |service|
-        enable_service = "enable_db_#{service}"
-        if v[enable_service.to_sym] == true
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +#{service}\ +yes$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +#{service}\ +3600$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +#{service}\ +20$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^keep-hot-count\ +#{service}\ +2048$}) }
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +#{service}\ +yes$}) }
-        else
-          it { is_expected.to contain_file('nscd_config').without_content(%r{^enable-cache\ +#{service}}) }
-          it { is_expected.to contain_file('nscd_config').without_content(%r{^positive-time-to-live\ +#{service}}) }
-          it { is_expected.to contain_file('nscd_config').without_content(%r{^negative-time-to-live\ +#{service}}) }
-          it { is_expected.to contain_file('nscd_config').without_content(%r{^keep-hot-count\ +#{service}}) }
-          it { is_expected.to contain_file('nscd_config').without_content(%r{^check-files\ +#{service}}) }
-        end
-      end
-      if v[:enable_db_netgroup] == true
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +netgroup\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +netgroup\ +28800$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +netgroup\ +20$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +netgroup\ +211$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +netgroup\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +netgroup\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +netgroup\ +yes$}) }
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +netgroup\ +33554432$}) }
-      else
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*enable-cache\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*positive-time-to-live\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*negative-time-to-live\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*suggested-size\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*check-files\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*persistent\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*shared\ +netgroup}) }
-        it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*max-db-size\ +netgroup}) }
-      end
-
-      if !v[:service_provider].nil?
-        it do
-          is_expected.to contain_service('nscd_service').with(
-            {
-              'ensure'    => 'running',
-              'name'      => v[:service_name],
-              'enable'    => 'true',
-              'provider'  => v[:service_provider],
-              'subscribe' => 'File[nscd_config]',
-            },
-          )
-        end
-      else
-        it do
-          is_expected.to contain_service('nscd_service').with(
-            {
-              'ensure'    => 'running',
-              'name'      => v[:service_name],
-              'enable'    => 'true',
-              'provider'  => nil,
-              'subscribe' => 'File[nscd_config]',
-            },
-          )
-        end
-      end
-    end
-  end
-
-  describe 'with package_adminfile parameter specified' do
-    context 'as an absolute path' do
-      let(:params) { { package_adminfile: '/my/adminfile' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_package('nscd').with({ 'adminfile' => '/my/adminfile' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { package_adminfile: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with package_source parameter specified' do
-    context 'as an absolute path' do
-      let(:params) { { package_source: '/my/source' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_package('nscd').with({ 'source' => '/my/source' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { package_source: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with package_name parameter specified' do
-    context 'as an array' do
-      let(:params) { { package_name: ['nscd', 'foo'] } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_package('nscd').with({ 'ensure' => 'present' }) }
-      it { is_expected.to contain_package('foo').with({ 'ensure' => 'present' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { package_name: 'string' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with package_ensure parameter' do
-    context 'set to all possible valid values' do
-      ['present', 'installed', 'absent'].each do |ensure_value|
-        context "package_ensure => #{ensure_value}" do
-          let(:params) { { package_ensure: ensure_value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_package('nscd').with({ 'ensure' => ensure_value.to_s }) }
-        end
-      end
-    end
-
-    context 'set to invalid value' do
-      let(:params) { { package_ensure: 'invalid' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum})
-      end
-    end
-  end
-
-  describe 'with config_path parameter specified' do
-    context 'as a valid path' do
-      let(:params) { { config_path: '/usr/local/etc/nscd.conf' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with({ 'path' => '/usr/local/etc/nscd.conf' }) }
-    end
-
-    context 'as an invalid value' do
-      let(:params) { { config_path: 'invalid/path' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Stdlib::Absolutepath})
-      end
-    end
-  end
-
-  describe 'with config_owner parameter specified' do
-    context 'as a valid string' do
-      let(:params) { { config_owner: 'root' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with({ 'owner' => 'root' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { config_owner: ['invalid', 'root'] } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a String})
-      end
-    end
-  end
-
-  describe 'with config_group parameter specified' do
-    context 'as a valid string' do
-      let(:params) { { config_group: 'root' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with({ 'group' => 'root' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { config_group: ['invalid', 'root'] } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a String})
-      end
-    end
-  end
-
-  describe 'with config_mode parameter specified' do
-    context 'with valid value' do
-      let(:params) { { config_mode: '0644' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with({ 'mode' => '0644' }) }
-    end
-
-    context 'with invalid value' do
-      let(:params) { { config_mode: '0844' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-
-    context 'with invalid type' do
-      let(:params) { { config_mode: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with service_name parameter specified' do
-    context 'as a valid string' do
-      let(:params) { { service_name: 'mynscd' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_service('nscd_service').with({ 'name' => 'mynscd' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { service_name: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with service_ensure parameter' do
-    context 'set to all possible valid values' do
-      ['running', 'stopped'].each do |ensure_value|
-        context "service_ensure => #{ensure_value}" do
-          let(:params) { { service_ensure: ensure_value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_service('nscd_service').with({ 'ensure' => ensure_value.to_s }) }
-        end
-      end
-    end
-
-    context 'set to invalid value' do
-      let(:params) { { service_ensure: 'invalid' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with service_enable parameter' do
-    context 'set to all possible valid values' do
-      [true, false].each do |enable_value|
-        context "service_enable => #{enable_value}" do
-          let(:params) { { service_enable: enable_value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_service('nscd_service').with({ 'enable' => enable_value }) }
-        end
-      end
-    end
-
-    context 'set to invalid value' do
-      let(:params) { { service_enable: 'invalid' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-
-    context 'set to invalid type' do
-      let(:params) { { service_enable: ['invalid', 'type'] } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with service_provider parameter specified' do
-    context 'as a valid string' do
-      let(:params) { { service_provider: 'myprovider' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_service('nscd_service').with({ 'provider' => 'myprovider' }) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { service_provider: ['not', 'a', 'string'] } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  ['passwd', 'group', 'hosts', 'services', 'netgroup'].each do |service|
-    describe "with enable_db_#{service}" do
-      [true, false].each do |value|
-        context "set to valid value #{value}" do
-          let(:params) { { "enable_db_#{service}": value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_class('nscd') }
-        end
-      end
-
-      context 'set to an invalid type (non-boolean or string convertible to boolean)' do
-        let(:params) { { "enable_db_#{service}": ['invalid', 'type'] } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-        end
-      end
-    end
-  end
-
-  describe 'with enable_opt_auto_propagate' do
-    [true, false].each do |value|
-      context "set to valid value #{value}" do
-        let(:params) { { enable_opt_auto_propagate: value } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it { is_expected.to contain_class('nscd') }
-      end
-    end
-
-    context 'set to an invalid type (non-boolean or string convertible to boolean)' do
-      let(:params) { { enable_opt_auto_propagate: ['invalid', 'type'] } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with logfile parameter specified' do
-    context 'with a valid path' do
-      let(:params) { { logfile: '/path/to/nscd.log' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^logfile\ +/path/to/nscd\.log$}) }
-    end
-
-    context 'as an invalid path' do
-      let(:params) { { logfile: 'invalid/path' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { logfile: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error)
-      end
-    end
-  end
-
-  describe 'with threads parameter specified' do
-    context 'as a valid number' do
-      let(:params) { { threads: 23 } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^threads\ +23$}) }
-    end
-
-    context 'as an invalid value' do
-      let(:params) { { threads: 'x' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { threads: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-  end
-
-  describe 'with max_threads parameter specified' do
-    context 'as a valid number' do
-      let(:params) { { max_threads: 42 } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^max-threads\ +42$}) }
-    end
-
-    context 'as an invalid value' do
-      let(:params) { { max_threads: 'x' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { max_threads: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-  end
-
-  describe 'with server_user parameter' do
-    context 'specified as a valid string' do
-      let(:params) { { server_user: 'root' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^server-user\ +root$}) }
-    end
-
-    context 'not specified' do
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').without_content(%r{^\s*server-user}) }
-    end
-  end
-
-  describe 'with stat_user parameter' do
-    context 'specified as a valid string' do
-      let(:params) { { stat_user: 'lmcdtre' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^stat-user\ +lmcdtre$}) }
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { stat_user: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a String})
-      end
-    end
-  end
-
-  describe 'with debug_level parameter specified' do
-    context 'as a valid integer' do
-      let(:params) { { debug_level: 5 } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^debug-level\ +5$}) }
-    end
-
-    context 'as an invalid value' do
-      let(:params) { { debug_level: 'x' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { debug_level: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-  end
-
-  describe 'with reload_count parameter specified' do
-    context 'as a valid integer' do
-      let(:params) { { reload_count: 5 } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^reload-count\ +5$}) }
-    end
-
-    context 'as \'unlimited\'' do
-      let(:params) { { reload_count: 'unlimited' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^reload-count\ +unlimited$}) }
-    end
-
-    ['unlimitedd', 'invalid', '-1'].each do |value|
-      context "as invalid value #{value}" do
-        let(:params) { { reload_count: value } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Integer or Enum})
-        end
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { reload_count: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{Integer or Enum})
-      end
-    end
-  end
-
-  describe 'with paranoia parameter specified' do
-    ['yes', 'no'].each do |value|
-      context "as valid value #{value}" do
-        let(:params) { { paranoia: value } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^paranoia\ +#{value}$}) }
-      end
-    end
-
-    ['yess', 'nooo', '-1', true].each do |value|
-      context "as invalid value #{value}" do
-        let(:params) { { paranoia: value } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-        end
-      end
-    end
-  end
-
-  describe 'with restart_interval parameter specified' do
-    context 'as a valid number' do
-      let(:params) { { restart_interval: 31_415 } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it { is_expected.to contain_file('nscd_config').with_content(%r{^restart-interval\ +31415$}) }
-    end
-
-    context 'as an invalid value' do
-      let(:params) { { restart_interval: 'x' } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-
-    context 'as an invalid type' do
-      let(:params) { { restart_interval: true } }
-      let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-      it 'fail' do
-        expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-      end
-    end
-  end
-
-  ['passwd', 'group', 'hosts', 'services', 'netgroup'].each do |service|
-    describe "with #{service}_enable_cache specified" do
-      ['yes', 'no'].each do |value|
-        context "as valid value #{value}" do
-          let :params do
-            {
-              "enable_db_#{service}":    true,
-              "#{service}_enable_cache": value,
-            }
-          end
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +#{service}\ +#{value}$}) }
-        end
-      end
-
-      ['yess', 'nooo', '-1', true].each do |value|
-        context "as invalid value #{value}" do
-          let(:params) { { "#{service}_enable_cache": value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-          end
-        end
-      end
-    end
-
-    describe "with #{service}_positive_time_to_live specified" do
-      context 'as a valid number' do
-        let :params do
+      it do
+        is_expected.to contain_file('nscd_config').only_with(
           {
-            "enable_db_#{service}":             true,
-            "#{service}_positive_time_to_live": 31_415,
-          }
-        end
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +#{service}\ +31415$}) }
+            'ensure'    => 'file',
+            'path'      => '/etc/nscd.conf',
+            'content'   => nscd_conf,
+            'owner'     => 'root',
+            'group'     => 'root',
+            'mode'      => '0644',
+          },
+        )
       end
 
-      context 'as an invalid value' do
-        let(:params) { { "#{service}_positive_time_to_live": 'x' } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-
-      context 'as an invalid type' do
-        let(:params) { { "#{service}_positive_time_to_live": true } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-    end
-
-    describe "with #{service}_negative_time_to_live specified" do
-      context 'as a valid number' do
-        let :params do
+      it do
+        is_expected.to contain_service('nscd_service').only_with(
           {
-            "enable_db_#{service}":             true,
-            "#{service}_negative_time_to_live": 23,
-          }
-        end
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +#{service}\ +23$}) }
-      end
-
-      context 'as an invalid value' do
-        let(:params) { { "#{service}_negative_time_to_live": 'x' } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-
-      context 'as an invalid type' do
-        let(:params) { { "#{service}_negative_time_to_live": true } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-    end
-
-    describe "with #{service}_suggested_size specified" do
-      context 'as a valid number' do
-        let :params do
-          {
-            "enable_db_#{service}":      true,
-            "#{service}_suggested_size": 411,
-          }
-        end
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^suggested-size\ +#{service}\ +411$}) }
-      end
-
-      context 'as an invalid value' do
-        let(:params) { { "#{service}_suggested_size": 'x' } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-
-      context 'as an invalid type' do
-        let(:params) { { "#{service}_suggested_size": true } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-    end
-
-    describe "with #{service}_check_files specified" do
-      ['yes', 'no'].each do |value|
-        context "as valid value #{value}" do
-          let :params do
-            {
-              "enable_db_#{service}":   true,
-              "#{service}_check_files": value,
-            }
-          end
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +#{service}\ +#{value}$}) }
-        end
-      end
-
-      ['yess', 'nooo', '-1', true].each do |value|
-        context "as invalid value #{value}" do
-          let(:params) { { "#{service}_check_files": value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-          end
-        end
-      end
-    end
-
-    describe "with #{service}_persistent specified" do
-      ['yes', 'no'].each do |value|
-        context "as valid value #{value}" do
-          let :params do
-            {
-              "enable_db_#{service}":  true,
-              "#{service}_persistent": value,
-            }
-          end
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^persistent\ +#{service}\ +#{value}$}) }
-        end
-      end
-
-      ['yess', 'nooo', '-1', true].each do |value|
-        context "as invalid value #{value}" do
-          let(:params) { { "#{service}_persistent": value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-          end
-        end
-      end
-    end
-
-    describe "with #{service}_shared specified" do
-      ['yes', 'no'].each do |value|
-        context "as valid value #{value}" do
-          let :params do
-            {
-              "enable_db_#{service}": true,
-              "#{service}_shared":    value,
-            }
-          end
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^shared\ +#{service}\ +#{value}$}) }
-        end
-      end
-
-      ['yess', 'nooo', '-1', true].each do |value|
-        context "as invalid value #{value}" do
-          let(:params) { { "#{service}_shared": value } }
-          let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-          it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-          end
-        end
-      end
-    end
-
-    describe "with #{service}_max_db_size specified" do
-      context 'as a valid number' do
-        let :params do
-          {
-            "enable_db_#{service}":   true,
-            "#{service}_max_db_size": 1_000_000,
-          }
-        end
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^max-db-size\ +#{service}\ +1000000$}) }
-      end
-
-      context 'as an invalid value' do
-        let(:params) { { "#{service}_max_db_size": 'x' } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-
-      context 'as an invalid type' do
-        let(:params) { { "#{service}_max_db_size": true } }
-        let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-    end
-
-    # only the passwd and group services use auto-propogate
-    describe "with #{service}_auto_propagate specified" do
-      if ['passwd', 'group'].include?(service)
-        ['yes', 'no'].each do |value|
-          context "as valid value #{value}" do
-            let :params do
-              {
-                "enable_db_#{service}":      true,
-                "#{service}_auto_propagate": value,
-              }
-            end
-            let(:facts) { { osfamily: 'Debian', os: { family: 'Debian' }, kernel: 'Linux' } }
-
-            it { is_expected.to contain_file('nscd_config').with_content(%r{^auto-propagate\ +#{service}\ +#{value}$}) }
-          end
-        end
-
-        ['yess', 'nooo', '-1', true].each do |value|
-          context "as invalid value #{value}" do
-            let(:params) { { "#{service}_auto_propagate": value } }
-            let(:facts) { { osfamily: 'Debian', kernel: 'Linux' } }
-
-            it 'fail' do
-              expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-            end
-          end
-        end
+            'ensure'    => 'running',
+            'name'      => service_name,
+            'enable'    => true,
+            'provider'  => provider,
+            'subscribe' => 'File[nscd_config]',
+          },
+        )
       end
     end
   end
 
-  services_solaris.each do |service|
-    describe "with #{service}_enable_cache specified" do
-      ['yes', 'no'].each do |value|
-        context "as valid value #{value}" do
-          let(:params) { { "#{service}_enable_cache": value } }
-          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
+  describe 'parameters on supported OS' do
+    # The following tests are OS independent, so we only test one supported OS
+    redhat = {
+      supported_os: [
+        {
+          'operatingsystem'        => 'RedHat',
+          'operatingsystemrelease' => ['8'],
+        },
+      ],
+    }
 
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^enable-cache\ +#{service}\ +#{value}$}) }
-        end
+    on_supported_os(redhat).each do |_os, facts|
+      let(:facts) { facts }
+
+      context 'with audit_user_check_files set to valid value when enable_db_audit_user is set to true' do
+        let(:params) { { audit_user_check_files: 'no', enable_db_audit_user: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             audit_user      no}) }
       end
 
-      ['yess', 'nooo', '-1', true].each do |value|
-        context "as invalid value #{value}" do
-          let(:params) { { "#{service}_enable_cache": value } }
-          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
+      context 'with audit_user_enable_cache set to valid value when enable_db_audit_user is set to true' do
+        let(:params) { { audit_user_enable_cache: 'no', enable_db_audit_user: true } }
 
-          it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-          end
-        end
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            audit_user      no}) }
+      end
+
+      context 'with audit_user_keep_hot_count set to valid value when enable_db_audit_user is set to true' do
+        let(:params) { { audit_user_keep_hot_count: 242, enable_db_audit_user: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          audit_user      242}) }
+      end
+
+      context 'with audit_user_negative_time_to_live set to valid value when enable_db_audit_user is set to true' do
+        let(:params) { { audit_user_negative_time_to_live: 242, enable_db_audit_user: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   audit_user      242}) }
+      end
+
+      context 'with audit_user_positive_time_to_live set to valid value when enable_db_audit_user is set to true' do
+        let(:params) { { audit_user_positive_time_to_live: 242, enable_db_audit_user: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   audit_user      242}) }
+      end
+
+      context 'with auth_attr_check_files set to valid value when enable_db_auth_attr is set to true' do
+        let(:params) { { auth_attr_check_files: 'no', enable_db_auth_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             auth_attr       no}) }
+      end
+
+      context 'with auth_attr_enable_cache set to valid value when enable_db_auth_attr is set to true' do
+        let(:params) { { auth_attr_enable_cache: 'no', enable_db_auth_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            auth_attr       no}) }
+      end
+
+      context 'with auth_attr_keep_hot_count set to valid value when enable_db_auth_attr is set to true' do
+        let(:params) { { auth_attr_keep_hot_count: 242, enable_db_auth_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          auth_attr       242}) }
+      end
+
+      context 'with auth_attr_negative_time_to_live set to valid value when enable_db_auth_attr is set to true' do
+        let(:params) { { auth_attr_negative_time_to_live: 242, enable_db_auth_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   auth_attr       242}) }
+      end
+
+      context 'with auth_attr_positive_time_to_live set to valid value when enable_db_auth_attr is set to true' do
+        let(:params) { { auth_attr_positive_time_to_live: 242, enable_db_auth_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   auth_attr       242}) }
+      end
+
+      context 'with bootparams_check_files set to valid value when enable_db_bootparams is set to true' do
+        let(:params) { { bootparams_check_files: 'no', enable_db_bootparams: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             bootparams      no}) }
+      end
+
+      context 'with bootparams_enable_cache set to valid value when enable_db_bootparams is set to true' do
+        let(:params) { { bootparams_enable_cache: 'no', enable_db_bootparams: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            bootparams      no}) }
+      end
+
+      context 'with bootparams_keep_hot_count set to valid value when enable_db_bootparams is set to true' do
+        let(:params) { { bootparams_keep_hot_count: 242, enable_db_bootparams: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          bootparams      242}) }
+      end
+
+      context 'with bootparams_negative_time_to_live set to valid value when enable_db_bootparams is set to true' do
+        let(:params) { { bootparams_negative_time_to_live: 242, enable_db_bootparams: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   bootparams      242}) }
+      end
+
+      context 'with bootparams_positive_time_to_live set to valid value when enable_db_bootparams is set to true' do
+        let(:params) { { bootparams_positive_time_to_live: 242, enable_db_bootparams: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   bootparams      242}) }
+      end
+
+      context 'with config_group set to valid value' do
+        let(:params) { { config_group: 'test' } }
+
+        it { is_expected.to contain_file('nscd_config').with_group('test') }
+      end
+
+      context 'with config_mode set to valid value' do
+        let(:params) { { config_mode: '0242' } }
+
+        it { is_expected.to contain_file('nscd_config').with_mode('0242') }
+      end
+
+      context 'with config_path set to valid value' do
+        let(:params) { { config_path: '/test/ing' } }
+
+        it { is_expected.to contain_file('nscd_config').with_path('/test/ing') }
+      end
+
+      context 'with config_owner set to valid value' do
+        let(:params) { { config_owner: 'test' } }
+
+        it { is_expected.to contain_file('nscd_config').with_owner('test') }
+      end
+
+      context 'with debug_level set to valid value' do
+        let(:params) { { debug_level: 242 } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{debug-level       242}) }
+      end
+
+      context 'with enable_db_audit_user set to valid value true' do
+        let(:params) { { enable_db_audit_user: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{audit_user}}) }
+      end
+
+      context 'with enable_db_auth_attr set to valid value true' do
+        let(:params) { { enable_db_auth_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{auth_attr}}) }
+      end
+
+      context 'with enable_db_bootparams set to valid value true' do
+        let(:params) { { enable_db_bootparams: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{bootparams}}) }
+      end
+
+      context 'with enable_db_ethers set to valid value true' do
+        let(:params) { { enable_db_ethers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{ethers}}) }
+      end
+
+      context 'with enable_db_exec_attr set to valid value true' do
+        let(:params) { { enable_db_exec_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{exec_attr}}) }
+      end
+
+      context 'with enable_db_group set to valid value true' do
+        let(:params) { { enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{group}}) }
+      end
+
+      context 'with enable_db_hosts set to valid value true' do
+        let(:params) { { enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{hosts}}) }
+      end
+
+      context 'with enable_db_ipnodes set to valid value true' do
+        let(:params) { { enable_db_ipnodes: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{ipnodes}}) }
+      end
+
+      context 'with enable_db_netgroup set to valid value true' do
+        let(:params) { { enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{netgroup}}) }
+      end
+
+      context 'with enable_db_netmasks set to valid value true' do
+        let(:params) { { enable_db_netmasks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{netmasks}}) }
+      end
+
+      context 'with enable_db_networks set to valid value true' do
+        let(:params) { { enable_db_networks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{networks}}) }
+      end
+
+      context 'with enable_db_passwd set to valid value true' do
+        let(:params) { { enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{passwd}}) }
+      end
+
+      context 'with enable_db_printers set to valid value true' do
+        let(:params) { { enable_db_printers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{printers}}) }
+      end
+
+      context 'with enable_db_prof_attr set to valid value true' do
+        let(:params) { { enable_db_prof_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{prof_attr}}) }
+      end
+
+      context 'with enable_db_project set to valid value true' do
+        let(:params) { { enable_db_project: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{project}}) }
+      end
+
+      context 'with enable_db_protocols set to valid value true' do
+        let(:params) { { enable_db_protocols: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{protocols}}) }
+      end
+
+      context 'with enable_db_rpc set to valid value true' do
+        let(:params) { { enable_db_rpc: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{rpc}}) }
+      end
+
+      context 'with enable_db_services set to valid value true' do
+        let(:params) { { enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{services}}) }
+      end
+
+      context 'with enable_db_tnrhdb set to valid value true' do
+        let(:params) { { enable_db_tnrhdb: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{tnrhdb}}) }
+      end
+
+      context 'with enable_db_tnrhtp set to valid value true' do
+        let(:params) { { enable_db_tnrhtp: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{tnrhtp}}) }
+      end
+
+      context 'with enable_db_user_attr set to valid value true' do
+        let(:params) { { enable_db_user_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{#{user_attr}}) }
+      end
+
+      context 'with enable_opt_auto_propagate set to valid value true when enable_db_passwd and enable_db_group are true' do
+        let(:params) { { enable_opt_auto_propagate: true, enable_db_passwd: true, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{auto-propagate          (passwd|group)}) }
+      end
+
+      context 'with enable_opt_auto_propagate set to valid value false when enable_db_passwd and enable_db_group are true' do
+        let(:params) { { enable_opt_auto_propagate: false, enable_db_passwd: true, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').without_content(%r{auto-propagate          (passwd|group)}) }
+      end
+
+      context 'with ethers_check_files set to valid value when enable_db_ethers is set to true' do
+        let(:params) { { ethers_check_files: 'no', enable_db_ethers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             ethers          no}) }
+      end
+
+      context 'with ethers_enable_cache set to valid value when enable_db_ethers is set to true' do
+        let(:params) { { ethers_enable_cache: 'no', enable_db_ethers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            ethers          no}) }
+      end
+
+      context 'with ethers_keep_hot_count set to valid value when enable_db_ethers is set to true' do
+        let(:params) { { ethers_keep_hot_count: 242, enable_db_ethers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          ethers          242}) }
+      end
+
+      context 'with ethers_negative_time_to_live set to valid value when enable_db_ethers is set to true' do
+        let(:params) { { ethers_negative_time_to_live: 242, enable_db_ethers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   ethers          242}) }
+      end
+
+      context 'with ethers_positive_time_to_live set to valid value when enable_db_ethers is set to true' do
+        let(:params) { { ethers_positive_time_to_live: 242, enable_db_ethers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   ethers          242}) }
+      end
+
+      context 'with exec_attr_check_files set to valid value when enable_db_exec_attr is set to true' do
+        let(:params) { { exec_attr_check_files: 'no', enable_db_exec_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             exec_attr       no}) }
+      end
+
+      context 'with exec_attr_enable_cache set to valid value when enable_db_exec_attr is set to true' do
+        let(:params) { { exec_attr_enable_cache: 'no', enable_db_exec_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            exec_attr       no}) }
+      end
+
+      context 'with exec_attr_keep_hot_count set to valid value when enable_db_exec_attr is set to true' do
+        let(:params) { { exec_attr_keep_hot_count: 242, enable_db_exec_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          exec_attr       242}) }
+      end
+
+      context 'with exec_attr_negative_time_to_live set to valid value when enable_db_exec_attr is set to true' do
+        let(:params) { { exec_attr_negative_time_to_live: 242, enable_db_exec_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   exec_attr       242}) }
+      end
+
+      context 'with exec_attr_positive_time_to_live set to valid value when enable_db_exec_attr is set to true' do
+        let(:params) { { exec_attr_positive_time_to_live: 242, enable_db_exec_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   exec_attr       242}) }
+      end
+
+      context 'with group_auto_propagate set to valid value when enable_db_auth_attr is set to true' do
+        let(:params) { { group_auto_propagate: 'no', enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{auto-propagate          group           no}) }
+      end
+
+      context 'with group_check_files set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_check_files: 'no', enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             group           no}) }
+      end
+
+      context 'with group_enable_cache set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_enable_cache: 'no', enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            group           no}) }
+      end
+
+      context 'with group_max_db_size set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_max_db_size: 242, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{max-db-size             group           242}) }
+      end
+
+      context 'with group_negative_time_to_live set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_negative_time_to_live: 242, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   group           242}) }
+      end
+
+      context 'with group_persistent set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_persistent: 'no', enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{persistent              group           no}) }
+      end
+
+      context 'with group_positive_time_to_live set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_positive_time_to_live: 242, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   group           242}) }
+      end
+
+      context 'with group_shared set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_shared: 'no', enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{shared                  group           no}) }
+      end
+
+      context 'with group_suggested_size set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_suggested_size: 242, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{suggested-size          group           242}) }
+      end
+
+      context 'with hosts_check_files set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_check_files: 'no', enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             hosts           no}) }
+      end
+
+      context 'with hosts_enable_cache set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_enable_cache: 'no', enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            hosts           no}) }
+      end
+
+      context 'with hosts_max_db_size set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_max_db_size: 242, enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{max-db-size             hosts           242}) }
+      end
+
+      context 'with hosts_negative_time_to_live set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_negative_time_to_live: 242, enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   hosts           242}) }
+      end
+
+      context 'with hosts_persistent set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_persistent: 'no', enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{persistent              hosts           no}) }
+      end
+
+      context 'with hosts_positive_time_to_live set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_positive_time_to_live: 242, enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   hosts           242}) }
+      end
+
+      context 'with hosts_shared set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_shared: 'no', enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{shared                  hosts           no}) }
+      end
+
+      context 'with hosts_suggested_size set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_suggested_size: 242, enable_db_hosts: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{suggested-size          hosts           242}) }
+      end
+
+      context 'with ipnodes_check_files set to valid value when enable_db_ipnodes is set to true' do
+        let(:params) { { ipnodes_check_files: 'no', enable_db_ipnodes: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             ipnodes         no}) }
+      end
+
+      context 'with ipnodes_enable_cache set to valid value when enable_db_ipnodes is set to true' do
+        let(:params) { { ipnodes_enable_cache: 'no', enable_db_ipnodes: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            ipnodes         no}) }
+      end
+
+      context 'with ipnodes_keep_hot_count set to valid value when enable_db_ipnodes is set to true' do
+        let(:params) { { ipnodes_keep_hot_count: 242, enable_db_ipnodes: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          ipnodes         242}) }
+      end
+
+      context 'with ipnodes_negative_time_to_live set to valid value when enable_db_ipnodes is set to true' do
+        let(:params) { { ipnodes_negative_time_to_live: 242, enable_db_ipnodes: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   ipnodes         242}) }
+      end
+
+      context 'with ipnodes_positive_time_to_live set to valid value when enable_db_ipnodes is set to true' do
+        let(:params) { { ipnodes_positive_time_to_live: 242, enable_db_ipnodes: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   ipnodes         242}) }
+      end
+
+      context 'with logfile set to valid value' do
+        let(:params) { { logfile: '/test/ing' } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{logfile           /test/ing}) }
+      end
+
+      context 'with max_threads set to valid value' do
+        let(:params) { { max_threads: 242 } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{max-threads       242}) }
+      end
+
+      context 'with netgroup_check_files set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_check_files: 'no', enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             netgroup        no}) }
+      end
+
+      context 'with netgroup_enable_cache set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_enable_cache: 'no', enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            netgroup        no}) }
+      end
+
+      context 'with netgroup_max_db_size set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_max_db_size: 242, enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{max-db-size             netgroup        242}) }
+      end
+
+      context 'with netgroup_negative_time_to_live set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_negative_time_to_live: 242, enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   netgroup        242}) }
+      end
+
+      context 'with netgroup_persistent set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_persistent: 'no', enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{persistent              netgroup        no}) }
+      end
+
+      context 'with netgroup_positive_time_to_live set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_positive_time_to_live: 242, enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   netgroup        242}) }
+      end
+
+      context 'with netgroup_shared set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_shared: 'no', enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{shared                  netgroup        no}) }
+      end
+
+      context 'with netgroup_suggested_size set to valid value when enable_db_netgroup is set to true' do
+        let(:params) { { netgroup_suggested_size: 242, enable_db_netgroup: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{suggested-size          netgroup        242}) }
+      end
+
+      context 'with netmasks_check_files set to valid value when enable_db_netmasks is set to true' do
+        let(:params) { { netmasks_check_files: 'no', enable_db_netmasks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             netmasks        no}) }
+      end
+
+      context 'with netmasks_enable_cache set to valid value when enable_db_netmasks is set to true' do
+        let(:params) { { netmasks_enable_cache: 'no', enable_db_netmasks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            netmasks        no}) }
+      end
+
+      context 'with netmasks_keep_hot_count set to valid value when enable_db_netmasks is set to true' do
+        let(:params) { { netmasks_keep_hot_count: 242, enable_db_netmasks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          netmasks        242}) }
+      end
+
+      context 'with netmasks_negative_time_to_live set to valid value when enable_db_netmasks is set to true' do
+        let(:params) { { netmasks_negative_time_to_live: 242, enable_db_netmasks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   netmasks        242}) }
+      end
+
+      context 'with netmasks_positive_time_to_live set to valid value when enable_db_netmasks is set to true' do
+        let(:params) { { netmasks_positive_time_to_live: 242, enable_db_netmasks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   netmasks        242}) }
+      end
+
+      context 'with networks_check_files set to valid value when enable_db_networks is set to true' do
+        let(:params) { { networks_check_files: 'no', enable_db_networks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             networks        no}) }
+      end
+
+      context 'with networks_enable_cache set to valid value when enable_db_networks is set to true' do
+        let(:params) { { networks_enable_cache: 'no', enable_db_networks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            networks        no}) }
+      end
+
+      context 'with networks_keep_hot_count set to valid value when enable_db_networks is set to true' do
+        let(:params) { { networks_keep_hot_count: 242, enable_db_networks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          networks        242}) }
+      end
+
+      context 'with networks_negative_time_to_live set to valid value when enable_db_networks is set to true' do
+        let(:params) { { networks_negative_time_to_live: 242, enable_db_networks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   networks        242}) }
+      end
+
+      context 'with networks_positive_time_to_live set to valid value when enable_db_networks is set to true' do
+        let(:params) { { networks_positive_time_to_live: 242, enable_db_networks: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   networks        242}) }
+      end
+
+      context 'with package_adminfile set to valid value' do
+        let(:params) { { package_adminfile: '/test/ing' } }
+
+        it { is_expected.to contain_package('nscd').with_adminfile('/test/ing') }
+      end
+
+      context 'with package_ensure set to valid value' do
+        let(:params) { { package_ensure: 'installed' } }
+
+        it { is_expected.to contain_package('nscd').with_ensure('installed') }
+      end
+
+      context 'with package_name set to valid value' do
+        let(:params) { { package_name: ['test', 'ing'] } }
+
+        it { is_expected.to contain_package('test') }
+        it { is_expected.to contain_package('ing') }
+      end
+
+      context 'with package_source set to valid value' do
+        let(:params) { { package_source: '/test/ing' } }
+
+        it { is_expected.to contain_package('nscd').with_source('/test/ing') }
+      end
+
+      context 'with paranoia set to valid value' do
+        let(:params) { { paranoia: 'yes' } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{paranoia          yes}) }
+      end
+
+      context 'with passwd_check_files set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_check_files: 'no', enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             passwd          no}) }
+      end
+
+      context 'with passwd_enable_cache set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_enable_cache: 'no', enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            passwd          no}) }
+      end
+
+      context 'with passwd_max_db_size set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_max_db_size: 242, enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{max-db-size             passwd          242}) }
+      end
+
+      context 'with passwd_negative_time_to_live set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_negative_time_to_live: 242, enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   passwd          242}) }
+      end
+
+      context 'with passwd_persistent set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_persistent: 'no', enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{persistent              passwd          no}) }
+      end
+
+      context 'with passwd_positive_time_to_live set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_positive_time_to_live: 242, enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   passwd          242}) }
+      end
+
+      context 'with passwd_shared set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_shared: 'no', enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{shared                  passwd          no}) }
+      end
+
+      context 'with passwd_suggested_size set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_suggested_size: 242, enable_db_passwd: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{suggested-size          passwd          242}) }
+      end
+
+      context 'with printers_check_files set to valid value when enable_db_printers is set to true' do
+        let(:params) { { printers_check_files: 'no', enable_db_printers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             printers        no}) }
+      end
+
+      context 'with printers_enable_cache set to valid value when enable_db_printers is set to true' do
+        let(:params) { { printers_enable_cache: 'no', enable_db_printers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            printers        no}) }
+      end
+
+      context 'with printers_keep_hot_count set to valid value when enable_db_printers is set to true' do
+        let(:params) { { printers_keep_hot_count: 242, enable_db_printers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          printers        242}) }
+      end
+
+      context 'with printers_negative_time_to_live set to valid value when enable_db_printers is set to true' do
+        let(:params) { { printers_negative_time_to_live: 242, enable_db_printers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   printers        242}) }
+      end
+
+      context 'with printers_positive_time_to_live set to valid value when enable_db_printers is set to true' do
+        let(:params) { { printers_positive_time_to_live: 242, enable_db_printers: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   printers        242}) }
+      end
+
+      context 'with prof_attr_check_files set to valid value when enable_db_prof_attr is set to true' do
+        let(:params) { { prof_attr_check_files: 'no', enable_db_prof_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             prof_attr       no}) }
+      end
+
+      context 'with prof_attr_enable_cache set to valid value when enable_db_prof_attr is set to true' do
+        let(:params) { { prof_attr_enable_cache: 'no', enable_db_prof_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            prof_attr       no}) }
+      end
+
+      context 'with prof_attr_keep_hot_count set to valid value when enable_db_prof_attr is set to true' do
+        let(:params) { { prof_attr_keep_hot_count: 242, enable_db_prof_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          prof_attr       242}) }
+      end
+
+      context 'with prof_attr_negative_time_to_live set to valid value when enable_db_prof_attr is set to true' do
+        let(:params) { { prof_attr_negative_time_to_live: 242, enable_db_prof_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   prof_attr       242}) }
+      end
+
+      context 'with prof_attr_positive_time_to_live set to valid value when enable_db_prof_attr is set to true' do
+        let(:params) { { prof_attr_positive_time_to_live: 242, enable_db_prof_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   prof_attr       242}) }
+      end
+
+      context 'with project_check_files set to valid value when enable_db_project is set to true' do
+        let(:params) { { project_check_files: 'no', enable_db_project: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             project         no}) }
+      end
+
+      context 'with project_enable_cache set to valid value when enable_db_project is set to true' do
+        let(:params) { { project_enable_cache: 'no', enable_db_project: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            project         no}) }
+      end
+
+      context 'with project_keep_hot_count set to valid value when enable_db_project is set to true' do
+        let(:params) { { project_keep_hot_count: 242, enable_db_project: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          project         242}) }
+      end
+
+      context 'with project_negative_time_to_live set to valid value when enable_db_project is set to true' do
+        let(:params) { { project_negative_time_to_live: 242, enable_db_project: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   project         242}) }
+      end
+
+      context 'with project_positive_time_to_live set to valid value when enable_db_project is set to true' do
+        let(:params) { { project_positive_time_to_live: 242, enable_db_project: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   project         242}) }
+      end
+
+      context 'with protocols_check_files set to valid value when enable_db_protocols is set to true' do
+        let(:params) { { protocols_check_files: 'no', enable_db_protocols: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             protocols       no}) }
+      end
+
+      context 'with protocols_enable_cache set to valid value when enable_db_protocols is set to true' do
+        let(:params) { { protocols_enable_cache: 'no', enable_db_protocols: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            protocols       no}) }
+      end
+
+      context 'with protocols_keep_hot_count set to valid value when enable_db_protocols is set to true' do
+        let(:params) { { protocols_keep_hot_count: 242, enable_db_protocols: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          protocols       242}) }
+      end
+
+      context 'with protocols_negative_time_to_live set to valid value when enable_db_protocols is set to true' do
+        let(:params) { { protocols_negative_time_to_live: 242, enable_db_protocols: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   protocols       242}) }
+      end
+
+      context 'with protocols_positive_time_to_live set to valid value when enable_db_protocols is set to true' do
+        let(:params) { { protocols_positive_time_to_live: 242, enable_db_protocols: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   protocols       242}) }
+      end
+
+      context 'with reload_count set to valid value' do
+        let(:params) { { reload_count: 242 } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{reload-count      242}) }
+      end
+
+      context 'with restart_interval set to valid value' do
+        let(:params) { { restart_interval: 242 } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{restart-interval  242}) }
+      end
+
+      context 'with rpc_check_files set to valid value when enable_db_rpc is set to true' do
+        let(:params) { { rpc_check_files: 'no', enable_db_rpc: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             rpc             no}) }
+      end
+
+      context 'with rpc_enable_cache set to valid value when enable_db_rpc is set to true' do
+        let(:params) { { rpc_enable_cache: 'no', enable_db_rpc: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            rpc             no}) }
+      end
+
+      context 'with rpc_keep_hot_count set to valid value when enable_db_rpc is set to true' do
+        let(:params) { { rpc_keep_hot_count: 242, enable_db_rpc: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          rpc             242}) }
+      end
+
+      context 'with rpc_negative_time_to_live set to valid value when enable_db_rpc is set to true' do
+        let(:params) { { rpc_negative_time_to_live: 242, enable_db_rpc: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   rpc             242}) }
+      end
+
+      context 'with rpc_positive_time_to_live set to valid value when enable_db_rpc is set to true' do
+        let(:params) { { rpc_positive_time_to_live: 242, enable_db_rpc: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   rpc             242}) }
+      end
+
+      context 'with server_user set to valid value' do
+        let(:params) { { server_user: 'test' } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{server-user       test}) }
+      end
+
+      context 'with service_enable set to valid value' do
+        let(:params) { { service_enable: false } }
+
+        it { is_expected.to contain_service('nscd_service').with_enable(false) }
+      end
+
+      context 'with service_ensure set to valid value' do
+        let(:params) { { service_ensure: 'stopped' } }
+
+        it { is_expected.to contain_service('nscd_service').with_ensure('stopped') }
+      end
+
+      context 'with service_name set to valid value' do
+        let(:params) { { service_name: 'test' } }
+
+        it { is_expected.to contain_service('nscd_service').with_name('test') }
+      end
+
+      context 'with service_provider set to valid value' do
+        let(:params) { { service_provider: 'test' } }
+
+        it { is_expected.to contain_service('nscd_service').with_provider('test') }
+      end
+
+      context 'with services_check_files set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_check_files: 'no', enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             services        no}) }
+      end
+
+      context 'with services_enable_cache set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_enable_cache: 'no', enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            services        no}) }
+      end
+
+      context 'with services_max_db_size set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_max_db_size: 242, enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{max-db-size             services        242}) }
+      end
+
+      context 'with services_negative_time_to_live set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_negative_time_to_live: 242, enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   services        242}) }
+      end
+
+      context 'with services_persistent set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_persistent: 'no', enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{persistent              services        no}) }
+      end
+
+      context 'with services_positive_time_to_live set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_positive_time_to_live: 242, enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   services        242}) }
+      end
+
+      context 'with services_shared set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_shared: 'no', enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{shared                  services        no}) }
+      end
+
+      context 'with services_suggested_size set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_suggested_size: 242, enable_db_services: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{suggested-size          services        242}) }
+      end
+
+      context 'with stat_user set to valid value' do
+        let(:params) { { stat_user: 'test' } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{stat-user         test}) }
+      end
+
+      context 'with threads set to valid value' do
+        let(:params) { { threads: 242 } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{threads           242}) }
+      end
+
+      context 'with tnrhdb_check_files set to valid value when enable_db_tnrhdb is set to true' do
+        let(:params) { { tnrhdb_check_files: 'no', enable_db_tnrhdb: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             tnrhdb          no}) }
+      end
+
+      context 'with tnrhdb_enable_cache set to valid value when enable_db_tnrhdb is set to true' do
+        let(:params) { { tnrhdb_enable_cache: 'no', enable_db_tnrhdb: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            tnrhdb          no}) }
+      end
+
+      context 'with tnrhdb_keep_hot_count set to valid value when enable_db_tnrhdb is set to true' do
+        let(:params) { { tnrhdb_keep_hot_count: 242, enable_db_tnrhdb: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          tnrhdb          242}) }
+      end
+
+      context 'with tnrhdb_negative_time_to_live set to valid value when enable_db_tnrhdb is set to true' do
+        let(:params) { { tnrhdb_negative_time_to_live: 242, enable_db_tnrhdb: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   tnrhdb          242}) }
+      end
+
+      context 'with tnrhdb_positive_time_to_live set to valid value when enable_db_tnrhdb is set to true' do
+        let(:params) { { tnrhdb_positive_time_to_live: 242, enable_db_tnrhdb: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   tnrhdb          242}) }
+      end
+
+      context 'with tnrhtp_check_files set to valid value when enable_db_tnrhtp is set to true' do
+        let(:params) { { tnrhtp_check_files: 'no', enable_db_tnrhtp: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             tnrhtp          no}) }
+      end
+
+      context 'with tnrhtp_enable_cache set to valid value when enable_db_tnrhtp is set to true' do
+        let(:params) { { tnrhtp_enable_cache: 'no', enable_db_tnrhtp: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            tnrhtp          no}) }
+      end
+
+      context 'with tnrhtp_keep_hot_count set to valid value when enable_db_tnrhtp is set to true' do
+        let(:params) { { tnrhtp_keep_hot_count: 242, enable_db_tnrhtp: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          tnrhtp          242}) }
+      end
+
+      context 'with tnrhtp_negative_time_to_live set to valid value when enable_db_tnrhtp is set to true' do
+        let(:params) { { tnrhtp_negative_time_to_live: 242, enable_db_tnrhtp: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   tnrhtp          242}) }
+      end
+
+      context 'with tnrhtp_positive_time_to_live set to valid value when enable_db_tnrhtp is set to true' do
+        let(:params) { { tnrhtp_positive_time_to_live: 242, enable_db_tnrhtp: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   tnrhtp          242}) }
+      end
+
+      context 'with user_attr_check_files set to valid value when enable_db_user_attr is set to true' do
+        let(:params) { { user_attr_check_files: 'no', enable_db_user_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{check-files             user_attr       no}) }
+      end
+
+      context 'with user_attr_enable_cache set to valid value when enable_db_user_attr is set to true' do
+        let(:params) { { user_attr_enable_cache: 'no', enable_db_user_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{enable-cache            user_attr       no}) }
+      end
+
+      context 'with user_attr_keep_hot_count set to valid value when enable_db_user_attr is set to true' do
+        let(:params) { { user_attr_keep_hot_count: 242, enable_db_user_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          user_attr       242}) }
+      end
+
+      context 'with user_attr_negative_time_to_live set to valid value when enable_db_user_attr is set to true' do
+        let(:params) { { user_attr_negative_time_to_live: 242, enable_db_user_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{negative-time-to-live   user_attr       242}) }
+      end
+
+      context 'with user_attr_positive_time_to_live set to valid value when enable_db_user_attr is set to true' do
+        let(:params) { { user_attr_positive_time_to_live: 242, enable_db_user_attr: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{positive-time-to-live   user_attr       242}) }
       end
     end
+  end
 
-    describe "with #{service}_positive_time_to_live specified" do
-      context 'as a valid number' do
-        let(:params) { { "#{service}_positive_time_to_live": 31_415 } }
-        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
+  describe 'parameters on supported OS Solaris' do
+    # The following tests are Solaris dependent
+    solaris = {
+      supported_os: [
+        {
+          'operatingsystem'        => '"Solaris"',
+          'operatingsystemrelease' => ['10'],
+        },
+      ],
+    }
 
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^positive-time-to-live\ +#{service}\ +31415$}) }
+    on_supported_os(solaris).each do |_os, facts|
+      let(:facts) { facts }
+
+      context 'with group_keep_hot_count set to valid value when enable_db_group is set to true' do
+        let(:params) { { group_keep_hot_count: 242, enable_db_group: true } }
+
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          group           242}) }
       end
 
-      context 'as an invalid value' do
-        let(:params) { { "#{service}_positive_time_to_live": 'x' } }
-        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
+      context 'with hosts_keep_hot_count set to valid value when enable_db_hosts is set to true' do
+        let(:params) { { hosts_keep_hot_count: 242, enable_db_hosts: true } }
 
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          hosts           242}) }
       end
 
-      context 'as an invalid type' do
-        let(:params) { { "#{service}_positive_time_to_live": true } }
-        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
+      context 'with passwd_keep_hot_count set to valid value when enable_db_passwd is set to true' do
+        let(:params) { { passwd_keep_hot_count: 242, enable_db_passwd: true } }
 
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-    end
-
-    describe "with #{service}_negative_time_to_live specified" do
-      context 'as a valid number' do
-        let(:params) { { "#{service}_negative_time_to_live": 23 } }
-        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
-
-        it { is_expected.to contain_file('nscd_config').with_content(%r{^negative-time-to-live\ +#{service}\ +23$}) }
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          passwd          242}) }
       end
 
-      context 'as an invalid value' do
-        let(:params) { { "#{service}_negative_time_to_live": 'x' } }
-        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
+      context 'with services_keep_hot_count set to valid value when enable_db_services is set to true' do
+        let(:params) { { services_keep_hot_count: 242, enable_db_services: true } }
 
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-
-      context 'as an invalid type' do
-        let(:params) { { "#{service}_negative_time_to_live": true } }
-        let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
-
-        it 'fail' do
-          expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects an Integer})
-        end
-      end
-    end
-
-    describe "with #{service}_check_files specified" do
-      ['yes', 'no'].each do |value|
-        context "as valid value #{value}" do
-          let(:params) { { "#{service}_check_files": value } }
-          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
-
-          it { is_expected.to contain_file('nscd_config').with_content(%r{^check-files\ +#{service}\ +#{value}$}) }
-        end
-      end
-
-      ['yess', 'nooo', '-1', true].each do |value|
-        context "as invalid value #{value}" do
-          let(:params) { { "#{service}_check_files": value } }
-          let(:facts)  { { osfamily: 'Solaris', os: { family: 'Solaris' }, kernelrelease: '5.10', kernel: 'SunOS' } }
-
-          it 'fail' do
-            expect { is_expected.to contain_class('nscd') }.to raise_error(Puppet::Error, %r{expects a match for Enum\['no', 'yes'\]})
-          end
-        end
+        it { is_expected.to contain_file('nscd_config').with_content(%r{keep-hot-count          services        242}) }
       end
     end
   end
